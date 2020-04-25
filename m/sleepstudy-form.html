@@ -1,0 +1,241 @@
+<div id=D__ID>
+    <section id=form_container__ID>
+    	<div id=header__ID>
+    		Sleep Study Booking Record
+    	</div>
+    	<form id=F__ID>
+    		<div class="container">
+    			<div class="row row__ID">
+    				<div class=col>
+    					<span>Date</span>
+    					<input type="date" class="form-control" name=Date required />
+    				</div>
+    			</div>
+    			<div class="row row__ID">
+    				<div class=col>
+    					<span>Arrival Time</span>
+						<select class="form-control" name=Time>
+						</select>
+    				</div>
+    			</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Patient</span>
+						<input type="text" class="form-control" name=Patient required placeholder="lookup..." />
+    				</div>
+    				<div class="col-sm col-lg-3">
+    					<span>Patient ID</span>
+    					<input type="text" class="form-control" name=Patient_uid required readonly />
+					</div>
+				</div>
+    			<div class="row" style='font-size:11px;padding-left:10px'>
+    				<div class="col">
+						<span>Links: <u id=patient_link1__ID style='cursor:pointer'>All patients</u>&nbsp;&nbsp;&nbsp; <u id=patient_link2__ID style='cursor:pointer'>The selected patient</u></span>
+					</div>
+				</div>
+				<br>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Item Number - Procedure</span>
+						<input type="text" class="form-control" name=Item_Number_Procedure required placeholder="lookup..." />
+    				</div>
+    				<div class="col-sm col-lg-3" style='display:xnone'>
+    					<span> </span>
+    					<input type="text" class="form-control" name=Item_Number required readonly />
+					</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-3" style='display:none'>
+    					<span>Colour</span>
+    					<input type="text" class="form-control" name=Colour  />
+					</div>
+    				<div class="col-sm col-lg-9">
+						<span style='padding:3px' id=colour_scheme__ID>Colour scheme</span>
+					</div>
+				</div>
+    			<br>
+    			<div class="row row__ID">
+    				<div class=col>
+    					<span>Charge</span>
+						<select class="form-control" name=Charge id=Charge__ID >
+							<option >Medicare</option>
+							<option >Self funded</option>
+							<option >Research</option>
+						</select>
+    				</div>
+					<div class="row row__ID" id=research__ID style='display:none'>
+						<div class="col-sm col-lg-9">
+							<span>Research Project</span>
+							<input type="text" class="form-control" name=Research_Project placeholder="lookup..." />
+						</div>
+					</div>
+				</div>
+				
+    			<div class="row">
+    				<div class=col>
+    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
+    					<button id=add__ID type="button" class="btn btn-secondary">Add</button>
+    					<button id=delete__ID type="button" class="btn btn-secondary">Delete</button>
+    				</div>
+    			</div>
+    		</div>
+    	</form>
+    </section>
+    <script>
+    	function F__ID(){
+    		//-------------------------------------
+            VmInclude:__COMPONENT__/f/form.01.js
+    		//-------------------------------------
+			var $List1=$('#F__ID select[name=Time]');
+			for(var i=12;i<24;i++){
+				for(var j=0;j<2;j++){
+					var t1=i;    if(t1<10) t1="0"+t1
+					var t2=j*30; if(t2==0) t2="00";
+					var t=t1+":"+t2;
+					$List1.append(  $('<option></option>').val(t).html(t)  );
+				}
+			}
+			//-------------------------------------
+			var $List2=$('#F__ID select[name=Duration]');
+			for(var i=0;i<15;i++){
+				for(var j=0;j<2;j++){
+					var t1=i;    if(t1<10) t1="0"+t1
+					var t2=j*30; if(t2==0) t2="00";
+					var t=t1+":"+t2;
+					if(i==0 && j==0){} 
+					else $List2.append(  $('<option></option>').val(t).html(t)  );
+				}
+			}
+			//-------------------------------------
+            old_load=m.load;
+			m.load=function(){
+				old_load();
+				$('#add__ID').hide();
+				if(m.input!=undefined && m.input.record!=undefined && m.input.record._id!==undefined) {$('#add__ID').show();$('#submit__ID').html("Modify");}
+				else {$('#submit__ID').html("Submit");}
+				if(m.input.day!=undefined){
+					$('#F__ID input[name=Date]').val(m.input.day);
+				}
+				$('#colour_scheme__ID').css('background-color',$('#F__ID input[name=Colour]').val());
+				$('#colour_scheme__ID').css('color',$vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
+				if($('#Charge__ID').val()=="Research") $('#research__ID').css('display','block');
+				else {$('#research__ID').css('display','none');$('input[name=Research_Project').val("");}
+			}
+			//-------------------------------------
+			$('#Charge__ID').change(function(){
+				if($('#Charge__ID').val()=="Research") $('#research__ID').css('display','block');
+				else {$('#research__ID').css('display','none');$('input[name=Research_Project').val("");}
+			})
+    		//-------------------------------------
+			m.before_submit=function(data,index){
+				index.I1=data.Date;
+                index.I2=data.Time;
+                index.I3=data.Duration;
+            }
+            //-------------------------------------
+			var autocomplete_req={cmd:"find",field:'.Data.First_Name',table:m.lookup,options:{},skip:0,limit:10}
+			var autocomplete_callback=function(item){
+				$('input[name=Patient').val(item.Patient);
+				$('input[name=Patient_uid').val(item.UID);
+			}
+			var autocomplete_list=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["First_Name"]+" "+records[i].Data["Last_Name"]+" | "+records[i].Data["DOB"];
+					obj.UID=records[i].UID;
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait1=function(){
+				$vm.autocomplete( $('#F__ID input[name=Patient'),autocomplete_req,autocomplete_list,autocomplete_callback);
+			}
+			var I=0; var loop_1=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_1); wait1(); }
+				I++; if(I>50){ clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
+			},100);
+            //-------------------------------------
+			var autocomplete_req2={cmd:"find",field:'.Data.Item_Number',table:m.lookup2,options:{},skip:0,limit:10}
+			var autocomplete_callback2=function(item){
+				$('input[name=Item_Number_Procedure').val(item.label);
+				$('input[name=Item_Number').val(item.Item_Number);
+				$('input[name=Colour').val(item.Colour);
+				$('#colour_scheme__ID').css('background-color',$('#F__ID input[name=Colour]').val());
+				$('#colour_scheme__ID').css('color',$vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
+			}
+			var autocomplete_list2=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Item_Number"]+" | "+records[i].Data["Short_Name"];
+					obj.Item_Number=records[i].Data["Item_Number"];
+					obj.UID=records[i].UID;
+					obj.Colour=records[i].Data['Colour'];
+					obj.Colour_Text=records[i].Data['Colour_Text'];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait2=function(){
+				$vm.autocomplete( $('#F__ID input[name=Item_Number_Procedure'),autocomplete_req2,autocomplete_list2,autocomplete_callback2);
+			}
+			var I2=0; var loop_2=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_2); wait2(); }
+				I2++; if(I2>50){ clearInterval(loop_2); alert("jquery-ui.min.js is not installed."); }
+			},100);
+            //-------------------------------------
+			var autocomplete_req3={cmd:"find",field:'.Data.Research_Project',table:m.lookup3,options:{},skip:0,limit:10}
+			var autocomplete_callback3=function(item){
+				$('input[name=Research_Project').val(item.label);
+			}
+			var autocomplete_list3=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Research_Project"];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait3=function(){
+				$vm.autocomplete( $('#F__ID input[name=Research_Project'),autocomplete_req3,autocomplete_list3,autocomplete_callback3);
+			}
+			var I3=0; var loop_3=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_3); wait3(); }
+				I3++; if(I3>50){ clearInterval(loop_3); alert("jquery-ui.min.js is not installed."); }
+			},100);
+			//-------------------------------------
+			$('#patient_link1__ID').on('click',function(){
+				$vm.load_module('patient-data','',{});
+			})
+			//-------------------------------------
+			$('#add__ID').on('click',function(){
+				m.input.goback=1;
+				m.input.record.UID=undefined;
+				m.input.record._id=undefined;
+				$('#submit__ID').click();
+			})
+			//-------------------------------------
+			$('#patient_link2__ID').on('click',function(){
+				var uid=$('input[name=Patient_uid').val();
+				if(uid==""){
+					$vm.alert("No patient was selected.");
+					return;
+				}
+				$vm.request({cmd:"find",table:m.lookup,query:{UID:parseInt(uid)}},function(res){
+					if(res.result.length==1){
+						$vm.load_module('patient-form','',{record:res.result[0]});
+					}
+				});
+			})
+			//-------------------------------------
+    	}
+    </script>
+    <style>
+        #form_container__ID{
+            max-width:600px;
+        }
+        VmInclude:__COMPONENT__/f/form.01.css
+    </style>
+</div>

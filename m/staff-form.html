@@ -1,0 +1,92 @@
+<div id=D__ID>
+    <section id=form_container__ID>
+    	<div id=header__ID>
+    		Staff
+    	</div>
+    	<form id=F__ID>
+    		<div class="container">
+    			<div class="row row__ID">
+    				<div class=col>
+    					<span>First Name</span>
+    					<input type="text" class="form-control" name=First_Name />
+    				</div>
+    			</div>
+    			<div class="row row__ID">
+    				<div class=col>
+    					<span>Last name</span>
+    					<input type="text" class="form-control" name=Last_Name />
+    				</div>
+    			</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Position</span>
+						<input type="text" class="form-control" name=Position required placeholder="select position.." />
+					</div>
+				</div>
+				<div style='display:none' class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Colour</span>
+						<input type="text" class="form-control" name=Colour readonly />
+    				</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span style='padding:3px' id=colour_scheme__ID>Colour scheme</span>
+					</div>
+				</div>
+    			<br>
+    			<div class="row">
+    				<div class=col>
+    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
+    				</div>
+    			</div>
+    		</div>
+    	</form>
+    </section>
+    <script>
+    	function F__ID(){
+    		//-------------------------------------
+            VmInclude:__COMPONENT__/f/form.01.js
+			//-------------------------------------
+            old_load=m.load;
+			m.load=function(){
+				old_load();
+				$('#colour_scheme__ID').css('background-color',$('#F__ID input[name=Colour]').val());
+				$('#colour_scheme__ID').css('color',$vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
+			}
+			//-------------------------------------
+			var autocomplete_req={cmd:"find",field:'Position',table:$vm.module_list['position-data'].Table,options:{},skip:0,limit:10}
+			var autocomplete_callback=function(item){
+				$('input[name=Colour').val(item.Colour);
+				$('#colour_scheme__ID').css('background-color',$('#F__ID input[name=Colour]').val());
+				$('#colour_scheme__ID').css('color',$vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
+			}
+			var autocomplete_list=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Position"];
+					obj.UID=records[i].UID;
+					obj.Colour=records[i].Data['Colour'];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait1=function(){
+				$vm.autocomplete( $('#F__ID input[name=Position'),autocomplete_req,autocomplete_list,autocomplete_callback);
+			}
+			var I=0; var loop_1=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_1); wait1(); }
+				I++; if(I>50){ clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
+			},100);
+			//-------------------------------------
+			
+    	}
+    </script>
+    <style>
+        VmInclude:__COMPONENT__/f/form.01.css
+        #form_container__ID{
+            max-width:600px;
+        }
+    </style>
+</div>
