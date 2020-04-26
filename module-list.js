@@ -14,6 +14,8 @@
         "diagnostic-procedure-form":       {url:"$H/m/diagnostic-procedure-form.html",Table:"demo-wapp-diagnostic-procedure"},
         "research-project-data":       {url:"$H/m/research-project-data.html",Table:"demo-wapp-research-project",form_module:"research-project-form"},
         "research-project-form":       {url:"$H/m/research-project-form.html",Table:"demo-wapp-research-project"},
+        "patient-data":       {url:"$H/m/patient-data.html",Table:"demo-wapp-patient",form_module:"patient-form"},
+        "patient-form":       {url:"$H/m/patient-form.html",Table:"demo-wapp-patient"},
     }
     for(p in modules){
         $vm.module_list[p]=modules[p]; 

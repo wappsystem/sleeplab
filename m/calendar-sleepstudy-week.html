@@ -42,26 +42,17 @@
             var id=record._id;
             var date=record.Data.Date;
             var time=record.Data.Time;
-            var aa=time.split(':');
-            var name=record.Data.Staff; if(name===undefined) name="No name";
             var color=record.Data.Colour;
-            var duration=record.Data.Duration;
-            var bb=duration.split(':');
-            var endhours=parseInt(aa[0])+parseInt(bb[0]);
-            var endminutes=parseInt(aa[1])+parseInt(bb[1]);
-            if(endminutes>=60) {endhours++;endminutes=endminutes-60}
-            if(endhours>=24) endhours=endhours-24;
-            var leadingzeroh='';
-            var leadingzerom='';
-            if(endhours<10) leadingzeroh='0'
-            if(endminutes<10) leadingzerom='0'
-            var endtime=leadingzeroh+endhours.toString()+":"+leadingzerom+endminutes.toString();
-
-            var mm=(100*(parseInt(aa[0])*60+parseInt(aa[1])-m.start_point)/m.total_width).toFixed(2)+"%";
-            var ww=(100*(parseInt(bb[0])*60+parseInt(bb[1]))/m.total_width).toFixed(2)+"%";
-            
+            var name=record.Data.Patient;
+            var item_number=record.Data.Item_Number;
+            var referral="";
+            if(record.Data.Referral=='on') referral='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+            else referral='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
             var $div=m.get_cell_div(date);
-            var item="<div style='color:"+$vm.whire_or_black_color(color)+";margin-left:"+mm+";width:"+ww+";' class=item__ID  ><div id=item__ID"+id+" style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' >"+time+"-"+endtime+"<br>"+name+"</div></div>"
+            var item="<div style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' class=item__ID  >";
+                item+="<div id=item__ID"+id+" style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' class=column__ID >";
+                item+="<div>"+name+"<br>"+item_number+" - Ref:"+referral+"<br>Arrive "+time+"</div>";
+                item+="</div></div>"
             $div.append(item);
             $('#item__ID'+id).on('click',function(){
                 $vm.load_module(m.booking,'',{record:record});
@@ -90,16 +81,31 @@
             cursor:pointer;
             white-space:nowrap;
             position:relative;
-            height:40px; 
+            height:80px; 
             
         }
         .item__ID:hover{
-            color:grey!Important;
+            color:#dee2e6!Important;
         }
         .event_container__ID{
-            padding-top:8px;
+            padding:10px;
         }
+/* Float four columns side by side */
+.column__ID {
+  float: left;
+  width: 100%;
+  padding: 10px 10px;
+}
 
+/* Remove extra left and right margins, due to padding in columns */
+.row__ID {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row__ID:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
     </style>
 </div>
