@@ -50,7 +50,7 @@
             else referral='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
             var $div=m.get_cell_div(date);
             var item="<div style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' class=item__ID  >";
-                item+="<div id=item__ID"+id+" style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' class=column__ID >";
+                item+="<div id=item__ID"+id+" style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' >";
                 item+="<div>"+name+"<br>"+item_number+" - Ref:"+referral+"<br>"+time+"</div>";
                 item+="</div></div>"
             $div.append(item);
@@ -90,22 +90,5 @@
         .event_container__ID{
             padding:10px;
         }
-/* Float four columns side by side */
-.column__ID {
-  float: left;
-  width: 100%;
-  padding: 10px 10px;
-}
-
-/* Remove extra left and right margins, due to padding in columns */
-.row__ID {margin: 0 -5px;}
-
-/* Clear floats after the columns */
-.row__ID:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
     </style>
 </div>

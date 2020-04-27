@@ -73,9 +73,32 @@
     			<div class="row row__ID">
     				<div class=col>
     					<span>Referral Checked</span>
-    					<input type="checkbox" class="form-control" style='width:30px' name=Referral />
+    					<input type="checkbox" class="form-control" style='width:20px' name=Referral />
     				</div>
-    			</div>				
+				</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Referrer</span>
+						<input type="text" class="form-control" name=Referrer placeholder="lookup..." />
+    				</div>
+    				<div class="col-sm col-lg-3" style='display:xnone'>
+    					<span>Provider Number</span>
+    					<input type="text" class="form-control" name=Referrer_Provider_Number readonly />
+					</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Send report to</span>
+						<input type="text" class="form-control" name=Report_send_to placeholder="lookup..." />
+						<u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=item_a_add__ID><i class="fa fa-plus"></i> Add</u>
+    				</div>
+				</div>
+				<div class="row">
+                    <div class=col>
+    				    <table id=grid_item_a__ID></table>
+                    </div>
+				</div>
+				<br><br>				
     			<div class="row">
     				<div class=col>
     					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
@@ -90,6 +113,7 @@
     	function F__ID(){
     		//-------------------------------------
             VmInclude:__COMPONENT__/f/form.01.js
+			VmInclude:__COMPONENT__/f/form-item-a.01.js
     		//-------------------------------------
 			var $List1=$('#F__ID select[name=Time]');
 			for(var i=12;i<24;i++){
@@ -125,6 +149,14 @@
 				$('#colour_scheme__ID').css('color',$vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
 				if($('#Charge__ID').val()=="Research") $('#research__ID').css('display','block');
 				else {$('#research__ID').css('display','none');$('input[name=Research_Project').val("");}
+
+				//-------item a part
+				m.item_a_records=[]; if(m.input.record!=undefined) m.item_a_records=m.input.record.Data.items;
+				if(m.item_a_records==undefined) m.item_a_records=[];
+				console.log(m.item_a_records)
+                m.item_a_render();
+                //-------
+
 			}
 			//-------------------------------------
 			$('#Charge__ID').change(function(){
@@ -138,7 +170,7 @@
                 index.I3=data.Duration;
             }
             //-------------------------------------
-			var autocomplete_req={cmd:"find",field:'.Data.First_Name',table:m.lookup,options:{},skip:0,limit:10}
+			var autocomplete_req={cmd:"find",field:'.Data.Last_Name',table:m.lookup,options:{},skip:0,limit:10}
 			var autocomplete_callback=function(item){
 				$('input[name=Patient').val(item.Patient);
 				$('input[name=Patient_uid').val(item.UID);
@@ -235,12 +267,88 @@
 				});
 			})
 			//-------------------------------------
+            //item a part
+            m.item_a_fields="Title,Name,Location,Provider_Number,Email,_Remove";
+            //----------------------------------
+			$('#item_a_add__ID').on('click',function(){ m.item_a_render();$('input[name=Report_send_to').val(""); })
+            //----------------------------------
+            m.item_a_cell_render=function(records,I,field,td,set_value,source){
+                switch(field){
+                }
+            }
+            //----------------------------------
+            m.item_a_after_change=function(records,I,field,td,set_value,source){
+                switch(field){
+                }
+            }
+            //----------------------------------
+            m.item_a_after_remove=function(){
+            }
+            //-------------------------------------
+			var autocomplete_req4={cmd:"find",field:'.Data.Name',table:m.lookup4,options:{},skip:0,limit:10}
+			var autocomplete_callback4=function(item){
+				$('input[name=Referrer').val(item.label);
+				$('input[name=Referrer_Provider_Number').val(item.Referrer_Provider_Number);
+			}
+			var autocomplete_list4=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Name"]+" | "+records[i].Data["Location"];
+					obj.Referrer_Provider_Number=records[i].Data["Provider_Number"];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait4=function(){
+				$vm.autocomplete( $('#F__ID input[name=Referrer'),autocomplete_req4,autocomplete_list4,autocomplete_callback4);
+			}
+			var I4=0; var loop_4=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_4); wait4(); }
+				I4++; if(I4>50){ clearInterval(loop_4); alert("jquery-ui.min.js is not installed."); }
+			},100);
+
+            //-------------------------------------
+			var autocomplete_callback5=function(item){
+				$('input[name=Report_send_to').val(item.label);
+				console.log(item.Title)
+				var ttt={}
+				ttt.Title=item.Title;
+				ttt.Name=item.Name;
+				ttt.Location=item.Location;
+				ttt.Provider_Number=item.Provider_Number;
+				ttt.Email=item.Email;
+				m.item_a_records.push(ttt)
+			}
+			var autocomplete_list5=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Name"]+" | "+records[i].Data["Email"]+" | "+records[i].Data["Location"];
+					obj.Title=records[i].Data["Title"];
+					obj.Name=records[i].Data["Name"];
+					obj.Location=records[i].Data["Location"];
+					obj.Provider_Number=records[i].Data["Provider_Number"];
+					obj.Email=records[i].Data["Email"];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait5=function(){
+				$vm.autocomplete( $('#F__ID input[name=Report_send_to'),autocomplete_req4,autocomplete_list5,autocomplete_callback5);
+			}
+			var I5=0; var loop_5=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_5); wait5(); }
+				I5++; if(I5>50){ clearInterval(loop_5); alert("jquery-ui.min.js is not installed."); }
+			},100);
+
     	}
     </script>
     <style>
         #form_container__ID{
-            max-width:600px;
+            max-width:800px;
         }
         VmInclude:__COMPONENT__/f/form.01.css
+        VmInclude:__COMPONENT__/f/form-item-a.01.css
     </style>
 </div>
