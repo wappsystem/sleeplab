@@ -37,17 +37,17 @@
     			<div class="row row__ID">
     				<div class="col-sm col-lg-9">
 						<span>Item Number - Procedure</span>
-						<input type="text" class="form-control" name=Item_Number_Procedure required placeholder="lookup..." />
+						<input type="text" class="form-control" name=Item_Number_Procedure  placeholder="lookup..." />
     				</div>
     				<div class="col-sm col-lg-3" style='display:xnone'>
     					<span> </span>
-    					<input type="text" class="form-control" name=Item_Number required readonly />
+    					<input type="text" class="form-control" name=Item_Number  readonly />
 					</div>
 				</div>
     			<div class="row row__ID">
     				<div class="col-sm col-lg-3" style='display:none'>
     					<span>Colour</span>
-    					<input type="text" class="form-control" name=Colour  />
+    					<input type="text" class="form-control" name=Colour />
 					</div>
     				<div class="col-sm col-lg-9">
 						<span style='padding:3px' id=colour_scheme__ID>Colour scheme</span>
@@ -86,23 +86,24 @@
     					<input type="text" class="form-control" name=Referrer_Provider_Number readonly />
 					</div>
 				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Send report to</span>
-						<input type="text" class="form-control" name=Report_send_to placeholder="lookup..." />
-						<u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=item_a_add__ID><i class="fa fa-plus"></i> Add</u>
-    				</div>
-				</div>
-				<div class="row">
-                    <div class=col>
-    				    <table id=grid_item_a__ID></table>
-                    </div>
+				<div id=send_report__ID>
+					<div class="row row__ID" id=send_report__ID>
+						<div class="col-sm col-lg-9">
+							<span>Send report to</span>
+							<input type="text" class="form-control" name=Report_send_to placeholder="lookup..." />
+							<u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=item_a_add__ID><i class="fa fa-plus"></i> Add</u>
+						</div>
+					</div>
+					<div class="row">
+						<div class=col>
+							<table id=grid_item_a__ID></table>
+						</div>
+					</div>
 				</div>
 				<br><br>				
     			<div class="row">
     				<div class=col>
     					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
-    					<button id=add__ID type="button" class="btn btn-secondary">Add</button>
     					<button id=delete__ID type="button" class="btn btn-secondary">Delete</button>
     				</div>
     			</div>
@@ -140,8 +141,13 @@
 			m.load=function(){
 				old_load();
 				$('#add__ID').hide();
-				if(m.input!=undefined && m.input.record!=undefined && m.input.record._id!==undefined) {$('#add__ID').show();$('#submit__ID').html("Modify");}
-				else {$('#submit__ID').html("Submit");}
+				if(m.input!=undefined && m.input.record!=undefined && m.input.record._id!==undefined) {
+					$('#send_report__ID').show();
+				}
+				else {
+					$('#send_report__ID').hide();
+					$('input[name=Colour').val('#fefefe')
+				}
 				if(m.input.day!=undefined){
 					$('#F__ID input[name=Date]').val(m.input.day);
 				}
@@ -151,12 +157,12 @@
 				else {$('#research__ID').css('display','none');$('input[name=Research_Project').val("");}
 
 				//-------item a part
-				m.item_a_records=[]; if(m.input.record!=undefined) m.item_a_records=m.input.record.Data.items;
-				if(m.item_a_records==undefined) m.item_a_records=[];
-				console.log(m.item_a_records)
+				if(m.input.record.Data.items==undefined){
+					m.input.record.Data.items=[];
+				}
+				if(m.input.record!=undefined) m.item_a_records=m.input.record.Data.items;
                 m.item_a_render();
                 //-------
-
 			}
 			//-------------------------------------
 			$('#Charge__ID').change(function(){
@@ -247,13 +253,6 @@
 				$vm.load_module('patient-data','',{});
 			})
 			//-------------------------------------
-			$('#add__ID').on('click',function(){
-				m.input.goback=1;
-				m.input.record.UID=undefined;
-				m.input.record._id=undefined;
-				$('#submit__ID').click();
-			})
-			//-------------------------------------
 			$('#patient_link2__ID').on('click',function(){
 				var uid=$('input[name=Patient_uid').val();
 				if(uid==""){
@@ -342,7 +341,9 @@
 				I5++; if(I5>50){ clearInterval(loop_5); alert("jquery-ui.min.js is not installed."); }
 			},100);
 
-    	}
+		}
+		//-------------------------------
+
     </script>
     <style>
         #form_container__ID{
