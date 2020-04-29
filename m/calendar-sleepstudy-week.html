@@ -44,16 +44,22 @@
             var time=record.Data.Time;
             var color=record.Data.Colour;
             var name=record.Data.Patient;
+            var p_uid=record.Data.Patient_uid;
             var item_number=record.Data.Item_Number;
+            var charge=record.Data.Charge;
+            var research_project=record.Data.Research_Project;
+            if(research_project!=undefined && research_project!="") research_project=" - "+research_project
             var referral="";
             if(record.Data.Referral=='on') referral='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
             else referral='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
             var $div=m.get_cell_div(date);
-            var item="<div style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' class=item__ID  >";
-                item+="<div id=item__ID"+id+" style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' >";
-                item+="<div>"+name+"<br>"+item_number+" - Ref:"+referral+"<br>"+time+"</div>";
-                item+="</div></div>"
+            var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+            item+="<div style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+            item+="<div  >"+name+"<br>"+item_number+" - Ref:"+referral+"<br>"+time+"<br>"+charge+research_project+"</div>";
+            item+="</div></div>"
+            //--------------------------------------------------------
             $div.append(item);
+            //--------------------------------------------------------
             $('#item__ID'+id).on('click',function(){
                 $vm.load_module(m.booking,'',{record:record});
             });
@@ -67,6 +73,7 @@
         //--------------------------------------------------------
         $('#D__ID').on('show',function(){  if($vm.refresh==1){$vm.refresh=0; m.request_and_render();}    });
         //--------------------------------------------------------
+
     }
     </script>
     <style>
@@ -85,7 +92,8 @@
             
         }
         .item__ID:hover{
-            color:#dee2e6!Important;
+            /*color:#dee2e6!Important;*/
+            opacity: 0.7;
         }
         .event_container__ID{
             padding:10px;

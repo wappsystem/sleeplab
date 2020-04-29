@@ -157,11 +157,11 @@
 				else {$('#research__ID').css('display','none');$('input[name=Research_Project').val("");}
 
 				//-------item a part
-				if(m.input.record.Data.items==undefined){
-					m.input.record.Data.items=[];
+				if(m.input.record!=undefined) {
+					if(m.input.record.Data.items==undefined) m.input.record.Data.items=[];
+					m.item_a_records=m.input.record.Data.items;
+					m.item_a_render();
 				}
-				if(m.input.record!=undefined) m.item_a_records=m.input.record.Data.items;
-                m.item_a_render();
                 //-------
 			}
 			//-------------------------------------
