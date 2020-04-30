@@ -4,10 +4,10 @@ if(m.prefix==undefined) m.prefix="";
 m.change_status=0;
 m.ref=0
 //---------------------------------------------
-$('#previous__ID').on('click',function(){   m.ref--;	m.set_ref();	m.request_and_render();	})
-$('#this__ID').on('click',    function(){	m.ref=0;    m.set_ref();	m.request_and_render();	})
-$('#next__ID').on('click',    function(){	m.ref++;	m.set_ref();	m.request_and_render();	})
-$('#refresh__ID').on('click', function(){	                            m.request_and_render();	})
+$('#previous__ID').on('click',function(){   clear_page(); m.ref--;	m.set_ref();	m.request_and_render();	})
+$('#this__ID').on('click',    function(){	clear_page(); m.ref=0;  m.set_ref();	m.request_and_render();	})
+$('#next__ID').on('click',    function(){	clear_page(); m.ref++;	m.set_ref();	m.request_and_render();	})
+$('#refresh__ID').on('click', function(){	clear_page(); m.request_and_render();	})
 //---------------------------------------------
 $('#date__ID').on('change',function(){
     m.ref=$vm.date_day_diff($vm.date_today(),$vm.date_yyyymmdd_parse($('#date__ID').val()));

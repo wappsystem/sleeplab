@@ -10,6 +10,13 @@
         m.start_point=0*60;
         m.total_width=(36*60-m.start_point);
     	//--------------------------------------------------------
+        var request_count=0;
+        var booking_rec=[];
+        var setup_rec=[];
+        var score_rec=[];
+        var report_rec=[];
+    	//--------------------------------------------------------
+/*
         m.request_and_render=function(){
             var mt1=new Date().getTime();
             var dt1=$('#date__ID').val();
@@ -31,6 +38,101 @@
                 }
             });
         }
+*/
+            //-----------------------
+            m.request_and_render=function(){
+                request_count=0;
+                var dt1=$('#date__ID').val();
+                var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(),m.ref+1));
+                $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                    request_count++;
+                    booking_rec=res;
+                });
+                $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                    request_count++;
+                    setup_rec=res
+                });
+                $vm.request({cmd:"find",table:m.Table3,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                    request_count++;
+                    score_rec=res;
+                });
+                $vm.request({cmd:"find",table:m.Table4,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                    request_count++;
+                    report_rec=res;
+                });           
+                check();
+            }
+            //-----------------------
+            function check(){
+                if (request_count<4){
+                    setTimeout(function(){
+                        //console.log(req_count)
+                        check();
+                    },500);
+                }
+                else{
+                    render_page()
+                }
+            }
+            //-----------------------
+            var render_page=function(){
+                if(booking_rec.permission==false){
+                    alert("No permission to get booking information.");
+                    return;
+                }
+                //-----------------------
+    			for(var i=0;i<booking_rec.result.length;i++){
+                    m.cell_render(booking_rec.result[i]);
+                    if(setup_rec.result.length>0){
+                        for(var j=0;j<setup_rec.result.length;j++){
+                            if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
+                                m.cell_render_setup(setup_rec.result[j],booking_rec.result[i])
+                                break;
+                            }
+                            else if (j==setup_rec.result.length-1){
+                                m.cell_render_setup([],booking_rec.result[i])
+                            }
+                        }
+                    }
+                    else {
+                        m.cell_render_setup([],booking_rec.result[i]);
+                    }
+                }
+
+            }
+/*
+        $('#D__ID').on('load',function(){
+            request_count=0;
+            var rep_date=new Date().toISOString().substring(0,10);
+            $('#Report_Date__ID').text(rep_date); 
+            $('#research_leader__ID').text(m.input.record.Data.Research_Leader);          
+            console.log("AA"+JSON.stringify($vm.module_list[$vm.vm['__ID'].name]));
+            m.Table=$vm.module_list[$vm.vm['__ID'].name].Table_3;
+            $vm.request({cmd:'find',table:m.Table,search:m.input.record.Data.Research_Leader},function(res){
+                request_count++;
+                contr_rec=res.result;
+                console.log(JSON.stringify(res.result))
+            });
+            m.Table=$vm.module_list[$vm.vm['__ID'].name].Table_2;
+            $vm.request({cmd:'find',table:m.Table,search:m.input.record.Data.Research_Leader},function(res){
+                request_count++;
+                charge_rec=res.result;
+                console.log(JSON.stringify(res.result))
+            })
+            check();
+        });
+        function check(){
+            if (request_count<2){
+                setTimeout(function(){
+                    //console.log(req_count)
+                    check();
+                },500);
+            }
+            else{
+                create_report()
+            }
+        }
+*/
         //--------------------------------------------------------
         m.cell_render=function(record){
             var id=record._id;
@@ -58,11 +160,54 @@
             });
         }
         //--------------------------------------------------------
+        m.cell_render_setup=function(record,booking_rec){
+            if(record.length==0){
+                var item="<div id=addsetup__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div>Click here to add new setup</div>";
+                item+="</div></div>"
+                $('#setup__ID').append(item);
+                //--------------------------------------------------------
+                $('#addsetup__ID'+booking_rec.UID).on('click',function(){
+                    $vm.load_module(m.setup,'',{booking:booking_rec,goback:1});
+                });
+                //--------------------------------------------------------
+            }
+            else{
+                var id=record._id;
+                console.log(JSON.stringify(record))
+                var comments=record.Data.Comments;
+                var visit=record.Data.Visit;
+                var color='#ffffff'
+                console.log("V :"+visit)
+                if(visit=='DNA') color='#ff0000';
+                if(visit=='Arrived') color='#00ff00';
+                comments=comments.replace(/\n/g,'<br>')
+                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
+                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div  >"+visit+"<br></div>";
+                item+="</div></div>"
+                //--------------------------------------------------------
+                $('#setup__ID').append(item);
+                //--------------------------------------------------------
+                $('#item__ID'+id).on('click',function(){
+                    $vm.load_module(m.setup,'',{record:record,booking:booking_rec,goback:1});
+                });
+            }
+        }
+        var clear_page=function(){
+            $('#booking__ID').html('');
+            $('#setup__ID').html('');
+            $('#scoring__ID').html('');
+            $('#report__ID').html('');
+        }
+        //--------------------------------------------------------
         $('#D__ID').on('load',function(){
+            clear_page();
             m.request_and_render();
         });
         //--------------------------------------------------------
-        $('#D__ID').on('show',function(){  if($vm.refresh==1){$vm.refresh=0; m.request_and_render();}    });
+        $('#D__ID').on('show',function(){ if($vm.refresh==1){clear_page(); $vm.refresh=0; m.request_and_render();} });
         //--------------------------------------------------------
     }
     </script>
@@ -78,7 +223,7 @@
             cursor:pointer;
             white-space:nowrap;
             position:relative;
-            /*height:20px; */
+            height:80px;
             
         }
         .item__ID:hover{

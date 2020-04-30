@@ -3,9 +3,11 @@
     var modules={
         "calendar-sleepstudy-week":       {url:"$H/m/calendar-sleepstudy-week.html", Table:"demo-wapp-sleepstudy","booking":"sleepstudy-form",lookup:"demo-wapp-patient"},
         "calendar-sleepstudy-month":       {url:"$H/m/calendar-sleepstudy-month.html",Table:"demo-wapp-sleepstudy","booking":"sleepstudy-form"},
-        "calendar-sleepstudy-day":       {url:"$H/m/calendar-sleepstudy-day.html",Table:"demo-wapp-sleepstudy","booking":"sleepstudy-form"},
+        "calendar-sleepstudy-day":       {url:"$H/m/calendar-sleepstudy-day.html",Table:"demo-wapp-sleepstudy",Table2:"demo-wapp-setup",Table3:"demo-wapp-scoring",Table4:"demo-wapp-reporting","booking":"sleepstudy-form","setup":"setup-form"},
         "sleepstudy-form":       {url:"$H/m/sleepstudy-form.html",Table:"demo-wapp-sleepstudy",lookup:"demo-wapp-patient",lookup2:"demo-wapp-diagnostic-procedure",lookup3:"demo-wapp-research-project",lookup4:"demo-wapp-physician"},
         "sleepstudy-data":       {url:"$H/m/sleepstudy-data.html",Table:"demo-wapp-sleepstudy",form_module:"sleepstudy-form"},
+        "setup-form":       {url:"$H/m/setup-form.html",Table:"demo-wapp-setup",Table2:"demo-wapp-sleepstudy",Table3:"demo-wapp-patient"},
+        "setup-data":       {url:"$H/m/setup-data.html",Table:"demo-wapp-setup",form_module:"setup-form"},
         "staff-data":       {url:"$H/m/staff-data.html",Table:"demo-wapp-staff",form_module:"staff-form"},
         "staff-form":       {url:"$H/m/staff-form.html",Table:"demo-wapp-staff"},
         "position-data":       {url:"$H/m/position-data.html",Table:"demo-wapp-position",form_module:"position-form"},
