@@ -64,6 +64,7 @@
             //-----------------------
             for(var i=0;i<booking_rec.result.length;i++){
                 m.cell_render(booking_rec.result[i]);
+                //--------------------------------------------------------
                 if(setup_rec.result.length>0){
                     for(var j=0;j<setup_rec.result.length;j++){
                         if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
@@ -77,6 +78,21 @@
                 }
                 else {
                     m.cell_render_setup([],booking_rec.result[i]);
+                }
+                //--------------------------------------------------------
+                if(assign_rec.result.length>0){
+                    for(var j=0;j<assign_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==assign_rec.result[j].Data.booking_uid){
+                            m.cell_render_assign(assign_rec.result[j],booking_rec.result[i])
+                            break;
+                        }
+                        else if (j==assign_rec.result.length-1){
+                            m.cell_render_assign([],booking_rec.result[i])
+                        }
+                    }
+                }
+                else {
+                    m.cell_render_assign([],booking_rec.result[i]);
                 }
             }
 
@@ -150,8 +166,44 @@
                 });
             }
         }
+        //--------------------------------------------------------
+        m.cell_render_assign=function(record,booking_rec){
+            if(record.length==0){
+                var item="<div id=addassign__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div>Click here to add new assignment</div>";
+                item+="</div></div>"
+                $('#assign__ID').append(item);
+                //--------------------------------------------------------
+                $('#addassign__ID'+booking_rec.UID).on('click',function(){
+                    console.log(JSON.stringify(m))
+                    $vm.load_module(m.assign,'',{booking:booking_rec,goback:1});
+                });
+                //--------------------------------------------------------
+            }
+            else{
+                var id=record._id;
+                console.log(JSON.stringify(record))
+                var room=record.Data.Room;
+                var sleeptech=record.Data.Sleeptech;
+                var colour=record.Data.Colour;
+                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;' >";
+                item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div  >"+room+"<br>"+sleeptech+"</div>";
+                item+="</div></div>"
+                console.log(item)
+                //--------------------------------------------------------
+                $('#assign__ID').append(item);
+                //--------------------------------------------------------
+                $('#item__ID'+id).on('click',function(){
+                    $vm.load_module(m.assign,'',{record:record,booking:booking_rec,goback:1});
+                });
+            }
+        }
+        //--------------------------------------------------------
         var clear_page=function(){
             $('#booking__ID').html('');
+            $('#assign__ID').html('');
             $('#setup__ID').html('');
             $('#scoring__ID').html('');
             $('#report__ID').html('');

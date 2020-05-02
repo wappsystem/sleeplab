@@ -1,0 +1,150 @@
+<div id=D__ID>
+    <section id=form_container__ID>
+    	<div id=header__ID>
+    		Assign room and sleeptech
+    	</div>
+    	<form id=F__ID>
+    		<div class="container">
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-3">
+    					<span>Date</span>
+    					<input type="text" class="form-control" id=Date__ID readonly />
+					</div>
+    				<div class="col-sm col-lg-9">
+						<span>Patient</span>
+						<input type="text" class="form-control" id=Patient__ID readonly />
+    				</div>
+				</div>
+    			<div class="row" style='font-size:11px;padding-left:10px'>
+    				<div class="col">
+						<span><u id=patient_link2__ID style='cursor:pointer'>Patient's records</u></span>
+					</div>
+				</div>
+    			<div class="row row__ID">
+					<div class="col-sm col-lg-6">
+						<span>Research Project</span>
+						<input type="text" class="form-control" id=Research_Project__ID readonly />
+					</div>
+					<div class="col-sm col-lg-6">
+						<span>Item Number - Procedure</span>
+						<input type="text" class="form-control" id=Item_Number_Procedure__ID readonly />
+    				</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Room</span>
+						<input type="text" class="form-control" name=Room placeholder="lookup..." />
+    				</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-9">
+						<span>Sleeptech</span>
+						<input type="text" class="form-control" name=Sleeptech placeholder="lookup..." />
+    				</div>
+    				<div class="col-sm col-lg-3" style='display:xnone'>
+    					<span>Sleeptech ID</span>
+    					<input type="text" class="form-control" name=Sleeptech_uid readonly />
+					</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col">
+    					<span>Colour</span>
+						<input type="text" class="form-control" name=Colour readonly />
+					</div>
+				</div>
+				<br><br>				
+    			<div class="row">
+    				<div class=col>
+    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
+    					<button id=delete__ID type="button" class="btn btn-secondary">Delete</button>
+    				</div>
+    			</div>
+    		</div>
+    	</form>
+    </section>
+    <script>
+    	function F__ID(){
+    		//-------------------------------------
+            VmInclude:__COMPONENT__/f/form.01.js
+			VmInclude:__COMPONENT__/f/form-item-a.01.js
+			//-------------------------------------
+			var dt1,dt2;
+            old_load=m.load;
+			m.load=function(){
+				old_load();
+				$('#Date__ID').val(m.input.booking.Data.Date)
+				$('#Patient__ID').val(m.input.booking.Data.Patient)
+				$('#Item_Number_Procedure__ID').val(m.input.booking.Data.Item_Number_Procedure)
+				$('#Research_Project__ID').val(m.input.booking.Data.Research_Project)
+			}
+    		//-------------------------------------
+			m.before_submit=function(data,index){
+				data.booking_uid=m.input.booking.UID;
+				index.I1=m.input.booking.Data.Date;
+			}
+            //-------------------------------------
+			var autocomplete_req={cmd:"find",field:'.Data.Room',table:m.lookup,options:{},skip:0,limit:10}
+			var autocomplete_callback=function(item){
+				$('input[name=Room').val(item.label);
+			}
+			var autocomplete_list=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Room"];
+					obj.UID=records[i].UID;
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait1=function(){
+				$vm.autocomplete( $('#F__ID input[name=Room'),autocomplete_req,autocomplete_list,autocomplete_callback);
+			}
+			var I=0; var loop_1=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_1); wait1(); }
+				I++; if(I>50){ clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
+			},100);
+			//-------------------------------------
+			dt1=m.input.booking.Data.Date;
+			var sel_date=$vm.date_yyyymmdd_parse(dt1)
+			var now=new Date();
+			var ref=parseInt((sel_date.getTime()-now.getTime())/86400000);
+			dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(),ref+1));
+			//-------------------------------------
+			var autocomplete_req2={cmd:"find",field:'.Data.Staffx',table:m.lookup2,query:{I1:{"$gte":dt1,"$lt":dt2}},options:{},skip:0,limit:10}
+			var autocomplete_callback2=function(item){
+				$('input[name=Sleeptech').val(item.label);
+				$('input[name=Sleeptech_uid').val(item.UID);
+				$('input[name=Colour').val(item.Colour);
+			}
+			var autocomplete_list2=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Staffx"];
+					obj.UID=records[i].Data["Staff_uid"];
+					obj.Colour=records[i].Data['Colour'];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait2=function(){
+				$vm.autocomplete( $('#F__ID input[name=Sleeptech'),autocomplete_req2,autocomplete_list2,autocomplete_callback2);
+			}
+			var I2=0; var loop_2=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_2); wait2(); }
+				I2++; if(I2>50){ clearInterval(loop_2); alert("jquery-ui.min.js is not installed."); }
+			},100);
+            //-------------------------------------
+		}
+		//-------------------------------
+
+    </script>
+    <style>
+        #form_container__ID{
+            max-width:800px;
+        }
+        VmInclude:__COMPONENT__/f/form.01.css
+        VmInclude:__COMPONENT__/f/form-item-a.01.css
+    </style>
+</div>
