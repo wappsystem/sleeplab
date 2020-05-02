@@ -12,127 +12,75 @@
     	//--------------------------------------------------------
         var request_count=0;
         var booking_rec=[];
+        var assign_rec=[];
         var setup_rec=[];
         var score_rec=[];
         var report_rec=[];
     	//--------------------------------------------------------
-/*
         m.request_and_render=function(){
-            var mt1=new Date().getTime();
+            request_count=0;
             var dt1=$('#date__ID').val();
             var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(),m.ref+1));
             $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
-                if(res.permission==false){
-                    alert("No permission to get booking information.");
-                    return;
-                }
-                //-----------------------
-                var mt2=new Date().getTime();
-                var tt_all=mt2-mt1;
-                var tt_server=parseInt(res.sys.elapsed_time);
-                if(tt_all<tt_server) tt_all=tt_server;
-                $("#elapsed__ID").text((JSON.stringify(res.result).length/1000).toFixed(1)+"kb/"+tt_all.toString()+"ms/"+tt_server+'ms');
-                //-----------------------
-    			for(var i=0;i<res.result.length;i++){
-    	            m.cell_render(res.result[i]);
-                }
-            });
-        }
-*/
-            //-----------------------
-            m.request_and_render=function(){
-                request_count=0;
-                var dt1=$('#date__ID').val();
-                var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(),m.ref+1));
-                $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
-                    request_count++;
-                    booking_rec=res;
-                });
-                $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
-                    request_count++;
-                    setup_rec=res
-                });
-                $vm.request({cmd:"find",table:m.Table3,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
-                    request_count++;
-                    score_rec=res;
-                });
-                $vm.request({cmd:"find",table:m.Table4,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
-                    request_count++;
-                    report_rec=res;
-                });           
-                check();
-            }
-            //-----------------------
-            function check(){
-                if (request_count<4){
-                    setTimeout(function(){
-                        //console.log(req_count)
-                        check();
-                    },500);
-                }
-                else{
-                    render_page()
-                }
-            }
-            //-----------------------
-            var render_page=function(){
-                if(booking_rec.permission==false){
-                    alert("No permission to get booking information.");
-                    return;
-                }
-                //-----------------------
-    			for(var i=0;i<booking_rec.result.length;i++){
-                    m.cell_render(booking_rec.result[i]);
-                    if(setup_rec.result.length>0){
-                        for(var j=0;j<setup_rec.result.length;j++){
-                            if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
-                                m.cell_render_setup(setup_rec.result[j],booking_rec.result[i])
-                                break;
-                            }
-                            else if (j==setup_rec.result.length-1){
-                                m.cell_render_setup([],booking_rec.result[i])
-                            }
-                        }
-                    }
-                    else {
-                        m.cell_render_setup([],booking_rec.result[i]);
-                    }
-                }
-
-            }
-/*
-        $('#D__ID').on('load',function(){
-            request_count=0;
-            var rep_date=new Date().toISOString().substring(0,10);
-            $('#Report_Date__ID').text(rep_date); 
-            $('#research_leader__ID').text(m.input.record.Data.Research_Leader);          
-            console.log("AA"+JSON.stringify($vm.module_list[$vm.vm['__ID'].name]));
-            m.Table=$vm.module_list[$vm.vm['__ID'].name].Table_3;
-            $vm.request({cmd:'find',table:m.Table,search:m.input.record.Data.Research_Leader},function(res){
                 request_count++;
-                contr_rec=res.result;
-                console.log(JSON.stringify(res.result))
+                booking_rec=res;
             });
-            m.Table=$vm.module_list[$vm.vm['__ID'].name].Table_2;
-            $vm.request({cmd:'find',table:m.Table,search:m.input.record.Data.Research_Leader},function(res){
+            $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
                 request_count++;
-                charge_rec=res.result;
-                console.log(JSON.stringify(res.result))
-            })
+                assign_rec=res
+            });
+            $vm.request({cmd:"find",table:m.Table3,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                setup_rec=res
+            });
+            $vm.request({cmd:"find",table:m.Table4,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                score_rec=res;
+            });
+            $vm.request({cmd:"find",table:m.Table5,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                report_rec=res;
+            });           
             check();
-        });
+        }
+        //-----------------------
         function check(){
-            if (request_count<2){
+            if (request_count<4){
                 setTimeout(function(){
                     //console.log(req_count)
                     check();
                 },500);
             }
             else{
-                create_report()
+                render_page()
             }
         }
-*/
+        //-----------------------
+        var render_page=function(){
+            if(booking_rec.permission==false){
+                alert("No permission to get booking information.");
+                return;
+            }
+            //-----------------------
+            for(var i=0;i<booking_rec.result.length;i++){
+                m.cell_render(booking_rec.result[i]);
+                if(setup_rec.result.length>0){
+                    for(var j=0;j<setup_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
+                            m.cell_render_setup(setup_rec.result[j],booking_rec.result[i])
+                            break;
+                        }
+                        else if (j==setup_rec.result.length-1){
+                            m.cell_render_setup([],booking_rec.result[i])
+                        }
+                    }
+                }
+                else {
+                    m.cell_render_setup([],booking_rec.result[i]);
+                }
+            }
+
+        }
         //--------------------------------------------------------
         m.cell_render=function(record){
             var id=record._id;
@@ -180,12 +128,19 @@
                 var visit=record.Data.Visit;
                 var color='#ffffff'
                 console.log("V :"+visit)
-                if(visit=='DNA') color='#ff0000';
-                if(visit=='Arrived') color='#00ff00';
-                comments=comments.replace(/\n/g,'<br>')
+                if(visit=='DNA') {color='#ff9d9d';visit='Did Not Arrive';}
+                if(visit=='Arrived') color='#68ff68';
+                comments=comments.replace(/\n/g,'<br>');
+                var eq="";
+                var mq=""
+                if(record.Data.Evening_Questionnaire=='on') eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                else eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+                if(record.Data.Morning_Questionnaire=='on') mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                else mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+
                 var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
                 item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div  >"+visit+"<br></div>";
+                item+="<div  >"+visit+"<br>"+eq+"Evening /"+mq+"Morning Questionnaire</div>";
                 item+="</div></div>"
                 //--------------------------------------------------------
                 $('#setup__ID').append(item);
@@ -203,6 +158,10 @@
         }
         //--------------------------------------------------------
         $('#D__ID').on('load',function(){
+            $('#date__ID').val(m.input.fromweek);
+            var sel_date=$vm.date_yyyymmdd_parse(m.input.fromweek)
+            var now=d=new Date();
+            m.ref=parseInt((sel_date.getTime()-now.getTime())/86400000);
             clear_page();
             m.request_and_render();
         });

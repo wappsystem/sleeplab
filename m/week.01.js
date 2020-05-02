@@ -25,11 +25,21 @@ m.set_ref = function () {
       $('#period__ID').text(s);
       var header=""
       for(var i=0;i<7;i++){
-            var dates=$vm.date_add_days(d, 7 * m.ref+i)
-            header+="<div class='col_header__ID'>"+weekday[dates.getDay()]+" "+$vm.yyyymmdd_to_ddmmyyyy($vm.date_to_yyyymmdd(dates))+"</div>";
+            var dates=$vm.date_add_days(d, 7 * m.ref+i);
+            header+="<div class='col_header__ID' id=week_header_select__ID"+i+" >"+weekday[dates.getDay()]+" "+$vm.yyyymmdd_to_ddmmyyyy($vm.date_to_yyyymmdd(dates))+"</div>";
       }
-      console.log(header) 
       $('#day_header__ID').html(header);
+      $('#week_header_select__ID0').on('click',function(){to_week_day(0);});
+      $('#week_header_select__ID1').on('click',function(){to_week_day(1);});
+      $('#week_header_select__ID2').on('click',function(){to_week_day(2);});
+      $('#week_header_select__ID3').on('click',function(){to_week_day(3);});
+      $('#week_header_select__ID4').on('click',function(){to_week_day(4);});
+      $('#week_header_select__ID5').on('click',function(){to_week_day(5);});
+      $('#week_header_select__ID6').on('click',function(){to_week_day(6);});
+      var to_week_day=function(wd){
+            var dates=$vm.date_add_days(d, wd);
+            $vm.load_module("calendar-sleepstudy-day",'',{fromweek:$vm.date_to_yyyymmdd(dates)});
+      }
 }
 m.set_ref();
 //---------------------------------------------
