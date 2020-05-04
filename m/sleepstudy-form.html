@@ -1,18 +1,16 @@
 <div id=D__ID>
     <section id=form_container__ID>
-    	<div id=header__ID>
+    	<div id=header__ID >
     		Sleep Study Booking Record
     	</div>
     	<form id=F__ID>
     		<div class="container">
-    			<div class="row row__ID">
-    				<div class=col>
+    			<div class="row row__ID ">
+    				<div  class="col-sm col-lg-6">
     					<span>Date</span>
-    					<input type="date" class="form-control" name=Date required />
+    					<input type="date" class="form-control" name=Date />
     				</div>
-    			</div>
-    			<div class="row row__ID">
-    				<div class=col>
+    				<div class="col-sm col-lg-6">
     					<span>Arrival Time</span>
 						<select class="form-control" name=Time>
 						</select>
@@ -100,8 +98,30 @@
 						</div>
 					</div>
 				</div>
-				<br><br>				
-    			<div class="row">
+    			<div class="row row__ID">
+    				<div class="col" style='display:xnone'>
+						<u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=add_comment__ID><i class="fa fa-plus"></i> Click here to add comment</u>
+						<input type="text" class="form-control" id=Add_Comment__ID placeholder="enter new comments here.." />
+					</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col">
+						<span>Comments</span>
+						<textarea style='font-size:small' class="form-control" name=Comments readonly ></textarea>
+    				</div>
+				</div>
+    			<div class="row row__ID">
+    				<div class="col-sm col-lg-3">
+    					<span>Cancelled</span>
+    					<input type="checkbox" class="form-control" style='width:20px' name=Cencelled />
+    				</div>
+    				<div class="col-sm col-lg-9">
+						<span>Cancellation Reason</span>
+						<textarea style='font-size:small' class="form-control" name=Cancellation_Reason ></textarea>
+    				</div>
+				</div>
+				<br><br>
+    			<div class="row ">
     				<div class=col>
     					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
     					<button id=delete__ID type="button" class="btn btn-secondary">Delete</button>
@@ -164,6 +184,22 @@
 				}
                 //-------
 			}
+			//-------------------------------------
+			$('#add_comment__ID').on('click',function(){
+				var now_time=new Date();
+				now_time=now_time.toString().split(" ");
+				now_time=now_time[4];
+				var now_date=$vm.date_to_string_dmy(new Date());
+				var new_comments=$('#Add_Comment__ID').val();
+				if(new_comments!=""){
+					var old_comments=$('#F__ID textarea[name=Comments]').val()
+					if($('#F__ID textarea[name=Comments]').val()==undefined) old_comments="";
+					var comments=now_time+' '+now_date+" - "+$vm.user_name+"\n"+new_comments+"\n\n"+old_comments
+					$('#F__ID textarea[name=Comments]').val(comments)
+					$('#Add_Comment__ID').val("");
+				}
+				else $vm.alert("Please enter a comment")				
+			})
 			//-------------------------------------
 			$('#Charge__ID').change(function(){
 				if($('#Charge__ID').val()=="Research") $('#research__ID').css('display','block');

@@ -2,6 +2,7 @@
     //-------------------------------------------------------------------------------------
     var modules = {
         "calendar-sleepstudy-week": { url: "$H/m/calendar-sleepstudy-week.html", Table: "demo-wapp-sleepstudy", "booking": "sleepstudy-form", lookup: "demo-wapp-patient" },
+        "calendar-sleepstudy-week-hold": { url: "$H/m/calendar-sleepstudy-week-hold.html", Table: "demo-wapp-sleepstudy", "booking": "sleepstudy-form", lookup: "demo-wapp-patient" },
         "calendar-sleepstudy-month": { url: "$H/m/calendar-sleepstudy-month.html", Table: "demo-wapp-sleepstudy", "booking": "sleepstudy-form" },
         "calendar-sleepstudy-day": { url: "$H/m/calendar-sleepstudy-day.html", Table: "demo-wapp-sleepstudy", Table2: "demo-wapp-assign", Table3: "demo-wapp-setup", Table4: "demo-wapp-scoring", Table5: "demo-wapp-reporting", "booking": "sleepstudy-form", "assign": "assign-form", "setup": "setup-form" },
         "sleepstudy-form": { url: "$H/m/sleepstudy-form.html", Table: "demo-wapp-sleepstudy", lookup: "demo-wapp-patient", lookup2: "demo-wapp-diagnostic-procedure", lookup3: "demo-wapp-research-project", lookup4: "demo-wapp-physician" },
