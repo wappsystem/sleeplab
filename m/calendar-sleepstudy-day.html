@@ -14,7 +14,7 @@
         var booking_rec=[];
         var assign_rec=[];
         var setup_rec=[];
-        var score_rec=[];
+        var scoring_rec=[];
         var report_rec=[];
     	//--------------------------------------------------------
         m.request_and_render=function(){
@@ -35,7 +35,7 @@
             });
             $vm.request({cmd:"find",table:m.Table4,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
                 request_count++;
-                score_rec=res;
+                scoring_rec=res;
             });
             $vm.request({cmd:"find",table:m.Table5,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
                 request_count++;
@@ -65,6 +65,21 @@
             for(var i=0;i<booking_rec.result.length;i++){
                 m.cell_render(booking_rec.result[i]);
                 //--------------------------------------------------------
+                if(assign_rec.result.length>0){
+                    for(var j=0;j<assign_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==assign_rec.result[j].Data.booking_uid){
+                            m.cell_render_assign(assign_rec.result[j],booking_rec.result[i])
+                            break;
+                        }
+                        else if (j==assign_rec.result.length-1){
+                            m.cell_render_assign([],booking_rec.result[i])
+                        }
+                    }
+                }
+                else {
+                    m.cell_render_assign([],booking_rec.result[i]);
+                }
+                //--------------------------------------------------------
                 if(setup_rec.result.length>0){
                     for(var j=0;j<setup_rec.result.length;j++){
                         if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
@@ -80,20 +95,36 @@
                     m.cell_render_setup([],booking_rec.result[i]);
                 }
                 //--------------------------------------------------------
-                if(assign_rec.result.length>0){
-                    for(var j=0;j<assign_rec.result.length;j++){
-                        if(booking_rec.result[i].UID==assign_rec.result[j].Data.booking_uid){
-                            m.cell_render_assign(assign_rec.result[j],booking_rec.result[i])
+                if(scoring_rec.result.length>0){
+                    for(var j=0;j<scoring_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==scoring_rec.result[j].Data.booking_uid){
+                            m.cell_render_scoring(scoring_rec.result[j],booking_rec.result[i])
                             break;
                         }
-                        else if (j==assign_rec.result.length-1){
-                            m.cell_render_assign([],booking_rec.result[i])
+                        else if (j==scoring_rec.result.length-1){
+                            m.cell_render_scoring([],booking_rec.result[i])
                         }
                     }
                 }
                 else {
-                    m.cell_render_assign([],booking_rec.result[i]);
+                    m.cell_render_scoring([],booking_rec.result[i]);
                 }
+                //--------------------------------------------------------
+                if(report_rec.result.length>0){
+                    for(var j=0;j<report_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==report_rec.result[j].Data.booking_uid){
+                            m.cell_render_report(report_rec.result[j],booking_rec.result[i])
+                            break;
+                        }
+                        else if (j==report_rec.result.length-1){
+                            m.cell_render_report([],booking_rec.result[i])
+                        }
+                    }
+                }
+                else {
+                    m.cell_render_report([],booking_rec.result[i]);
+                }
+
             }
 
         }
@@ -124,6 +155,40 @@
             });
         }
         //--------------------------------------------------------
+        m.cell_render_assign=function(record,booking_rec){
+            if(record.length==0){
+                var item="<div id=addassign__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div>Click here to add new assignment</div>";
+                item+="</div></div>"
+                $('#assign__ID').append(item);
+                //--------------------------------------------------------
+                $('#addassign__ID'+booking_rec.UID).on('click',function(){
+                    //console.log(JSON.stringify(m))
+                    $vm.load_module(m.assign,'',{booking:booking_rec,goback:1});
+                });
+                //--------------------------------------------------------
+            }
+            else{
+                var id=record._id;
+                //console.log(JSON.stringify(record))
+                var room=record.Data.Room;
+                var sleeptech=record.Data.Sleeptech;
+                var colour=record.Data.Colour;
+                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;' >";
+                item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div  >"+room+"<br>"+sleeptech+"</div>";
+                item+="</div></div>"
+                //console.log(item)
+                //--------------------------------------------------------
+                $('#assign__ID').append(item);
+                //--------------------------------------------------------
+                $('#item__ID'+id).on('click',function(){
+                    $vm.load_module(m.assign,'',{record:record,booking:booking_rec,goback:1});
+                });
+            }
+        }
+        //--------------------------------------------------------
         m.cell_render_setup=function(record,booking_rec){
             if(record.length==0){
                 var item="<div id=addsetup__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
@@ -134,6 +199,50 @@
                 //--------------------------------------------------------
                 $('#addsetup__ID'+booking_rec.UID).on('click',function(){
                     $vm.load_module(m.setup,'',{booking:booking_rec,goback:1});
+                });
+                //--------------------------------------------------------
+            }
+            else{
+                var id=record._id;
+                //console.log(JSON.stringify(record))
+                var comments=record.Data.Comments;
+                var visit=record.Data.Visit;
+                var color='#ffffff'
+                //console.log("V :"+visit)
+                if(visit=='DNA') {color='#ff9d9d';visit='Did Not Arrive';}
+                if(visit=='Arrived') color='#68ff68';
+                comments=comments.replace(/\n/g,'<br>');
+                var eq="";
+                var mq=""
+                if(record.Data.Evening_Questionnaire=='on') eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                else eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+                if(record.Data.Morning_Questionnaire=='on') mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                else mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+
+                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
+                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div  >"+visit+"<br>"+eq+"Evening /"+mq+"Morning Questionnaire</div>";
+                item+="</div></div>"
+                //--------------------------------------------------------
+                $('#setup__ID').append(item);
+                //--------------------------------------------------------
+                $('#item__ID'+id).on('click',function(){
+                    $vm.load_module(m.setup,'',{record:record,booking:booking_rec,goback:1});
+                });
+            }
+        }
+        //--------------------------------------------------------
+        m.cell_render_scoring=function(record,booking_rec){
+                console.log(JSON.stringify(record))
+                if(record.length==0){
+                var item="<div id=addscoring__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div>Click here to add new scoring</div>";
+                item+="</div></div>"
+                $('#scoring__ID').append(item);
+                //--------------------------------------------------------
+                $('#addscoring__ID'+booking_rec.UID).on('click',function(){
+                    $vm.load_module(m.scoring,'',{booking:booking_rec,goback:1});
                 });
                 //--------------------------------------------------------
             }
@@ -159,44 +268,54 @@
                 item+="<div  >"+visit+"<br>"+eq+"Evening /"+mq+"Morning Questionnaire</div>";
                 item+="</div></div>"
                 //--------------------------------------------------------
-                $('#setup__ID').append(item);
+                $('#scoring__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
-                    $vm.load_module(m.setup,'',{record:record,booking:booking_rec,goback:1});
+                    $vm.load_module(m.scoring,'',{record:record,booking:booking_rec,goback:1});
                 });
             }
         }
         //--------------------------------------------------------
-        m.cell_render_assign=function(record,booking_rec){
-            if(record.length==0){
-                var item="<div id=addassign__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
+        m.cell_render_report=function(record,booking_rec){
+                console.log(JSON.stringify(record))
+                if(record.length==0){
+                var item="<div id=addreport__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add new assignment</div>";
+                item+="<div>Click here to add new report</div>";
                 item+="</div></div>"
-                $('#assign__ID').append(item);
+                $('#report__ID').append(item);
                 //--------------------------------------------------------
-                $('#addassign__ID'+booking_rec.UID).on('click',function(){
-                    console.log(JSON.stringify(m))
-                    $vm.load_module(m.assign,'',{booking:booking_rec,goback:1});
+                $('#addreport__ID'+booking_rec.UID).on('click',function(){
+                    $vm.load_module(m.report,'',{booking:booking_rec,goback:1});
                 });
                 //--------------------------------------------------------
             }
             else{
                 var id=record._id;
                 console.log(JSON.stringify(record))
-                var room=record.Data.Room;
-                var sleeptech=record.Data.Sleeptech;
-                var colour=record.Data.Colour;
-                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;' >";
-                item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div  >"+room+"<br>"+sleeptech+"</div>";
+                var comments=record.Data.Comments;
+                var visit=record.Data.Visit;
+                var color='#ffffff'
+                console.log("V :"+visit)
+                if(visit=='DNA') {color='#ff9d9d';visit='Did Not Arrive';}
+                if(visit=='Arrived') color='#68ff68';
+                comments=comments.replace(/\n/g,'<br>');
+                var eq="";
+                var mq=""
+                if(record.Data.Evening_Questionnaire=='on') eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                else eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+                if(record.Data.Morning_Questionnaire=='on') mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                else mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+
+                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
+                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                item+="<div  >"+visit+"<br>"+eq+"Evening /"+mq+"Morning Questionnaire</div>";
                 item+="</div></div>"
-                console.log(item)
                 //--------------------------------------------------------
-                $('#assign__ID').append(item);
+                $('#report__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
-                    $vm.load_module(m.assign,'',{record:record,booking:booking_rec,goback:1});
+                    $vm.load_module(m.report,'',{record:record,booking:booking_rec,goback:1});
                 });
             }
         }
@@ -210,11 +329,12 @@
         }
         //--------------------------------------------------------
         $('#D__ID').on('load',function(){
+            if(m.input.fromweek==undefined) m.input.fromweek=$vm.date_to_string_yyyymmdd(new Date())
             $('#date__ID').val(m.input.fromweek);
             var sel_date=$vm.date_yyyymmdd_parse(m.input.fromweek)
             var now=d=new Date();
             m.ref=parseInt((sel_date.getTime()-now.getTime())/86400000);
-            console.log(sel_date+" "+now+" "+m.input.fromweek)
+            //console.log(sel_date+" "+now+" "+m.input.fromweek)
             clear_page();
             m.request_and_render();
         });

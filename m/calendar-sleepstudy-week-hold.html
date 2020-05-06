@@ -1,11 +1,11 @@
 <div id=D__ID>
     <div>
-        VmInclude:__CURRENT_PATH__/week-hold.html
+        VmInclude:__CURRENT_PATH__/week.hold.html
     </div>
     <script>
     function F__ID(){
         //--------------------------------------------------------
-        VmInclude:__CURRENT_PATH__/week-hold.js
+        VmInclude:__CURRENT_PATH__/week.hold.js
         //--------------------------------------------------------
         m.start_point=0*60;
         m.total_width=(24*60-m.start_point);
@@ -71,7 +71,7 @@
             m.request_and_render();
         });
         //--------------------------------------------------------
-        $('#D__ID').on('show',function(){  if($vm.refresh==1){$vm.refresh=0; m.request_and_render();}    });
+        $('#D__ID').on('show',function(){  console.log("Week Hold Page");if($vm.refresh==1){$vm.refresh=0; m.request_and_render();}    });
         //--------------------------------------------------------
 
     }

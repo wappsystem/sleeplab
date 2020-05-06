@@ -5,6 +5,7 @@ m.change_status = 0;
 m.ref = 0
 //---------------------------------------------
 $('#refresh__ID').on('click', function () { m.request_and_render(); })
+$('#xnew__ID').on('click', function(){m.on_day_click_fun();})
 //---------------------------------------------
 m.set_ref = function () {
       var d = $vm.first_day_of_current_week();
