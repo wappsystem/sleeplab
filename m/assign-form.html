@@ -1,150 +1,200 @@
 <div id=D__ID>
-    <section id=form_container__ID>
-    	<div id=header__ID>
-    		Assign room and sleeptech
-    	</div>
-    	<form id=F__ID>
-    		<div class="container">
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-3">
-    					<span>Date</span>
-    					<input type="text" class="form-control" id=Date__ID readonly />
+	<!--third html start -->
+	<div class="container mt-95 mb-3">
+		<div class="row">
+			<!-- form container start -->
+			<div class="col-12 col-lg-12 col-md-12 col-sm-12 mx-auto formbox">
+				<div class="row">
+					<div class="col-12">
+						<!-- form start -->
+						<form id="F__ID">
+							<h3>Assign room and sleeptech - <span id=Date__ID class="">Date</span></h3>
+							<div>
+								<div class="form-group">
+									<div class="questiongroup">
+										<fieldset class="subquestions">
+											<label><span id=Patient__ID class="">Patient</span></label><br>
+											<label><span id=Item_Number_Procedure__ID class=""></span></label><br>
+											<label><span id=Charge__ID class=""></span></label><br>
+											<label><span id=Research_Project__ID class=""></span></label><br>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-4 col-sm-12">
+													<div><label><span class="">Room</span></label></div>
+													<div class="input-group-sm ">
+														<input type="text" class="form-control input-sm" name=Room
+															placeholder="lookup..." />
+													</div>
+												</div>
+												<div class="col-lg-6 col-sm-12">
+													<div><label><span class="">Sleeptech</span></label></div>
+													<div class="input-group-sm">
+														<input type="text" class="form-control input-sm" name=Sleeptech
+															placeholder="lookup..." />
+													</div>
+												</div>
+												<div class="col-lg-2 col-sm-12">
+													<div><label><span class="">ID</span></label></div>
+													<div class="input-group-sm">
+														<input type="text" class="form-control input-sm"
+															name=Sleeptech_uid readonly />
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group" style='display:none!important'>
+									<div class="questiongroup ">
+										<fieldset class="">
+											<div class="row">
+												<div class="col-lg-4 col-sm-12" >
+													<label id=colour__ID><span class="">Colour</span>
+														<input type="text" class="form-control" name=Colour readonly />
+													</label><br>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-12 col-sm-12">
+													<div><label><span class="">Technical Requirements</span></label></div>
+													<div class="input-group-sm ">
+														<textarea style='font-size:small' class="form-control" name=Technical_Requirements ></textarea>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>	
+								<button type="submit" id="submit__ID" class="btn btn-primary btn-lg">Submit</button>
+								<button id=delete__ID type="button" class="btn btn-primary btn-lg">Delete</button>
+							</div>
+						</form>
 					</div>
-    				<div class="col-sm col-lg-9">
-						<span>Patient</span>
-						<input type="text" class="form-control" id=Patient__ID readonly />
-    				</div>
 				</div>
-    			<div class="row" style='font-size:11px;padding-left:10px'>
-    				<div class="col">
-						<span><u id=patient_link2__ID style='cursor:pointer'>Patient's records</u></span>
-					</div>
-				</div>
-    			<div class="row row__ID">
-					<div class="col-sm col-lg-6">
-						<span>Research Project</span>
-						<input type="text" class="form-control" id=Research_Project__ID readonly />
-					</div>
-					<div class="col-sm col-lg-6">
-						<span>Item Number - Procedure</span>
-						<input type="text" class="form-control" id=Item_Number_Procedure__ID readonly />
-    				</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Room</span>
-						<input type="text" class="form-control" name=Room placeholder="lookup..." />
-    				</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Sleeptech</span>
-						<input type="text" class="form-control" name=Sleeptech placeholder="lookup..." />
-    				</div>
-    				<div class="col-sm col-lg-3" style='display:xnone'>
-    					<span>Sleeptech ID</span>
-    					<input type="text" class="form-control" name=Sleeptech_uid readonly />
-					</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col">
-    					<span>Colour</span>
-						<input type="text" class="form-control" name=Colour readonly />
-					</div>
-				</div>
-				<br><br>				
-    			<div class="row">
-    				<div class=col>
-    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
-    					<button id=delete__ID type="button" class="btn btn-secondary">Delete</button>
-    				</div>
-    			</div>
-    		</div>
-    	</form>
-    </section>
-    <script>
-    	function F__ID(){
-    		//-------------------------------------
-            VmInclude:__COMPONENT__/f/form.01.js
-			VmInclude:__COMPONENT__/f/form-item-a.01.js
+			</div>
+		</div>
+	</div>
+	<script>
+		function F__ID() {
 			//-------------------------------------
-			var dt1,dt2;
-            old_load=m.load;
-			m.load=function(){
+			VmInclude: __COMPONENT__/f/form.01.js
+			//-------------------------------------
+			var dt1, dt2;
+			var autocomplete_req2;
+			old_load = m.load;
+			m.load = function () {
 				old_load();
-				$('#Date__ID').val(m.input.booking.Data.Date)
-				$('#Patient__ID').val(m.input.booking.Data.Patient)
-				$('#Item_Number_Procedure__ID').val(m.input.booking.Data.Item_Number_Procedure)
-				$('#Research_Project__ID').val(m.input.booking.Data.Research_Project)
+				console.log(JSON.stringify(m.input))
+				$('input[name=Sleeptech').css('background-color','white');
+				$('input[name=Sleeptech').css('color','black');
+				$('#Date__ID').html(m.input.booking.Data.Date)
+				$('#Patient__ID').text(m.input.booking.Data.Patient + ", ")
+				$('#Item_Number_Procedure__ID').text(m.input.booking.Data.Item_Number_Procedure + ", ")
+				$('#Charge__ID').text(m.input.booking.Data.Charge)
+				if (m.input.booking.Data.Research_Project != "") {
+					$('#Research_Project__ID').text(", " + m.input.booking.Data.Research_Project)
+				}
+				if(m.input.record!=undefined) {
+					if (m.input.record.Data.Colour!=undefined)	{
+						$('input[name=Sleeptech').css('background-color',m.input.record.Data.Colour);
+						$('input[name=Sleeptech').css('color',$vm.whire_or_black_color(m.input.record.Data.Colour));
+					}
+				}
+
+				//-------------------------------------
+				dt1 = m.input.booking.Data.Date;
+				var sel_date = $vm.date_yyyymmdd_parse(dt1)
+				var now = new Date();
+				var ref = parseInt((sel_date.getTime() - now.getTime()) / 86400000);
+				if (sel_date.getTime() > now.getTime()) ref++;
+				dt2 = $vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(), ref + 1));
+				autocomplete_req2 = { cmd: "find", field: '.Data.Staffx', table: m.lookup2, query: { I1: { "$gte": dt1, "$lt": dt2 } }, options: {}, skip: 0, limit: 10 }
 			}
-    		//-------------------------------------
-			m.before_submit=function(data,index){
-				data.booking_uid=m.input.booking.UID;
-				index.I1=m.input.booking.Data.Date;
+			//-------------------------------------
+			m.before_submit = function (data, index) {
+				data.booking_uid = m.input.booking.UID;
+				index.I1 = m.input.booking.Data.Date;
 			}
-            //-------------------------------------
-			var autocomplete_req={cmd:"find",field:'.Data.Room',table:m.lookup,options:{},skip:0,limit:10}
-			var autocomplete_callback=function(item){
+			//-------------------------------------
+			var autocomplete_req = { cmd: "find", field: '.Data.Room', table: m.lookup, options: {}, skip: 0, limit: 10 }
+			var autocomplete_callback = function (item) {
 				$('input[name=Room').val(item.label);
 			}
-			var autocomplete_list=function(records){
-				var items=[];
-				for(var i=0;i<records.length;i++){
-					var obj={};
-					obj.label=records[i].Data["Room"];
-					obj.UID=records[i].UID;
+			var autocomplete_list = function (records) {
+				var items = [];
+				for (var i = 0; i < records.length; i++) {
+					var obj = {};
+					obj.label = records[i].Data["Room"];
+					obj.UID = records[i].UID;
 					items.push(obj);
 				}
 				return items;
 			}
-			var wait1=function(){
-				$vm.autocomplete( $('#F__ID input[name=Room'),autocomplete_req,autocomplete_list,autocomplete_callback);
+			var wait1 = function () {
+				$vm.autocomplete($('#F__ID input[name=Room'), autocomplete_req, autocomplete_list, autocomplete_callback);
 			}
-			var I=0; var loop_1=setInterval(function (){
-				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_1); wait1(); }
-				I++; if(I>50){ clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
-			},100);
+			var I = 0; var loop_1 = setInterval(function () {
+				if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_1); wait1(); }
+				I++; if (I > 50) { clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
+			}, 100);
 			//-------------------------------------
-			dt1=m.input.booking.Data.Date;
-			var sel_date=$vm.date_yyyymmdd_parse(dt1)
-			var now=new Date();
-			var ref=parseInt((sel_date.getTime()-now.getTime())/86400000);
-			dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(),ref+1));
-			//-------------------------------------
-			var autocomplete_req2={cmd:"find",field:'.Data.Staffx',table:m.lookup2,query:{I1:{"$gte":dt1,"$lt":dt2}},options:{},skip:0,limit:10}
-			var autocomplete_callback2=function(item){
+			//var autocomplete_req2={cmd:"find",field:'.Data.Staffx',table:m.lookup2,query:{I1:{"$gte":dt1,"$lt":dt2}},options:{},skip:0,limit:10}
+			var autocomplete_callback2 = function (item) {
 				$('input[name=Sleeptech').val(item.label);
 				$('input[name=Sleeptech_uid').val(item.UID);
 				$('input[name=Colour').val(item.Colour);
+				$('input[name=Sleeptech').css('background-color',item.Colour);
+				$('input[name=Sleeptech').css('color',$vm.whire_or_black_color(item.Colour));
+				
 			}
-			var autocomplete_list2=function(records){
-				var items=[];
-				for(var i=0;i<records.length;i++){
-					var obj={};
-					obj.label=records[i].Data["Staffx"];
-					obj.UID=records[i].Data["Staff_uid"];
-					obj.Colour=records[i].Data['Colour'];
+			var autocomplete_list2 = function (records) {
+				var items = [];
+				for (var i = 0; i < records.length; i++) {
+					var obj = {};
+					obj.label = records[i].Data["Staffx"];
+					obj.UID = records[i].Data["Staff_uid"];
+					obj.Colour = records[i].Data['Colour'];
 					items.push(obj);
 				}
 				return items;
 			}
-			var wait2=function(){
-				$vm.autocomplete( $('#F__ID input[name=Sleeptech'),autocomplete_req2,autocomplete_list2,autocomplete_callback2);
+			var wait2 = function () {
+				$vm.autocomplete($('#F__ID input[name=Sleeptech'), autocomplete_req2, autocomplete_list2, autocomplete_callback2);
 			}
-			var I2=0; var loop_2=setInterval(function (){
-				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_2); wait2(); }
-				I2++; if(I2>50){ clearInterval(loop_2); alert("jquery-ui.min.js is not installed."); }
-			},100);
-            //-------------------------------------
+			var I2 = 0; var loop_2 = setInterval(function () {
+				if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_2); wait2(); }
+				I2++; if (I2 > 50) { clearInterval(loop_2); alert("jquery-ui.min.js is not installed."); }
+			}, 100);
+			//-------------------------------------
+			$('#patient_link2__ID').on('click', function () {
+				var uid = $('input[name=Patient_uid').val();
+				if (uid == "") {
+					$vm.alert("No patient was selected.");
+					return;
+				}
+				$vm.request({ cmd: "find", table: m.lookup3, query: { UID: parseInt(uid) } }, function (res) {
+					if (res.result.length == 1) {
+						$vm.load_module('patient-form', '', { record: res.result[0] });
+					}
+				});
+			})
+			//-------------------------------------
 		}
 		//-------------------------------
 
-    </script>
-    <style>
-        #form_container__ID{
-            max-width:800px;
-        }
-        VmInclude:__COMPONENT__/f/form.01.css
-        VmInclude:__COMPONENT__/f/form-item-a.01.css
-    </style>
+	</script>
+	<style>
+		VmInclude:__CURRENT_PATH__/wappsystem-form.css
+	</style>
 </div>

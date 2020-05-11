@@ -1,7 +1,7 @@
 <div id=D__ID>
     <section id=form_container__ID>
     	<div id=header__ID>
-    		Scoring
+    		Setup
     	</div>
     	<form id=F__ID>
     		<div class="container">
@@ -31,31 +31,27 @@
     				</div>
 				</div>
     			<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Scorer</span>
-						<input type="text" class="form-control" name=Scorer placeholder="lookup..." />
+    				<div class="col-sm col-lg-6">
+    					<span>Visit</span>
+						<select class="form-control" name=Visit >
+							<option ></option>
+							<option >Arrived</option>
+							<option >DNA</option>
+						</select>
     				</div>
-    				<div class="col-sm col-lg-3" style='display:xnone'>
-    					<span>Scorer ID</span>
-    					<input type="text" class="form-control" name=Scorer_uid readonly />
+					<div class="col-sm col-lg-6">
+						<span>Research Project</span>
+						<input type="text" class="form-control" id=Research_Project__ID readonly />
 					</div>
 				</div>
-				<div class="row row__ID">
-    				<div class="col">
-    					<span>Scoring Date</span>
-    					<input type="date" class="form-control" name=Scoring_Date />
-    				</div>
-				</div>
-				<div class="row row__ID">
-    				<div class="col">
-    					<span>QA Required</span>
-    					<input type="checkbox" class="form-control" style='width:20px' name=QA />
-    				</div>
-				</div>
     			<div class="row row__ID">
-    				<div class="col">
-    					<span>Scoring Status</span>
-						<input type='radio' class="form-control" name=Scoring_Status >
+    				<div class="col-sm col-lg-6">
+    					<span>Evening Questionnaire Done</span>
+    					<input type="checkbox" class="form-control" style='width:20px' name=Evening_Questionnaire />
+    				</div>
+    				<div class="col-sm col-lg-6">
+    					<span>Morning Questionnaire Done</span>
+    					<input type="checkbox" class="form-control" style='width:20px' name=Morning_Questionnaire />
     				</div>
 				</div>
     			<div class="row row__ID">
@@ -154,29 +150,6 @@
 
             }
             //-------------------------------------
-			//-------------------------------------
-			var autocomplete_req={cmd:"find",field:'.Data.Staff',table:m.lookup,query:{},options:{},skip:0,limit:10}
-			var autocomplete_callback=function(item){
-				$('input[name=Scorer').val(item.label);
-				$('input[name=Scorer_uid').val(item.UID);
-			}
-			var autocomplete_list=function(records){
-				var items=[];
-				for(var i=0;i<records.length;i++){
-					var obj={};
-					obj.label=records[i].Data["Staff"];
-					obj.UID=records[i].Data["Staff_uid"];
-					items.push(obj);
-				}
-				return items;
-			}
-			var wait=function(){
-				$vm.autocomplete( $('#F__ID input[name=Scorer'),autocomplete_req,autocomplete_list,autocomplete_callback);
-			}
-			var I=0; var loop_2=setInterval(function (){
-				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_2); wait2(); }
-				I++; if(I>50){ clearInterval(loop_2); alert("jquery-ui.min.js is not installed."); }
-			},100);
 		}
 		//-------------------------------
 

@@ -334,6 +334,7 @@
             var sel_date=$vm.date_yyyymmdd_parse(m.input.fromweek)
             var now=d=new Date();
             m.ref=parseInt((sel_date.getTime()-now.getTime())/86400000);
+            if(sel_date.getTime()>now.getTime()) m.ref++;
             //console.log(sel_date+" "+now+" "+m.input.fromweek)
             clear_page();
             m.request_and_render();
