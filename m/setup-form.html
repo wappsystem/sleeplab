@@ -22,10 +22,10 @@
 								</div>
 								<div class="form-group">
 									<div class="questiongroup">
-										<fieldset class="subquestions">
-											<label><span id=Room__ID class="">Room</span></label><br>
-											<label><span id=Sleeptech__ID class=""></span>Sleeptech</label><br>
-											<label><span id=Technical_Requirements___ID class="">Technical Requirement</span></label><br>
+										<fieldset class="">
+											<label><span id=Room__ID class=""></span></label>
+											<label><span id=Sleeptech__ID class=""></span></label><br>
+											<label><span id=Technical_Requirements___ID class=""></span></label>
 										</fieldset>
 									</div>
 								</div>
@@ -71,10 +71,48 @@
 									<div class="questiongroup ">
 										<fieldset class="subquestions">
 											<div class="row">
-												<div class="col-lg-12 col-sm-12">
+												<div class="col-lg-4 col-sm-12">
 													<div class="input-group-sm ">
-														<label><span class=""><u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=add_comment__ID><i class="fa fa-plus"></i> Click here to add comment</u></span></label>
-														<textarea class="form-control" id=Add_Comment__ID placeholder="enter new comments here.." ></textarea>
+														<label><span class="">Height (cm)</span></label>
+														<input class="form-control" type=number min=50 max=300 name=Height placeholder="Height (cm)" >
+													</div>
+												</div>
+												<div class="col-lg-4 col-sm-12">
+													<div class="input-group-sm ">
+														<label><span class="">Weight (kg)</span></label>
+														<input class="form-control" type=number min=0 max=300 name=Weight placeholder="Weight (kg)" >
+													</div>
+												</div>
+												<div class="col-lg-4 col-sm-12">
+													<div class="input-group-sm ">
+														<label><span class="">Neck (cm)</span></label>
+														<input class="form-control" type=number min=10 max=100 name=Neck placeholder="Neck (cm)" >
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-4 col-sm-12">
+													<div class="input-group-sm ">
+														<label><span class="">PM BP (sys/dia)</span></label>
+														<input class="form-control" type=text  name=PM_BP placeholder="PM BP" >
+													</div>
+												</div>
+												<div class="col-lg-4 col-sm-12">
+													<div class="input-group-sm ">
+														<label><span class="">Wake SpO<sup>2</sup> (%)</span></label>
+														<input class="form-control" type=number min=0 max=300 name=Wake_SpO2 placeholder="Wake SpO2 (%)" >
+													</div>
+												</div>
+												<div class="col-lg-4 col-sm-12">
+													<div class="input-group-sm ">
+														<label><span class="">Wake HR</span></label>
+														<input class="form-control" type=number min=30 max=200 name=Wake_HR placeholder="Wake HR" >
 													</div>
 												</div>
 											</div>
@@ -86,9 +124,23 @@
 										<fieldset class="subquestions">
 											<div class="row">
 												<div class="col-lg-12 col-sm-12">
-													<div><label><span class="">Comments</span></label></div>
 													<div class="input-group-sm ">
-														<textarea style='font-size:small' class="form-control" name=Comments readonly ></textarea>
+														<label><span class=""><u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=add_note__ID><i class="fa fa-plus"></i> Click here to add notes</u></span></label>
+														<textarea style="overflow:hidden" onkeyup="textAreaAdjust__ID(this)" class="form-control" id=Added_Note__ID placeholder="enter new notes here.." ></textarea>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-12 col-sm-12">
+													<div><label><span class="">Notes</span></label></div>
+													<div class="input-group-sm">
+														<textarea style='font-size:12px' class="form-control" name=Notes id=Notes__ID ></textarea>
 													</div>
 												</div>
 											</div>
@@ -105,6 +157,12 @@
 		</div>
 	</div>
     <script>
+		function textAreaAdjust__ID(o) {
+			console.log(o)
+			o.style.height = "1px";
+			o.style.height = (25+o.scrollHeight)+"px";
+		}
+			//-------------------------------------
     	function F__ID(){
     		//-------------------------------------
             VmInclude:__COMPONENT__/f/form.01.js
@@ -112,16 +170,35 @@
             old_load=m.load;
 			m.load=function(){
 				old_load();
-				$('#Date__ID').html(m.input.booking.Data.Date)
-				$('#Patient__ID').text(m.input.booking.Data.Patient + ", ")
-				$('#Item_Number_Procedure__ID').text(m.input.booking.Data.Item_Number_Procedure + ", ")
-				$('#Charge__ID').text(m.input.booking.Data.Charge)
-				if (m.input.booking.Data.Research_Project != "") {
-					$('#Research_Project__ID').text(", " + m.input.booking.Data.Research_Project)
+				if(m.input.booking!=undefined){
+					if(m.input.booking.Data!=undefined){
+						if(m.input.booking.Data.Date!=undefined) $('#Date__ID').html(m.input.booking.Data.Date)
+						if(m.input.booking.Data.Patient!=undefined) $('#Patient__ID').text("[ "+m.input.booking.Data.Patient + " ] ")
+						if(m.input.booking.Data.Item_Number_Procedure!=undefined) $('#Item_Number_Procedure__ID').text("[ "+m.input.booking.Data.Item_Number_Procedure + " ] ")
+						if(m.input.booking.Data.Charge!=undefined) $('#Charge__ID').text("[ "+m.input.booking.Data.Charge + "] ")
+						if(m.input.booking.Data.Research_Project!=undefined) {
+							if (m.input.booking.Data.Research_Project != "") {
+								$('#Research_Project__ID').text("[ "+ m.input.booking.Data.Research_Project + " ] ")
+							}
+						}
+					}
 				}
-				//console.log(JSON.stringify(m.input.booking.Data))
+				if(m.input.assign!=undefined){
+					if(m.input.assign.Data!=undefined){
+						if(m.input.assign.Data.Room!=undefined) $('#Room__ID').text("[ "+m.input.assign.Data.Room+ " ] ")
+						else $('#Room__ID').text("[ ] ");
+						if(m.input.assign.Data.Sleeptech!=undefined) $('#Sleeptech__ID').text("[ "+m.input.assign.Data.Sleeptech+ " ] ")
+						else $('#Sleeptech__ID').text("[ ] ")
+						if(m.input.assign.Data.Technical_Requirements!=undefined) {
+							var techreq=m.input.assign.Data.Technical_Requirements
+							techreq=techreq.replace(/\n/g,'<br>').replace(/\r/g,'')
+							$('#Technical_Requirements___ID').html("[ "+techreq+ " ] ")
+						}
+						else $('#Technical_Requirements___ID').html("[ ] ")
+					}
+				}
 			}
-			//-------------------------------------
+            //-------------------------------------
 			$('#visit__ID').on('click',function(){
 				var d = new Date();
 				var Hours,Minutes;
@@ -132,18 +209,28 @@
 				$('#Arrival_Time__ID').val(Hours+":"+Minutes);
 			});
 			//-------------------------------------
-			$('#add_comment__ID').on('click',function(){
+			$('#add_note__ID').on('click',function(){
 				var now_time=new Date();
 				now_time=now_time.toString().split(" ");
 				now_time=now_time[4];
 				var now_date=$vm.date_to_string_dmy(new Date());
-				var new_comments=$('#Add_Comment__ID').val();
-				if(new_comments!=""){
-					var old_comments=$('#F__ID textarea[name=Comments]').val()
-					if($('#F__ID textarea[name=Comments]').val()==undefined) old_comments="";
-					var comments=now_time+' '+now_date+" - "+$vm.user_name+"\n"+new_comments+"\n\n"+old_comments
-					$('#F__ID textarea[name=Comments]').val(comments)
-					$('#Add_Comment__ID').val("");
+				var new_notes=$('#Added_Note__ID').val();
+				if(new_notes!=""){
+					var old_notes=$('#F__ID textarea[name=Notes]').val()
+					if($('#F__ID textarea[name=Notes]').val()==undefined) old_notes="";
+					var notes=now_time+' '+now_date+" - "+$vm.user_name+"\n"+new_notes+"\n\n"+old_notes
+					$('#F__ID textarea[name=Notes]').val(notes)
+					var nota=1;
+					var note_row=0;
+					while(nota >= 0 ){
+						nota=notes.indexOf('\n');
+						if (nota>0) note_row++;
+						notes=notes.substring(nota+1)
+					}
+					if(old_notes!="") note_row++;
+					$('#Added_Note__ID').val("");
+					$('#Added_Note__ID').css('height','58px');
+					$('#Notes__ID').css('height',note_row*19+'px')
 				}
 				else $vm.alert("Please enter a comment")				
 			})
@@ -154,7 +241,6 @@
                 //index.I2=data.Time;
 
             }
-            //-------------------------------------
 		}
 		//-------------------------------
 
