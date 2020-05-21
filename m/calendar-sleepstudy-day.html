@@ -62,152 +62,79 @@
                 return;
             }
             //-----------------------
+            var assign_day=[];
+            var setup_day=[];
+            var scoring_day=[];
+            var report_day=[];
+            //--------------------------------------------------------
             for(var i=0;i<booking_rec.result.length;i++){
-                m.cell_render(booking_rec.result[i]);
-                //--------------------------------------------------------
                 if(assign_rec.result.length>0){
                     for(var j=0;j<assign_rec.result.length;j++){
                         if(booking_rec.result[i].UID==assign_rec.result[j].Data.booking_uid){
-                            m.cell_render_assign(assign_rec.result[j],booking_rec.result[i])
+                            assign_day=assign_rec.result[j];
                             break;
                         }
                         else if (j==assign_rec.result.length-1){
-                            m.cell_render_assign([],booking_rec.result[i])
+                            assign_day=[];
                         }
                     }
                 }
                 else {
-                    m.cell_render_assign([],booking_rec.result[i]);
+                    assign_day=[];
                 }
                 //--------------------------------------------------------
-                if(setup_rec.result.length>0 && assign_rec.result.length>0){
+                if(setup_rec.result.length>0){
                     for(var j=0;j<setup_rec.result.length;j++){
                         if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
-                            for (var k=0;k<assign_rec.result.length;k++){
-                                if(booking_rec.result[i].UID==assign_rec.result[k].Data.booking_uid){
-                                    console.log(JSON.stringify(setup_rec.result[j]));
-                                    m.cell_render_setup(setup_rec.result[j],assign_rec.result[k],booking_rec.result[i])
-                                    break;
-                                }
-                                else if (k==assign_rec.result.length-1){
-                                    m.cell_render_setup(setup_rec.result[j],[],booking_rec.result[i])
-                                }
-                                
-                            }
-                        }
-                        else if (j==setup_rec.result.length-1){
-                            m.cell_render_setup([],[],booking_rec.result[i])
-                        }                        
-                    }
-                }
-                else if(setup_rec.result.length>0 && assign_rec.result.length==0) {
-                    for(var j=0;j<setup_rec.result.length;j++){
-                        if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
-                            m.cell_render_setup(setup_rec.result[j],[],booking_rec.result[i])
+                            setup_day=setup_rec.result[j];
                             break;
                         }
                         else if (j==setup_rec.result.length-1){
-                            m.cell_render_setup([],[],booking_rec.result[i])
-                        }
-                    }
-                }
-                else if(assign_rec.result.length>0 && setup_rec.result.length==0) {
-                    for(var j=0;j<assign_rec.result.length;j++){
-                        if(booking_rec.result[i].UID==assign_rec.result[j].Data.booking_uid){
-                            m.cell_render_setup([],assign_rec.result[j],booking_rec.result[i])
-                            break;
-                        }
-                        else if (j==assign_rec.result.length-1){
-                            m.cell_render_setup([],[],booking_rec.result[i])
-                        }
-                    }
-                }
-                else{
-                    m.cell_render_setup([],[],booking_rec.result[i]);
-                }
-                //--------------------------------------------------------
-                if(scoring_rec.result.length>0 && setup_rec.result.length>0){
-                    console.log("A")
-                    for(var j=0;j<scoring_rec.result.length;j++){
-                        if(booking_rec.result[i].UID==scoring_rec.result[j].Data.booking_uid){
-                            console.log("B")
-                            for (var k=0;k<setup_rec.result.length;k++){
-                                console.log("C")
-                                if(booking_rec.result[i].UID==setup_rec.result[k].Data.booking_uid){
-                                    console.log(JSON.stringify(scoring_rec.result[j]));
-                                    m.cell_render_scoring(scoring_rec.result[j],setup_rec.result[k],booking_rec.result[i])
-                                    break;
-                                }
-                                else if (k==setup_rec.result.length-1){
-                                    console.log("E")
-                                    m.cell_render_scoring(scoring_rec.result[j],[],booking_rec.result[i])
-                                }
-                                
-                            }
-                        }
-                        else if (j==scoring_rec.result.length-1){
-                            m.cell_render_scoring([],[],booking_rec.result[i])
-                        }                        
-                    }
-                }
-                else if(scoring_rec.result.length>0 && setup_rec.result.length==0) {
-                    for(var j=0;j<scoring_rec.result.length;j++){
-                        if(booking_rec.result[i].UID==scoring_rec.result[j].Data.booking_uid){
-                            m.cell_render_scoring(scoring_rec.result[j],[],booking_rec.result[i])
-                            break;
-                        }
-                        else if (j==scoring_rec.result.length-1){
-                            m.cell_render_scoring([],[],booking_rec.result[i])
-                        }
-                    }
-                }
-                else if(setup_rec.result.length>0 && scoring_rec.result.length==0) {
-                    for(var j=0;j<setup_rec.result.length;j++){
-                        if(booking_rec.result[i].UID==setup_rec.result[j].Data.booking_uid){
-                            m.cell_render_scoring([],setup_rec.result[j],booking_rec.result[i])
-                            break;
-                        }
-                        else if (j==setup_rec.result.length-1){
-                            m.cell_render_scoring([],[],booking_rec.result[i])
-                        }
-                    }
-                }
-                else{
-                    m.cell_render_scoring([],[],booking_rec.result[i]);
-                }
-                //--------------------------------------------
-/*                if(scoring_rec.result.length>0){
-                    for(var j=0;j<scoring_rec.result.length;j++){
-                        if(booking_rec.result[i].UID==scoring_rec.result[j].Data.booking_uid){
-                            m.cell_render_scoring(scoring_rec.result[j],booking_rec.result[i])
-                            break;
-                        }
-                        else if (j==scoring_rec.result.length-1){
-                            m.cell_render_scoring([],booking_rec.result[i])
+                            setup_day=[];
                         }
                     }
                 }
                 else {
-                    m.cell_render_scoring([],booking_rec.result[i]);
+                    setup_day=[];
                 }
-  */              //--------------------------------------------------------
+                //--------------------------------------------------------
+                if(scoring_rec.result.length>0){
+                    for(var j=0;j<scoring_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==scoring_rec.result[j].Data.booking_uid){
+                            scoring_day=scoring_rec.result[j];
+                            break;
+                        }
+                        else if (j==scoring_rec.result.length-1){
+                            scoring_day=[];
+                        }
+                    }
+                }
+                else {
+                    scoring_day=[];
+                }
+                //--------------------------------------------------------
                 if(report_rec.result.length>0){
                     for(var j=0;j<report_rec.result.length;j++){
                         if(booking_rec.result[i].UID==report_rec.result[j].Data.booking_uid){
-                            m.cell_render_report(report_rec.result[j],booking_rec.result[i])
+                            report_day=report_rec.result[j];
                             break;
                         }
                         else if (j==report_rec.result.length-1){
-                            m.cell_render_report([],booking_rec.result[i])
+                            report_day=[];
                         }
                     }
                 }
                 else {
-                    m.cell_render_report([],booking_rec.result[i]);
+                    report_day=[];
                 }
+                //--------------------------------------------------------
 
+                m.cell_render(booking_rec.result[i]);
+                m.cell_render_assign(assign_day,booking_rec.result[i]);
+                m.cell_render_setup(setup_day,assign_day,booking_rec.result[i])
+                m.cell_render_scoring(scoring_day,setup_day,booking_rec.result[i])
+                m.cell_render_report(report_day,scoring_day,booking_rec.result[i]);
             }
-
         }
         //--------------------------------------------------------
         m.cell_render=function(record){
@@ -240,7 +167,7 @@
             if(record.length==0){
                 var item="<div id=addassign__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add new assignment</div>";
+                item+="<div>Click here to add assignment</div>";
                 item+="</div></div>"
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
@@ -274,11 +201,12 @@
             if(record.length==0){
                 var item="<div id=addsetup__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add new setup</div>";
+                item+="<div>Click here to add setup</div>";
                 item+="</div></div>"
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
                 $('#addsetup__ID'+booking.UID).on('click',function(){
+                    console.log("New Record")
                     $vm.load_module(m.setup,'',{assign:assign,booking:booking,goback:1});
                 });
                 //--------------------------------------------------------
@@ -295,19 +223,35 @@
                 comments=comments.replace(/\n/g,'<br>');
                 var eq="";
                 var mq=""
-                if(record.Data.Evening_Questionnaire=='on') eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
-                else eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
-                if(record.Data.Morning_Questionnaire=='on') mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
-                else mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+                var mq_color='#ff9d9d'
+                var eq_color='#ff9d9d'
+                if(record.Data.Evening_Questionnaire=='on') {
+                    eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                    eq_color='#68ff68'
+                }
+                else {
+                    eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+                    eq_color='#ff9d9d'
+                } 
+                if(record.Data.Morning_Questionnaire=='on') {
+                    mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                    mq_color='#68ff68'
+                }
+                else {
+                    mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+                    mq_color='#ff9d9d'
+                }
 
                 var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
                 item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div  >"+visit+"<br>"+eq+"Evening /"+mq+"Morning Questionnaire</div>";
+                item+="<div  style=background-color:"+mq_color+">"+mq+" Morning Questionnaire</div>";
+                item+="<div  style=background-color:"+eq_color+">"+eq+" Evening Questionnaire</div>";
                 item+="</div></div>"
                 //--------------------------------------------------------
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
+                    console.log("changing exisiting")
                     $vm.load_module(m.setup,'',{record:record,assign:assign,booking:booking,goback:1});
                 });
             }
@@ -318,7 +262,7 @@
                 if(record.length==0){
                 var item="<div id=addscoring__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add new scoring</div>";
+                item+="<div>Click here to add scoring</div>";
                 item+="</div></div>"
                 $('#scoring__ID').append(item);
                 //--------------------------------------------------------
@@ -330,39 +274,56 @@
             else{
                 var id=record._id;
                 console.log(JSON.stringify(record))
-                var comments=record.Data.Comments;
-                var visit=record.Data.Visit;
+                var scoring_status=record.Data.Scoring_Status;
+                var scorer=record.Data.Scorer;
+                var qaer=record.Data.QAd;
+
                 var color='#ffffff'
-                console.log("V :"+visit)
-                if(visit=='DNA') {color='#ff9d9d';visit='Did Not Arrive';}
-                if(visit=='Arrived') color='#68ff68';
-                comments=comments.replace(/\n/g,'<br>');
-                var eq="";
-                var mq=""
-                if(record.Data.Evening_Questionnaire=='on') eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
-                else eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
-                if(record.Data.Morning_Questionnaire=='on') mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
-                else mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
+                if(record.Data.QA=='on'){
+                    if(scoring_status=='Unscored') {color='#ff9d9d';}
+                    if(scoring_status=='Inprogress') {color='#ffd168';}
+                    if(scoring_status=='Scored') {color='#daff68';}
+                    if(scoring_status=='QAed') {color='#68ff68';}
+
+                }
+                else{
+                    if(scoring_status=='Unscored') {color='#ff9d9d';}
+                    if(scoring_status=='Inprogress') {color='#ffd168';}
+                    if(scoring_status=='Scored') {color='#68ff68';}
+                }
+                if(record.Data.Scoring_No=='on')  {color='#68ff68';scoring_status="No Scoring Needed"}
+                var score_date="";
+                if (record.Data.Scoring_status_log!=undefined){
+                    score_date=(record.Data.Scoring_status_log).split(' - ')
+                    score_date=score_date[score_date.length-2];
+                }
 
                 var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
                 item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div  >"+visit+"<br>"+eq+"Evening /"+mq+"Morning Questionnaire</div>";
+                item+="<div  >Scoring Status: "+scoring_status+"</div>";
+                if(score_date!="" && scoring_status!="No Scoring Needed"){
+                    item+="<div  >Last Change: "+score_date+"</div>";
+                }
+                item+="<div  >Scorer: "+scorer+"</div>";
+                if(record.Data.QA=='on'){
+                    item+="<div  >QAed by: "+qaer+"</div>";
+                }
                 item+="</div></div>"
                 //--------------------------------------------------------
                 $('#scoring__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
-                    $vm.load_module(m.scoring,'',{record:record,booking:booking_rec,goback:1});
+                    $vm.load_module(m.scoring,'',{record:record,booking:booking,goback:1});
                 });
             }
         }
         //--------------------------------------------------------
-        m.cell_render_report=function(record,booking_rec){
+        m.cell_render_report=function(record,scoring,booking_rec){
                 console.log(JSON.stringify(record))
                 if(record.length==0){
                 var item="<div id=addreport__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add new report</div>";
+                item+="<div>Click here to add report</div>";
                 item+="</div></div>"
                 $('#report__ID').append(item);
                 //--------------------------------------------------------

@@ -84,7 +84,7 @@
 														<fieldset>
 															<div><label>Scoring Status</label></div>
 															<label class="radiobuttons">
-																<input type="radio" name="Scoring_Status" value="Unscored" required>
+																<input type="radio" name="Scoring_Status" value="Unscored" checked required>
 																<span class="checkmark"></span> Unscored
 															</label><br>
 															<label class="radiobuttons">
@@ -217,13 +217,25 @@
 						else $('#setup_notes__ID').html("[ ] ")
 					}
 				}
-				$('#qa_option__ID').hide()
-				$('#qad__ID').hide()
+				//-------------------------------------
+				if($('#F__ID input[name=QA]:checked').val()=='on'){
+					$('#qa_option__ID').show();
+					$('#qad__ID').show();
+				}
+				else {
+					$('#qa_option__ID').hide();
+					$('#qad__ID').hide();
+				}
+				//-------------------------------------
 				$('#setup_notes__ID').hide()
+				//-------------------------------------
+				if($('#F__ID input[name=Scoring_No]:checked').val()=='on'){
+					$('#scoring_rb__ID').hide();
+				}
+				else $('#scoring_rb__ID').show();
 			}
             //-------------------------------------
 			$('#F__ID input[name=QA]').on('click',function(){
-				console.log($('#F__ID input[name=QA]:checked').val())
 				if($('#F__ID input[name=QA]:checked').val()=='on'){
 					$('#qa_option__ID').show();
 					$('#qad__ID').show();
@@ -235,7 +247,6 @@
 			});
             //-------------------------------------
 			$('#F__ID input[name=Scoring_No]').on('click',function(){
-				console.log($('#F__ID input[name=Scoring_No]:checked').val())
 				if($('#F__ID input[name=Scoring_No]:checked').val()=='on'){
 					$('#scoring_rb__ID').hide();
 				}

@@ -170,6 +170,8 @@
             old_load=m.load;
 			m.load=function(){
 				old_load();
+				console.log(JSON.stringify(m.input.booking.Data))
+				console.log(JSON.stringify(m.input.assign.Data))
 				if(m.input.booking!=undefined){
 					if(m.input.booking.Data!=undefined){
 						if(m.input.booking.Data.Date!=undefined) $('#Date__ID').html(m.input.booking.Data.Date)
