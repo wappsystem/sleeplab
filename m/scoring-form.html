@@ -24,7 +24,7 @@
 									<div class="questiongroup">
 										<fieldset class="">
 											<div>
-											<button type="button" id="show_hide_setup__ID" class="btn btn-primary mb-1 mt-0 mx-0 p-1">Show Setup Notes</button>
+											<button type="button" id="show_hide_setup__ID" class="btn btn-primary mb-1 mt-0 mx-0 p-1">Show Study Notes</button>
 										</div><div>
 											<label><span id=setup_notes__ID class=""></span></label>
 										</div>
@@ -212,9 +212,9 @@
 						if(m.input.setup.Data.Notes!=undefined) {
 							var notes=m.input.setup.Data.Notes
 							notes=notes.replace(/\n/g,'<br>').replace(/\r/g,'')
-							$('#setup_notes__ID').html("[ "+notes+ " ] ")
+							$('#setup_notes__ID').html(notes)
 						}
-						else $('#setup_notes__ID').html("[ ] ")
+						else $('#setup_notes__ID').html("")
 					}
 				}
 				//-------------------------------------

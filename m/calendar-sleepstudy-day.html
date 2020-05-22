@@ -133,7 +133,7 @@
                 m.cell_render_assign(assign_day,booking_rec.result[i]);
                 m.cell_render_setup(setup_day,assign_day,booking_rec.result[i])
                 m.cell_render_scoring(scoring_day,setup_day,booking_rec.result[i])
-                m.cell_render_report(report_day,scoring_day,booking_rec.result[i]);
+                m.cell_render_report(report_day,setup_day,scoring_day,booking_rec.result[i]);
             }
         }
         //--------------------------------------------------------
@@ -151,10 +151,12 @@
             var referral="";
             if(record.Data.Referral=='on') referral="<div style='background-color:#68ff68;color:"+$vm.whire_or_black_color('#68ff68')+"'>"+item_number+" - Ref: <i class='fas fa-check-circle'></i></div>";
             else referral="<div style='background-color:#ff9d9d;color:"+$vm.whire_or_black_color('#ff9d9d')+"'>"+item_number+" - Ref: <i class='fas fa-times-circle'></i></div>";
-            var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
-            item+="<div style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-            item+="<div  >"+name+"<br>"+referral+time+"<br>"+charge+research_project+"</div>";
-            item+="</div></div>"
+            var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+            item+='<div class="card-header p-1">'+name+'</div>'
+            item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+            item+="<div style='padding-left:3px; background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
+            item+="<div  >"+referral+time+"<br>"+charge+research_project+"</div>";
+            item+="</div></div></div>"
             //--------------------------------------------------------
             $('#booking__ID').append(item);
             //--------------------------------------------------------
@@ -163,17 +165,20 @@
             });
         }
         //--------------------------------------------------------
-        m.cell_render_assign=function(record,booking_rec){
+        m.cell_render_assign=function(record,booking){
+            var name=booking.Data.Patient;
             if(record.length==0){
-                var item="<div id=addassign__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
-                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=addassign__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div>Click here to add assignment</div>";
-                item+="</div></div>"
+                item+="</div></div></div>"
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
-                $('#addassign__ID'+booking_rec.UID).on('click',function(){
+                $('#addassign__ID'+booking.UID).on('click',function(){
                     //console.log(JSON.stringify(m))
-                    $vm.load_module(m.assign,'',{booking:booking_rec,goback:1});
+                    $vm.load_module(m.assign,'',{booking:booking,goback:1});
                 });
                 //--------------------------------------------------------
             }
@@ -183,10 +188,12 @@
                 var room=record.Data.Room;
                 var sleeptech=record.Data.Sleeptech;
                 var colour=record.Data.Colour;
-                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;' >";
-                item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;'  >";
+                item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div  >"+room+"<br>"+sleeptech+"</div>";
-                item+="</div></div>"
+                item+="</div></div></div>"
                 //console.log(item)
                 //--------------------------------------------------------
                 $('#assign__ID').append(item);
@@ -198,11 +205,14 @@
         }
         //--------------------------------------------------------
         m.cell_render_setup=function(record,assign,booking){
+            var name=booking.Data.Patient;
             if(record.length==0){
-                var item="<div id=addsetup__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
-                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=addsetup__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div>Click here to add setup</div>";
-                item+="</div></div>"
+                item+="</div></div></div>"
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
                 $('#addsetup__ID'+booking.UID).on('click',function(){
@@ -242,11 +252,13 @@
                     mq_color='#ff9d9d'
                 }
 
-                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
-                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div  style=background-color:"+mq_color+">"+mq+" Morning Questionnaire</div>";
                 item+="<div  style=background-color:"+eq_color+">"+eq+" Evening Questionnaire</div>";
-                item+="</div></div>"
+                item+="</div></div></div>"
                 //--------------------------------------------------------
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
@@ -258,12 +270,14 @@
         }
         //--------------------------------------------------------
         m.cell_render_scoring=function(record,setup,booking){
-                console.log(JSON.stringify(booking))
+                var name=booking.Data.Patient;
                 if(record.length==0){
-                var item="<div id=addscoring__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
-                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=addscoring__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div>Click here to add scoring</div>";
-                item+="</div></div>"
+                item+="</div></div></div>"
                 $('#scoring__ID').append(item);
                 //--------------------------------------------------------
                 $('#addscoring__ID'+booking.UID).on('click',function(){
@@ -273,7 +287,6 @@
             }
             else{
                 var id=record._id;
-                console.log(JSON.stringify(record))
                 var scoring_status=record.Data.Scoring_Status;
                 var scorer=record.Data.Scorer;
                 var qaer=record.Data.QAd;
@@ -296,68 +309,82 @@
                 if (record.Data.Scoring_status_log!=undefined){
                     score_date=(record.Data.Scoring_status_log).split(' - ')
                     score_date=score_date[score_date.length-2];
+                    if(score_date==undefined) score_date=" ";
                 }
 
-                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
-                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div  >Scoring Status: "+scoring_status+"</div>";
-                if(score_date!="" && scoring_status!="No Scoring Needed"){
+                if(scoring_status!="No Scoring Needed"){
                     item+="<div  >Last Change: "+score_date+"</div>";
+                    item+="<div  >Scorer: "+scorer+"</div>";
                 }
-                item+="<div  >Scorer: "+scorer+"</div>";
+
                 if(record.Data.QA=='on'){
                     item+="<div  >QAed by: "+qaer+"</div>";
                 }
-                item+="</div></div>"
+                item+="</div></div></div>"
                 //--------------------------------------------------------
                 $('#scoring__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
-                    $vm.load_module(m.scoring,'',{record:record,booking:booking,goback:1});
+                    $vm.load_module(m.scoring,'',{record:record,setup:setup,booking:booking,goback:1});
                 });
             }
         }
         //--------------------------------------------------------
-        m.cell_render_report=function(record,scoring,booking_rec){
-                console.log(JSON.stringify(record))
-                if(record.length==0){
-                var item="<div id=addreport__ID"+booking_rec.UID+" style='color:#000000;padding:5px;'  >";
-                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+        m.cell_render_report=function(record,setup,scoring,booking){
+            var name=booking.Data.Patient;
+            if(record.length==0){
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=addreport__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div>Click here to add report</div>";
-                item+="</div></div>"
+                item+="</div></div></div>"
                 $('#report__ID').append(item);
                 //--------------------------------------------------------
                 $('#addreport__ID'+booking_rec.UID).on('click',function(){
-                    $vm.load_module(m.report,'',{booking:booking_rec,goback:1});
+                    $vm.load_module(m.report,'',{setup:setup,scoring:scoring,booking:booking,goback:1});
                 });
                 //--------------------------------------------------------
             }
             else{
                 var id=record._id;
-                console.log(JSON.stringify(record))
-                var comments=record.Data.Comments;
-                var visit=record.Data.Visit;
+                var reporter=record.Data.Reporter;
+                var emailed=record.Data.Report_sent;
+                var reporting="";
+                var reported=""
                 var color='#ffffff'
-                console.log("V :"+visit)
-                if(visit=='DNA') {color='#ff9d9d';visit='Did Not Arrive';}
-                if(visit=='Arrived') color='#68ff68';
-                comments=comments.replace(/\n/g,'<br>');
-                var eq="";
-                var mq=""
-                if(record.Data.Evening_Questionnaire=='on') eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
-                else eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
-                if(record.Data.Morning_Questionnaire=='on') mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
-                else mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
-
-                var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;' >";
-                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-                item+="<div  >"+visit+"<br>"+eq+"Evening /"+mq+"Morning Questionnaire</div>";
-                item+="</div></div>"
-                //--------------------------------------------------------
+                if(record.Data.Reported=='on'){color='#68ff68';reported='Report ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';}
+                else if(reporter!=''){color='#ff9d9d';reported='Report NOT ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>';}
+                else { color='#ff9d9d';}
+                if(record.Data.Report_No=='on')  {color='#68ff68';reporting="No reporting needed"}
+                if(emailed!=""){
+                    es='Email sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                    es_color='#68ff68'
+                }
+                else{ 
+                    es='Email NOT sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>';
+                    es_color='#ff9d9d'
+                }
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
+                if(reporting==""){
+                    item+="<div  >"+reported+"</div>";
+                    item+="<div  >Reporting Physician: "+reporter+"</div>";
+                    item+="<div  style=background-color:"+es_color+">"+es+"</div>";
+                }
+                else item+="<div  >"+reporting+"</div>";;
+                item+="</div></div></div>"
                 $('#report__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
-                    $vm.load_module(m.report,'',{record:record,booking:booking_rec,goback:1});
+                    $vm.load_module(m.report,'',{record:record,setup:setup,scoring:scoring,booking:booking,goback:1});
                 });
             }
         }

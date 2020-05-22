@@ -1,144 +1,281 @@
 <div id=D__ID>
-    <section id=form_container__ID>
-    	<div id=header__ID>
-    		Report
-    	</div>
-    	<form id=F__ID>
-    		<div class="container">
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-3">
-    					<span>Date</span>
-    					<input type="text" class="form-control" id=Date__ID readonly />
+	<!--third html start -->
+	<div class="container mt-95 mb-3">
+		<div class="row">
+			<!-- form container start -->
+			<div class="col-12 col-lg-12 col-md-12 col-sm-12 mx-auto formbox">
+				<div class="row">
+					<div class="col-12">
+						<!-- form start -->
+						<form id="F__ID">
+							<h3>Report - <span id=Date__ID class="">Date</span></h3>
+							<div>
+								<div class="form-group">
+									<div class="questiongroup">
+										<fieldset class="subquestions">
+											<label><span id=Patient__ID class=""></span></label><br>
+											<label><span id=Item_Number_Procedure__ID class=""></span></label><br>
+											<label><span id=Charge__ID class=""></span></label><br>
+											<label><span id=Research_Project__ID class=""></span></label><br>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="questiongroup">
+										<fieldset class="">
+											<div>
+											<button type="button" id="show_hide_setup__ID" class="btn btn-primary mb-1 mt-0 mx-0 p-1">Show Study Notes</button>
+										</div><div>
+											<label><span id=setup_notes__ID class=""></span></label>
+										</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="questiongroup">
+										<fieldset class="">
+											<div>
+											<button type="button" id="show_hide_scoring__ID" class="btn btn-primary mb-1 mt-0 mx-0 p-1">Show Scoring Notes</button>
+										</div><div>
+											<label><span id=scoring_notes__ID class=""></span></label>
+										</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-6 col-sm-12">
+													<label class="checkboxes">
+														<input type="checkbox" class="form-control" name=Report_No />
+														<span class="check_checkmark"></span>Reporting NOT Required
+													</label>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div id=reporter__ID>
+									<div class="form-group ">
+										<div class="questiongroup ">
+											<fieldset class="subquestions">
+												<div class="row">
+													<div class="col-lg-8 col-sm-12">
+														<div><label><span class="">Reporting Physician</span></label></div>
+														<div class="input-group-sm ">
+															<input type="text" class="form-control" name=Reporter  placeholder="lookup..." />
+														</div>
+													</div>
+													<div class="col-lg-2 col-sm-12">
+														<div><label><span class="">Reporter ID</span></label></div>
+														<div class="input-group-sm">
+															<input type="text" class="form-control" name=Reporter_uid required readonly />
+														</div>
+													</div>	
+												</div>
+												<div>&nbsp;</div>
+												<div class="row">
+													<div class="col-lg-4 col-sm-12">
+														<label class="checkboxes">
+															<input type="checkbox" class="form-control" name=Reported />
+															<span class="check_checkmark"></span>Reported
+														</label>
+													</div>
+													<div class="col-lg-8 col-sm-12">
+														<div class="input-group-sm ">
+															<input type="text" class="form-control" name=Reported_time_date readonly />
+														</div>
+													</div>
+												</div>
+											</fieldset>
+										</div>
+									</div>
+								</div>
+								 <div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-12 col-sm-12">
+													<div class="input-group-sm ">
+														<label><span class=""><u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=add_note__ID><i class="fa fa-plus"></i> Click here to add notes</u></span></label>
+														<textarea style="overflow:hidden" onkeyup="textAreaAdjust__ID(this)" class="form-control" id=Added_Note__ID placeholder="enter new notes here.." ></textarea>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-12 col-sm-12">
+													<div><label><span class="">Notes</span></label></div>
+													<div class="input-group-sm">
+														<textarea style='font-size:12px' class="form-control" name=Notes id=Notes__ID ></textarea>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="questiongroup">
+										<fieldset class="">
+											<div>
+												<input type=text name="Report_sent" style='display:none' >
+												<button type="button" id="send_email__ID" class="btn btn-primary mb-1 mt-0 mx-0 p-1">Email Report</button>
+												<label><span id=report_sent__ID class=""> Not sent yet <i class='fas fa-times-circle'></i></span></label>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<button type="submit" id="submit__ID" class="btn btn-primary btn-lg">Submit</button>
+								<button id=delete__ID type="button" class="btn btn-primary btn-lg">Delete</button>
+							</div>
+						</form>
 					</div>
-    				<div class="col-sm col-lg-9">
-						<span>Patient</span>
-						<input type="text" class="form-control" id=Patient__ID readonly />
-    				</div>
 				</div>
-    			<div class="row" style='font-size:11px;padding-left:10px'>
-    				<div class="col">
-						<span><u id=patient_link2__ID style='cursor:pointer'>Patient's records</u></span>
-					</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-3" style='display:xnone'>
-    					<span>Item Number</span>
-    					<input type="text" class="form-control" id=Item_Number__ID  readonly />
-					</div>
-    				<div class="col-sm col-lg-9">
-						<span>Item Number - Procedure</span>
-						<input type="text" class="form-control" id=Item_Number_Procedure__ID readonly />
-    				</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-6">
-    					<span>Visit</span>
-						<select class="form-control" name=Visit >
-							<option ></option>
-							<option >Arrived</option>
-							<option >DNA</option>
-						</select>
-    				</div>
-					<div class="col-sm col-lg-6">
-						<span>Research Project</span>
-						<input type="text" class="form-control" id=Research_Project__ID readonly />
-					</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-6">
-    					<span>Evening Questionnaire Done</span>
-    					<input type="checkbox" class="form-control" style='width:20px' name=Evening_Questionnaire />
-    				</div>
-    				<div class="col-sm col-lg-6">
-    					<span>Morning Questionnaire Done</span>
-    					<input type="checkbox" class="form-control" style='width:20px' name=Morning_Questionnaire />
-    				</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col" style='display:xnone'>
-						<u style='cursor:pointer;margin-bottom:3px;display:inline-block' id=add_comment__ID><i class="fa fa-plus"></i> Click here to add comment</u>
-						<input type="text" class="form-control" id=Add_Comment__ID placeholder="enter new comments here" />
-					</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col">
-						<span>Comments</span>
-						<textarea style='font-size:small' class="form-control" name=Comments readonly ></textarea>
-    				</div>
-				</div>
-				<br>				
-    			<div class="row">
-    				<div class=col>
-    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
-    					<button id=delete__ID type="button" class="btn btn-secondary">Delete</button>
-    				</div>
-    			</div>
-    		</div>
-    	</form>
-    </section>
+			</div>
+		</div>
+	</div>
     <script>
-    	function F__ID(){
+		function textAreaAdjust__ID(o) {
+			console.log(o)
+			o.style.height = "1px";
+			o.style.height = (25+o.scrollHeight)+"px";
+		}
+		//-------------------------------------
+			VmInclude:__COMPONENT__/f/form.01.js
+		//-------------------------------------
+		function F__ID(){
     		//-------------------------------------
-            VmInclude:__COMPONENT__/f/form.01.js
-			VmInclude:__COMPONENT__/f/form-item-a.01.js
-    		//-------------------------------------
-			var $List1=$('#F__ID select[name=Time]');
-			for(var i=12;i<24;i++){
-				for(var j=0;j<2;j++){
-					var t1=i;    if(t1<10) t1="0"+t1
-					var t2=j*30; if(t2==0) t2="00";
-					var t=t1+":"+t2;
-					$List1.append(  $('<option></option>').val(t).html(t)  );
-				}
-			}
-			//-------------------------------------
-			var $List2=$('#F__ID select[name=Duration]');
-			for(var i=0;i<15;i++){
-				for(var j=0;j<2;j++){
-					var t1=i;    if(t1<10) t1="0"+t1
-					var t2=j*30; if(t2==0) t2="00";
-					var t=t1+":"+t2;
-					if(i==0 && j==0){} 
-					else $List2.append(  $('<option></option>').val(t).html(t)  );
-				}
-			}
-			//-------------------------------------
-            old_load=m.load;
+           old_load=m.load;
 			m.load=function(){
 				old_load();
-				$('#Date__ID').val(m.input.booking.Data.Date)
-				$('#Patient__ID').val(m.input.booking.Data.Patient)
-				$('#Item_Number__ID').val(m.input.booking.Data.Item_Number)
-				$('#Item_Number_Procedure__ID').val(m.input.booking.Data.Item_Number_Procedure)
-				$('#Research_Project__ID').val(m.input.booking.Data.Research_Project)
-				console.log(JSON.stringify(m.input.booking.Data))
-			}
-			//-------------------------------------
-			$('#patient_link2__ID').on('click',function(){
-				var uid=m.input.booking.UID;
-				if(uid==""){
-					$vm.alert("No patient was selected.");
-					return;
-				}
-				$vm.request({cmd:"find",table:m.Table3,query:{UID:parseInt(uid)}},function(res){
-					if(res.result.length==1){
-						$vm.load_module('patient-form','',{record:res.result[0]});
+				if(m.input.booking!=undefined){
+					if(m.input.booking.Data!=undefined){
+						if(m.input.booking.Data.Date!=undefined) $('#Date__ID').html(m.input.booking.Data.Date)
+						if(m.input.booking.Data.Patient!=undefined) $('#Patient__ID').text("[ "+m.input.booking.Data.Patient + " ] ")
+						if(m.input.booking.Data.Item_Number_Procedure!=undefined) $('#Item_Number_Procedure__ID').text("[ "+m.input.booking.Data.Item_Number_Procedure + " ] ")
+						if(m.input.booking.Data.Charge!=undefined) $('#Charge__ID').text("[ "+m.input.booking.Data.Charge + "] ")
+						if(m.input.booking.Data.Research_Project!=undefined) {
+							if (m.input.booking.Data.Research_Project != "") {
+								$('#Research_Project__ID').text("[ "+ m.input.booking.Data.Research_Project + " ] ")
+							}
+						}
 					}
-				});
-			})
-			//-------------------------------------
-			$('#add_comment__ID').on('click',function(){
+				}
+				if(m.input.setup!=undefined){
+					if(m.input.setup.Data!=undefined){
+						console.log(JSON.stringify(m.input.setup.Data))
+						if(m.input.setup.Data.Notes!=undefined) {
+							var notes=m.input.setup.Data.Notes
+							notes=notes.replace(/\n/g,'<br>').replace(/\r/g,'')
+							$('#setup_notes__ID').html(notes)
+						}
+						else $('#setup_notes__ID').html("")
+					}
+				}
+				if(m.input.scoring!=undefined){
+					if(m.input.scoring.Data!=undefined){
+						console.log(JSON.stringify(m.input.scoring.Data.Notes))
+						if(m.input.scoring.Data.Notes!=undefined) {
+							var notes=m.input.scoring.Data.Notes
+							notes=notes.replace(/\n/g,'<br>').replace(/\r/g,'')
+							$('#scoring_notes__ID').html(notes)
+						}
+						else $('#scoring_notes__ID').html("")
+					}
+				}
+				//-------------------------------------
+				$('#setup_notes__ID').hide()
+				$('#scoring_notes__ID').hide()
+				//-------------------------------------
+				if($('#F__ID input[name=Report_No]:checked').val()=='on'){
+					$('#reporter__ID').hide();
+				}
+				else $('#reporter__ID').show();
+			}
+            //-------------------------------------
+			$('#F__ID input[name=Reported]').on('click',function(){
 				var now_time=new Date();
 				now_time=now_time.toString().split(" ");
 				now_time=now_time[4];
 				var now_date=$vm.date_to_string_dmy(new Date());
-				var new_comments=$('#Add_Comment__ID').val();
-				if(new_comments!=""){
-					var old_comments=$('#F__ID textarea[name=Comments]').val()
-					if($('#F__ID textarea[name=Comments]').val()==undefined) old_comments="";
-					var comments=now_time+' '+now_date+" - "+$vm.user_name+"\n"+new_comments+"\n\n"+old_comments
-					$('#F__ID textarea[name=Comments]').val(comments)
-					$('#Add_Comment__ID').val("");
+				if($('#F__ID input[name=Reported]:checked').val()=='on'){
+					$('#F__ID input[name=Reported_time_date]').val($vm.user_name+' - '+now_time+' '+now_date)
+				}
+				else $('#reporter__ID').show();
+			});
+            //-------------------------------------
+			$('#F__ID input[name=Report_No]').on('click',function(){
+				if($('#F__ID input[name=Report_No]:checked').val()=='on'){
+					$('#reporter__ID').hide();
+				}
+				else $('#reporter__ID').show();
+			});
+            //-------------------------------------
+			$('#send_email__ID').on('click', function () {
+				if ($('#F__ID input[name=Report_sent]').val()!= undefined || $('#F__ID input[name=Report_sent]').val()=='') {
+					// Send email via flow with attachment
+					var now_time=new Date();
+					now_time=now_time.toString().split(" ");
+					now_time=now_time[4];
+					var now_date=$vm.date_to_string_dmy(new Date());
+					$('#F__ID textarea[name=Report_sent]').val(now_time+' '+now_date+" - "+$vm.user_name);
+					$('#report_sent__ID').html(" Sent "+now_time+' '+now_date+" - "+$vm.user_name+" <i class='fas fa-check-circle'></i>");
+				}
+				else {
+					$('#report_sent__ID').html(" Sent "+$('#F__IF input[name=Report_sent]').val()+"<i class='fas fa-check-circle'></i>");
+				}
+			});
+            //-------------------------------------
+			$('#show_hide_setup__ID').on('click', function () {
+				if ($('#show_hide_setup__ID').text() == 'Hide Study Notes') {
+				$('#show_hide_setup__ID').text('Show Study Notes');
+				$('#setup_notes__ID').hide();
+				}
+				else {
+				$('#show_hide_setup__ID').text('Hide Study Notes');
+				$('#setup_notes__ID').show();
+				}
+			});
+            //-------------------------------------
+			$('#show_hide_scoring__ID').on('click', function () {
+				if ($('#show_hide_scoring__ID').text() == 'Hide Scoring Notes') {
+				$('#show_hide_scoring__ID').text('Show scoring Notes');
+				$('#scoring_notes__ID').hide();
+				}
+				else {
+				$('#show_hide_scoring__ID').text('Hide Scoring Notes');
+				$('#scoring_notes__ID').show();
+				}
+			});
+			//-------------------------------------
+			$('#add_note__ID').on('click',function(){
+				var now_time=new Date();
+				now_time=now_time.toString().split(" ");
+				now_time=now_time[4];
+				var now_date=$vm.date_to_string_dmy(new Date());
+				var new_notes=$('#Added_Note__ID').val();
+				if(new_notes!=""){
+					var old_notes=$('#F__ID textarea[name=Notes]').val()
+					if($('#F__ID textarea[name=Notes]').val()==undefined) old_notes="";
+					var notes=now_time+' '+now_date+" - "+$vm.user_name+"\n"+new_notes+"\n\n"+old_notes
+					$('#F__ID textarea[name=Notes]').val(notes)
+					var nota=1;
+					var note_row=0;
+					while(nota >= 0 ){
+						nota=notes.indexOf('\n');
+						if (nota>0) note_row++;
+						notes=notes.substring(nota+1)
+					}
+					if(old_notes!="") note_row++;
+					$('#Added_Note__ID').val("");
+					$('#Added_Note__ID').css('height','58px');
+					$('#Notes__ID').css('height',note_row*19+'px')
 				}
 				else $vm.alert("Please enter a comment")				
 			})
@@ -149,7 +286,30 @@
                 //index.I2=data.Time;
 
             }
-            //-------------------------------------
+			//-------------------------------------
+			var autocomplete_req={cmd:"find",field:'.Data.Name',table:m.lookup,query:{},options:{},skip:0,limit:10}
+			var autocomplete_callback=function(item){
+				$('input[name=Reporter').val(item.label);
+				$('input[name=Reporter_uid').val(item.UID);
+			}
+			var autocomplete_list=function(records){
+				var items=[];
+				for(var i=0;i<records.length;i++){
+					var obj={};
+					obj.label=records[i].Data["Name"]+" - "+records[i].Data["Location"];
+					obj.UID=records[i].UID;
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait=function(){
+				$vm.autocomplete( $('#F__ID input[name=Reporter'),autocomplete_req,autocomplete_list,autocomplete_callback);
+			}
+			var I=0; var loop_2=setInterval(function (){
+				if($vm['jquery-ui-min-js']!=undefined){  clearInterval(loop_2); wait(); }
+				I++; if(I>50){ clearInterval(loop_2); alert("jquery-ui.min.js is not installed."); }
+			},100);
+			//-------------------------------------
 		}
 		//-------------------------------
 
@@ -158,7 +318,6 @@
         #form_container__ID{
             max-width:800px;
         }
-        VmInclude:__COMPONENT__/f/form.01.css
-        VmInclude:__COMPONENT__/f/form-item-a.01.css
+        VmInclude:__CURRENT_PATH__/wappsystem-form.css
     </style>
 </div>
