@@ -53,10 +53,12 @@
             if(record.Data.Referral=='on') referral="<div style='background-color:#68ff68;color:"+$vm.whire_or_black_color('#68ff68')+"'>"+item_number+" - Ref: <i class='fas fa-check-circle'></i></div>";
             else referral="<div style='background-color:#ff9d9d;color:"+$vm.whire_or_black_color('#ff9d9d')+"'>"+item_number+" - Ref: <i class='fas fa-times-circle'></i></div>";
             var $div=m.get_cell_div(date);
-            var item="<div id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+            var item="<div class='card text-white bg-secondary m-1''>"
+            item+='<div class="card-header p-1">'+name+'</div>'
+            item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
             item+="<div style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
-            item+="<div  >"+name+"<br>"+referral+time+"<br>"+charge+research_project+"</div>";
-            item+="</div></div>"
+            item+="<div  >"+referral+time+"<br>"+charge+research_project+"</div>";
+            item+="</div></div></div>"
             //--------------------------------------------------------
             $div.append(item);
             //--------------------------------------------------------
@@ -80,7 +82,7 @@
         #D__ID{
             background-color:#fff;
             font-size:13px;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Nunito Sans';
             height:100%;
             overflow: auto;
         }
@@ -88,7 +90,7 @@
             cursor:pointer;
             white-space:nowrap;
             position:relative;
-            height:80px; 
+            height:60px; 
             
         }
         .item__ID:hover{

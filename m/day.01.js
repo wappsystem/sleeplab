@@ -11,6 +11,7 @@ $('#refresh__ID').on('click', function(){	clear_page(); m.request_and_render();	
 //---------------------------------------------
 $('#date__ID').on('change',function(){
     m.ref=$vm.date_day_diff($vm.date_today(),$vm.date_yyyymmdd_parse($('#date__ID').val()));
+    clear_page();
     m.request_and_render();
 });
 //---------------------------------------------

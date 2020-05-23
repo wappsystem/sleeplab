@@ -57,31 +57,34 @@ m.calendar_render = function (html) {
             var row = "<div class=row__ID>";
             for (var j = 0; j < 7; j++) {
                   var idd = 'A' + id + '_' + i + '_' + j
+                  var idb = 'B' + id + '_' + i + '_' + j
                   var d = $vm.date_add_days(d0, -e + 7 * i + j)
                   var N = d.getDate();
                   var lcolor = "";
                   var col_class = 'col__ID';
                   if ((i == 0 && N > 20) || ((i == 5 || i == 4) && N < 15)) { lcolor = "color:#999"; col_class = "'col__ID not_this_month'"; }
                   var N = "<u id=" + idd + " style=cursor:pointer>" + N + "</u>";
-                  var weekday = "";
-                  if (j == 0) weekday = "<span class=weekday>Monday</span>";
-                  if (j == 1) weekday = "<span class=weekday>Tuesday</span>";
-                  if (j == 2) weekday = "<span class=weekday>Wednesday</span>";
-                  if (j == 3) weekday = "<span class=weekday>Thursday</span>";
-                  if (j == 4) weekday = "<span class=weekday>Friday</span>";
-                  if (j == 5) weekday = "<span class=weekday>Saturday</span>";
-                  if (j == 6) weekday = "<span class=weekday>Sunday</span>";
-                  if (d.getDate() == new Date().getDate() && d.getMonth() == new Date().getMonth()) row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + ";background-color:lightcoral'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container>" + html + "</div></div>";
-                  else row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + "'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container>" + html + "</div></div>";
+                  var weekday = "<span class=weekday>&nbsp;</span>";
+                  if (d.getDate() == new Date().getDate() && d.getMonth() == new Date().getMonth()) {
+                        row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + ";background-color:lightcoral'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container><div style='color:black;padding:3px;' class='item__ID' ><div id="+idb+" style='padding:3px; background-color:#fefefe;border-radius:3px;' > <i class='fas fa-plus'></i> </i></div></div></div></div>";            
+                  }
+                  else{ 
+                        row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + "'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container><div style='color:black;padding:3px;' class='item__ID' ><div id="+idb+" style='padding:3px; background-color:#fefefe;border-radius:3px;' > <i class='fas fa-plus'></i> </i></div></div></div></div>";
+                  }
             }
             row += "</div>";
             $('#body__ID').append(row);
             for (var j = 0; j < 7; j++) {
                   var d = $vm.date_add_days(d0, -e + 7 * i + j)
                   var idd = 'A' + id + '_' + i + '_' + j
+                  var idb = 'B' + id + '_' + i + '_' + j
                   $('#' + idd).data('d', d);
+                  $('#' + idb).data('d', d);
                   $('#' + idd).on('click', function () {
                         m.on_day_click_fun($vm.date_to_yyyymmdd($(this).data('d')));
+                  })
+                  $('#' + idb).on('click', function () {
+                        m.on_day_click_fun_booking($vm.date_to_yyyymmdd($(this).data('d')))
                   })
             }
       }
