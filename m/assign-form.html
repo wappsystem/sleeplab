@@ -13,7 +13,7 @@
 								<div class="form-group">
 									<div class="questiongroup">
 										<fieldset class="subquestions">
-											<label><span id=Patient__ID class="">Patient</span></label><br>
+											<label><span id=Patient__ID class=""></span></label><br>
 											<label><span id=Item_Number_Procedure__ID class=""></span></label><br>
 											<label><span id=Charge__ID class=""></span></label><br>
 											<label><span id=Research_Project__ID class=""></span></label><br>
@@ -95,31 +95,30 @@
 			old_load = m.load;
 			m.load = function () {
 				old_load();
-				console.log(JSON.stringify(m.input))
+				console.log(JSON.stringify(m.input.booking));
+				if(m.input.booking!=undefined){
+					console.log("BBBBBBBBBBBBBBBBBBBBBBBB")
+					if(m.input.booking.Data!=undefined){
+						console.log("AAAAAAAAAAAAAAAAAAAAAA")
+						if(m.input.booking.Data.Date!=undefined) $('#Date__ID').html(m.input.booking.Data.Date)
+						if(m.input.booking.Data.Patient!=undefined) $('#Patient__ID').text("[ "+m.input.booking.Data.Patient + " ] ")
+						if(m.input.booking.Data.Item_Number_Procedure!=undefined) $('#Item_Number_Procedure__ID').text("[ "+m.input.booking.Data.Item_Number_Procedure + " ] ")
+						if(m.input.booking.Data.Charge!=undefined) $('#Charge__ID').text("[ "+m.input.booking.Data.Charge + "] ")
+						if(m.input.booking.Data.Research_Project!=undefined) {
+							if (m.input.booking.Data.Research_Project != "") {
+								$('#Research_Project__ID').text("[ "+ m.input.booking.Data.Research_Project + " ] ")
+							}
+						}
+					}
+				}
 				$('input[name=Sleeptech').css('background-color','white');
 				$('input[name=Sleeptech').css('color','black');
-				$('#Date__ID').html(m.input.booking.Data.Date)
-				$('#Patient__ID').text(m.input.booking.Data.Patient + ", ")
-				$('#Item_Number_Procedure__ID').text(m.input.booking.Data.Item_Number_Procedure + ", ")
-				$('#Charge__ID').text(m.input.booking.Data.Charge)
-				if (m.input.booking.Data.Research_Project != "") {
-					$('#Research_Project__ID').text(", " + m.input.booking.Data.Research_Project)
-				}
 				if(m.input.record!=undefined) {
 					if (m.input.record.Data.Colour!=undefined)	{
 						$('input[name=Sleeptech').css('background-color',m.input.record.Data.Colour);
 						$('input[name=Sleeptech').css('color',$vm.whire_or_black_color(m.input.record.Data.Colour));
 					}
 				}
-
-				//-------------------------------------
-				dt1 = m.input.booking.Data.Date;
-				var sel_date = $vm.date_yyyymmdd_parse(dt1)
-				var now = new Date();
-				var ref = parseInt((sel_date.getTime() - now.getTime()) / 86400000);
-				if (sel_date.getTime() > now.getTime()) ref++;
-				dt2 = $vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(), ref + 1));
-				autocomplete_req2 = { cmd: "find", field: '.Data.Staffx', table: m.lookup2, query: { I1: { "$gte": dt1, "$lt": dt2 } }, options: {}, skip: 0, limit: 10 }
 			}
 			//-------------------------------------
 			m.before_submit = function (data, index) {

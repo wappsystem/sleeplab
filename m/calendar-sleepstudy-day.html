@@ -67,6 +67,20 @@
             var scoring_day=[];
             var report_day=[];
             //--------------------------------------------------------
+            var header=function(header_text){
+                var item="<div class='header__ID bg-secondary'>";
+                item+="<div class='card text-white bg-secondary m-1'>";
+                item+="<div class='card-header p-1'>"+header_text+"</div>";
+                item+="</div></div>"
+                return item;
+            }
+            //--------------------------------------------------------
+            $('#booking__ID').append(header('Booking'));
+            $('#assign__ID').append(header('Assign'));
+            $('#setup__ID').append(header('Setup/Study'));
+            $('#scoring__ID').append(header('Scoring'));
+            $('#report__ID').append(header('Reporting'));
+            //--------------------------------------------------------
             for(var i=0;i<booking_rec.result.length;i++){
                 if(assign_rec.result.length>0){
                     for(var j=0;j<assign_rec.result.length;j++){
@@ -127,8 +141,6 @@
                 else {
                     report_day=[];
                 }
-                //--------------------------------------------------------
-
                 m.cell_render(booking_rec.result[i]);
                 m.cell_render_assign(assign_day,booking_rec.result[i]);
                 m.cell_render_setup(setup_day,assign_day,booking_rec.result[i])
@@ -199,7 +211,7 @@
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
-                    $vm.load_module(m.assign,'',{record:record,booking:booking_rec,goback:1});
+                    $vm.load_module(m.assign,'',{record:record,booking:booking,goback:1});
                 });
             }
         }
