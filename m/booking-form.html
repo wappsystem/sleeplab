@@ -58,6 +58,7 @@
 												<div><label><span class="">Item Number - Procedure</span></label></div>
 												<div class="input-group-sm ">
 													<input type="text" class="form-control" name=Item_Number_Procedure  placeholder="lookup..." />
+													<input type="text" class="form-control" name=Item_Number style='display:none' />
 												</div>
 											</div>
 										</div>
@@ -344,6 +345,8 @@
 			$('input[name=Colour').val(item.Colour);
 			$('input[name=Item_Number_Procedure').css('background-color', $('#F__ID input[name=Colour]').val());
 			$('input[name=Item_Number_Procedure').css('color', $vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
+			var item2=item.label.split(' | ');
+			$('input[name=Item_Number').val(item2[0])
 		}
 		var autocomplete_list2 = function (records) {
 			var items = [];

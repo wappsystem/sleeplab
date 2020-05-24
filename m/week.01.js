@@ -45,12 +45,12 @@ m.set_ref();
 //---------------------------------------------
 m.get_cell_div = function (d) {
       var R = undefined;
-      $('#calendar__ID u').each(function () {
-            var ddd = $(this).data('d');
+      $('#calendar__ID i').each(function () {
+            var ddd = $(this).parent().data('d');
             if (ddd !== undefined) {
                   var sd = $vm.date_to_yyyymmdd(ddd)
                   if (sd === d) {
-                        R = $(this).parent().next().next();
+                        R = $(this).parent().parent();
                         return false;
                   }
             }
@@ -67,18 +67,7 @@ m.calendar_render = function (html) {
             for (var j = 0; j < 7; j++) {
                   var idd = 'A' + id + '_' + i + '_' + j
                   var d = $vm.date_add_days(m.first_day, j)
-                  var N = d.getDate();
-                  var N = "<u id=" + idd + " style=cursor:pointer><i class='fas fa-plus'></i></u>";
-                  var weekday = "";
-                  if (j == 0) weekday = "<span class=weekday>Monday</span>";
-                  if (j == 1) weekday = "<span class=weekday>Tuesday</span>";
-                  if (j == 2) weekday = "<span class=weekday>Wednesday</span>";
-                  if (j == 3) weekday = "<span class=weekday>Thursday</span>";
-                  if (j == 4) weekday = "<span class=weekday>Friday</span>";
-                  if (j == 5) weekday = "<span class=weekday>Saturday</span>";
-                  if (j == 6) weekday = "<span class=weekday>Sunday</span>";
-                  if (d.getDate() == new Date().getDate() && d.getMonth() == new Date().getMonth()) row += "<div class=col__ID><div class=day__ID style='background-color:lightcoral'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container__ID>" + html + "</div></div>";
-                  else row += "<div class=col__ID><div class=day__ID>" + N + "</div>" + weekday + "&nbsp;<div class=event_container__ID>" + html + "</div></div>";
+                  row += "<div class=col__ID><div class=event_container__ID><div style='color:black;padding:3px;'  ><div class='item__ID' id="+idd+" style='background-color:#fafafa;' > <i class='fas fa-plus'></i> </div></div></div></div>";
             }
             row += "</div>";
             $('#body__ID').append(row);

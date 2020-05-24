@@ -56,7 +56,7 @@
             var item="<div class='card text-white bg-secondary m-1''>"
             item+='<div class="card-header p-1">'+name+'</div>'
             item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
-            item+="<div style='padding-left:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;padding:3px;' class=item__ID >";
+            item+="<div style='background-color:"+color+";' class=item__ID >";
             item+="<div  >"+referral+time+"<br>"+charge+research_project+"</div>";
             item+="</div></div></div>"
             //--------------------------------------------------------
@@ -86,7 +86,9 @@
             height:100%;
             overflow: auto;
         }
-        .item__ID{           
+        .item__ID{      
+            padding-left:3px;
+            border-radius:3px;   
             cursor:pointer;
             white-space:nowrap;
             position:relative;
@@ -94,8 +96,8 @@
             
         }
         .item__ID:hover{
-            /*color:#dee2e6!Important;*/
-            opacity: 0.7;
+            border-style: solid;
+            border-width: 1px;
         }
         .event_container__ID{
             padding:10px;
