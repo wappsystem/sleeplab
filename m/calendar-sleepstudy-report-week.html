@@ -1,0 +1,170 @@
+<div id=D__ID>
+    <div>
+        VmInclude:__CURRENT_PATH__/week.01.html
+    </div>
+    <script>
+    function F__ID(){
+        //--------------------------------------------------------
+        VmInclude:__CURRENT_PATH__/week.01.noadd.js
+        //--------------------------------------------------------
+        m.start_point=0*60;
+        m.total_width=(24*60-m.start_point);
+    	m.on_day_click_fun=function(date){
+			$vm.load_module(m.booking,'',{day:date,goback:1})
+        }
+    	//--------------------------------------------------------
+        var request_count=0;
+        var booking_rec=[];
+        var report_rec=[];       
+    	//--------------------------------------------------------
+        m.request_and_render=function(){
+            var mt1=new Date().getTime();
+            var dt1=$vm.date_to_yyyymmdd(m.first_day);
+            var dt2=$vm.date_to_yyyymmdd($vm.date_add_days(m.last_day,1));
+            request_count=0;
+            $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                booking_rec=res;
+            });
+            $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                report_rec=res
+            });
+            check();
+        }           
+        //-----------------------
+        function check(){
+            if (request_count<2){
+                setTimeout(function(){
+                    //console.log(req_count)
+                    check();
+                },300);
+            }
+            else{
+                render_page()
+            }
+        }
+        //-----------------------
+        var render_page=function(){
+            m.calendar_render("");
+            var report_day=[];
+            for(var i=0;i<booking_rec.result.length;i++){
+                if(report_rec.result.length>0){
+                    for(var j=0;j<report_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==report_rec.result[j].Data.booking_uid){
+                            report_day=report_rec.result[j];
+                            break;
+                        }
+                        else if (j==report_rec.result.length-1){
+                            report_day=[];
+                        }
+                    }
+                }
+                else {
+                    report_day=[];
+                }
+                m.cell_render(booking_rec.result[i],report_day);
+            }
+                //--------------------------------------------------------
+        }
+
+        //--------------------------------------------------------
+        m.cell_render=function(booking,report){
+            var name=booking.Data.Patient;
+            var date=booking.Data.Date
+            var $div=m.get_cell_div(date);
+            if(report.length==0){
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=daily__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
+                item+="<div>Click here to add report</div>";
+                item+="</div></div></div>"
+                $div.append(item);
+                //--------------------------------------------------------
+                $('#daily__ID'+booking.UID).on('click',function(){
+                    var todays=$vm.date_yyyymmdd_parse(date)
+                    $vm.load_module("calendar-sleepstudy-day",'',{fromweek:$vm.date_to_yyyymmdd(todays)});;
+                });
+                //--------------------------------------------------------
+            }
+            else{
+                var id=report._id;
+                var reporter=report.Data.Reporter;
+                if(reporter!=undefined){
+                    reporter=reporter.split(' - ');
+                    reporter=reporter[0];
+                }   
+                var emailed=report.Data.Report_sent;
+                var reporting="";
+                var reported=""
+                var color='#ffffff'
+                if(report.Data.Reported=='on'){color='#68ff68';reported='Report ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';}
+                else if(reporter!=''){color='#ff9d9d';reported='Report NOT ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>';}
+                else { color='#ff9d9d';}
+                if(report.Data.Report_No=='on')  {color='#68ff68';reporting="No reporting needed"}
+                if(emailed!=""){
+                    es='Email sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                    es_color='#68ff68'
+                }
+                else{ 
+                    es='Email NOT sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>';
+                    es_color='#ff9d9d'
+                }
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
+                if(reporting==""){
+                    item+="<div  >"+reported+"</div>";
+                    item+="<div  >Reporter: "+reporter+"</div>";
+                    item+="<div  style=background-color:"+es_color+">"+es+"</div>";
+                }
+                else item+="<div  >"+reporting+"</div>";;
+                item+="</div></div></div>"
+                $div.append(item);
+                //--------------------------------------------------------
+                $('#item__ID'+id).on('click',function(){
+                    var todays=$vm.date_yyyymmdd_parse(date)
+                    $vm.load_module("calendar-sleepstudy-day",'',{fromweek:$vm.date_to_yyyymmdd(todays)});;
+                });
+            }
+        }
+        //--------------------------------------------------------
+        $('#D__ID').on('load',function(){
+            var a=$(window).height()-$('#body__ID').offset().top;
+            $('#body__ID').css("min-height",a)
+            m.request_and_render();
+        });
+        //--------------------------------------------------------
+        $('#D__ID').on('show',function(){  if($vm.refresh==1){$vm.refresh=0; m.request_and_render();}    });
+        //--------------------------------------------------------
+
+    }
+    </script>
+    <style>
+        #D__ID{
+            background-color:#fff;
+            font-size:13px;
+            font-family: 'Nunito Sans';
+            height:100%;
+            overflow: auto;
+        }
+        .item__ID{      
+            padding-left:3px;
+            border-radius:3px;   
+            cursor:pointer;
+            white-space:nowrap;
+            position:relative;
+            height:80px; 
+            
+        }
+        .item__ID:hover{
+            /*border-style: solid;*/
+            /*border-width: 1px;*/
+        }
+        .event_container__ID{
+            padding:10px;
+        }
+    </style>
+</div>

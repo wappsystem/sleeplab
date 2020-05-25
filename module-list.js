@@ -2,7 +2,9 @@
     //-------------------------------------------------------------------------------------
     var modules = {
         "calendar-sleepstudy-week": { url: "$H/m/calendar-sleepstudy-week.html", Table: "demo-wapp-booking", "booking": "booking-form", lookup: "demo-wapp-patient" },
-        "calendar-sleepstudy-week-hold": { url: "$H/m/calendar-sleepstudy-week-hold.html", Table: "demo-wapp-booking", "booking": "booking-form", lookup: "demo-wapp-patient" },
+        "calendar-sleepstudy-scoring-week": { url: "$H/m/calendar-sleepstudy-scoring-week.html", Table: "demo-wapp-booking", Table2: "demo-wapp-scoring", lookup: "demo-wapp-patient" },
+        "calendar-sleepstudy-report-week": { url: "$H/m/calendar-sleepstudy-report-week.html", Table: "demo-wapp-booking", Table2: "demo-wapp-report", lookup: "demo-wapp-patient" },
+        "calendar-sleepstudy-waiting-list": { url: "$H/m/calendar-sleepstudy-waiting-list.html", Table: "demo-wapp-booking",  "booking": "booking-form", lookup: "demo-wapp-patient" },
         "calendar-sleepstudy-month": { url: "$H/m/calendar-sleepstudy-month.html", Table: "demo-wapp-booking", "booking": "booking-form" },
         "calendar-sleepstudy-day": { url: "$H/m/calendar-sleepstudy-day.html", Table: "demo-wapp-booking", Table2: "demo-wapp-assign", Table3: "demo-wapp-setup", Table4: "demo-wapp-scoring", Table5: "demo-wapp-report", "booking": "booking-form", "assign": "assign-form", "setup": "setup-form", "scoring": "scoring-form", "report": "report-form" },
         "booking-form": { url: "$H/m/booking-form.html", Table: "demo-wapp-booking", lookup: "demo-wapp-patient", lookup2: "demo-wapp-diagnostic-procedure", lookup3: "demo-wapp-research-project", lookup4: "demo-wapp-physician" },

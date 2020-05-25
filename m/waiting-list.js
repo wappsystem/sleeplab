@@ -8,15 +8,9 @@ $('#refresh__ID').on('click', function () { m.request_and_render(); })
 $('#xnew__ID').on('click', function(){m.on_day_click_fun();})
 //---------------------------------------------
 m.set_ref = function () {
-      var d = $vm.first_day_of_current_week();
-      m.first_day = $vm.date_add_days(d, 7 * m.ref);
-      m.last_day = $vm.date_add_days(d, 7 * m.ref + 6);
-      var s = "Sleepstudies on hold";
+     var s = "Waiting list";
       $('#period__ID').text(s);
       var header=""
-      for(var i=0;i<7;i++){
-            header+="<div class='col_header__ID'"+i+" >&nbsp;</div>";
-      }
       $('#day_header__ID').html(header);
 }
 m.set_ref();

@@ -70,7 +70,7 @@ m.calendar_render = function (html) {
             for (var j = 0; j < 7; j++) {
                   var idd = 'A' + id + '_' + i + '_' + j
                   var d = $vm.date_add_days(m.first_day, j)
-                  row += "<div class=col__ID><div class=event_container__ID><div style='color:black;padding:3px;'  ><div class='item__ID' id="+idd+" style='background-color:#fafafa;' > <i class='fas fa-plus'></i> </div></div></div></div>";
+                  row += "<div class=col__ID><div class=event_container__ID><div style='color:black;padding:3px;'  ><div class='item__ID' id="+idd+" style='background-color:#fafafa;display:none' > <i class='fas fa-plus'></i> </div></div></div></div>";
             }
             row += "</div>";
             $('#body__ID').append(row);
