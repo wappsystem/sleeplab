@@ -1,17 +1,22 @@
 <div id=D__ID>
     <div>
-        VmInclude:__CURRENT_PATH__/week.01.html
+        VmInclude:__CURRENT_PATH__/month.02.html
     </div>
     <script>
     function F__ID(){
         //--------------------------------------------------------
-        VmInclude:__CURRENT_PATH__/week.01.noadd.js
+        VmInclude:__CURRENT_PATH__/month.02.noadd.js
         //--------------------------------------------------------
         m.start_point=0*60;
         m.total_width=(24*60-m.start_point);
+        //--------------------------------------------------------
     	m.on_day_click_fun=function(date){
+			$vm.load_module('calendar-sleepstudy-day','',{fromweek:date,goback:1})
+    	}
+    	//--------------------------------------------------------
+    	m.on_day_click_fun_booking=function(date){
 			$vm.load_module(m.booking,'',{day:date,goback:1})
-        }
+    	}
     	//--------------------------------------------------------
         var request_count=0;
         var booking_rec=[];
@@ -44,7 +49,7 @@
                 render_page()
             }
         }
-        //-----------------------
+        //--------------------------------------------------------
         var render_page=function(){
             m.calendar_render("");
             var scoring_day=[];
@@ -65,36 +70,18 @@
                 }
                 m.cell_render(booking_rec.result[i],scoring_day);
             }
-                //--------------------------------------------------------
         }
-
         //--------------------------------------------------------
         m.cell_render=function(booking,scoring){
-            var name=booking.Data.Patient;
-            var date=booking.Data.Date
+            var id=booking._id;
+            var date=booking.Data.Date;
+            var name=booking.Data.Patient; if(name===undefined) name="No name";
             var $div=m.get_cell_div(date);
             if(scoring.length==0){
-                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1">'+name+'</div>'
-                item+="<div class='card-body' id=daily__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
-                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div>No scoring information</div>";
-                item+="</div></div></div>"
-                $div.append(item);
-                //--------------------------------------------------------
-                $('#daily__ID'+booking.UID).on('click',function(){
-                    var todays=$vm.date_yyyymmdd_parse(date)
-                    $vm.load_module("calendar-sleepstudy-day",'',{fromweek:$vm.date_to_yyyymmdd(todays)});;
-                });
-                //--------------------------------------------------------
+                color='#ffffff';
             }
             else{
-                var id=scoring._id;
                 var scoring_status=scoring.Data.Scoring_Status;
-                var scorer=scoring.Data.Scorer;
-                var qaer=scoring.Data.QAd;
-
-                var color='#ffffff'
                 if(scoring.Data.QA=='on'){
                     if(scoring_status=='Unscored') {color='#ff9d9d';}
                     if(scoring_status=='Inprogress') {color='#ffd168';}
@@ -107,49 +94,25 @@
                     if(scoring_status=='Inprogress') {color='#ffd168';}
                     if(scoring_status=='Scored') {color='#68ff68';}
                 }
-                if(scoring.Data.Scoring_No=='on')  {color='#68ff68';scoring_status="No Scoring Needed"}
-                var score_date="";
-                if (scoring.Data.Scoring_status_log!=undefined){
-                    score_date=(scoring.Data.Scoring_status_log).split(' - ')
-                    score_date=score_date[score_date.length-2];
-                    if(score_date==undefined) score_date=" ";
-                }
-
-                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1">'+name+'</div>'
-                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
-                item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div  >Scoring Status: "+scoring_status+"</div>";
-                if(scoring_status!="No Scoring Needed"){
-                    item+="<div  >Last Change: "+score_date+"</div>";
-                    item+="<div  >Scorer: "+scorer+"</div>";
-                }
-
-                if(scoring.Data.QA=='on'){
-                    item+="<div  >QAed by: "+qaer+"</div>";
-                }
-                item+="</div></div></div>"
-                //--------------------------------------------------------
-                $div.append(item);
-                //--------------------------------------------------------
-                $('#item__ID'+id).on('click',function(){
-                    var todays=$vm.date_yyyymmdd_parse(date)
-                    $vm.load_module("calendar-sleepstudy-day",'',{fromweek:$vm.date_to_yyyymmdd(todays)});;
-                });
+                if(scoring.Data.Scoring_No=='on')  {color='#68ff68';}
             }
+            var item="<div style='color:"+$vm.whire_or_black_color(color)+";padding:3px;' class='item__ID' ><div id=item__ID"+id+" style='padding:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' > "+name+"</div></div>"
+            $div.append(item);
+            $('#item__ID'+id).on('click',function(){
+                m.on_day_click_fun(date)
+            });
         }
-
+        //--------------------------------------------------------
         //--------------------------------------------------------
         $('#D__ID').on('load',function(){
             var a=$(window).height()-$('#body__ID').offset().top;
-            $('#body__ID').css("min-height",a)
+            $('#body__ID').css("min-height",a);
             $('#name__ID').text('Scoring');
             m.request_and_render();
         });
         //--------------------------------------------------------
         $('#D__ID').on('show',function(){  if($vm.refresh==1){$vm.refresh=0; m.request_and_render();}    });
         //--------------------------------------------------------
-
     }
     </script>
     <style>
@@ -160,21 +123,19 @@
             height:100%;
             overflow: auto;
         }
-        .item__ID{      
-            padding-left:3px;
-            border-radius:3px;   
+        .item__ID{           
             cursor:pointer;
             white-space:nowrap;
             position:relative;
-            height:80px; 
+            /*height:20px; */
             
         }
         .item__ID:hover{
-            /*border-style: solid;*/
-            /*border-width: 1px;*/
+            background-color:#999;
         }
         .event_container__ID{
-            padding:10px;
         }
+
+
     </style>
 </div>
