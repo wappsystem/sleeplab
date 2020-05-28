@@ -1,0 +1,175 @@
+<div id=D__ID>
+    <div>
+        VmInclude:__CURRENT_PATH__/week.01.html
+    </div>
+    <script>
+        //--------------------------------------------------------
+        function F__IDallowDrop(ev) {
+            ev.preventDefault();
+            //console.log(ev)
+        }
+        //--------------------------------------------------------
+        function F__IDdrag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            ev.dataTransfer.dropEffect = "copy";
+            console.log("Drag: "+ ev.dataTransfer.dropEffect)
+        }
+        //--------------------------------------------------------
+        function F__IDdrop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+            console.log("Drop: "+data)
+            console.log(document.getElementById(data))
+        }
+        //--------------------------------------------------------
+        function F__ID() {
+            //--------------------------------------------------------
+            VmInclude: __CURRENT_PATH__/week.01.js
+            //--------------------------------------------------------
+            m.start_point = 0 * 60;
+            m.total_width = (24 * 60 - m.start_point);
+            m.on_day_click_fun = function (date) {
+                $vm.load_module(m.booking, '', { day: date, goback: 1 })
+            }
+            //--------------------------------------------------------
+            m.request_and_render = function () {
+                var mt1 = new Date().getTime();
+                var dt1 = $vm.date_to_yyyymmdd(m.first_day);
+                var dt2 = $vm.date_to_yyyymmdd($vm.date_add_days(m.last_day, 1));
+                $vm.request({ cmd: "find", table: m.Table, query: { I1: { "$gte": dt1, "$lt": dt2 } }, sort: { I1: 1, I2: 1 }, options: {} }, function (res) {
+                    if (res.permission == false) {
+                        alert("No permission to get booking information.");
+                        return;
+                    }
+                    //-----------------------
+                    var mt2 = new Date().getTime();
+                    var tt_all = mt2 - mt1;
+                    var tt_server = parseInt(res.sys.elapsed_time);
+                    if (tt_all < tt_server) tt_all = tt_server;
+                    $("#elapsed__ID").text((JSON.stringify(res.result).length / 1000).toFixed(1) + "kb/" + tt_all.toString() + "ms/" + tt_server + 'ms');
+                    //-----------------------
+                    m.calendar_render("");
+                    m.records = res.result;
+                    for (var i = 0; i < res.result.length; i++) {
+                        console.log(res.result[i])
+                        m.cell_render(res.result[i]);
+                    }
+                    $vm.request({ cmd: "find", table: m.Table2, query: { I1: { "$gte": dt1, "$lt": dt2 } }, sort: { I1: 1, I2: 1 }, options: {} }, function (res) {
+                        if (res.permission == false) {
+                            alert("No permission to get booking information.");
+                            return;
+                        }
+                        m.records = res.result;
+                        for (var i = 0; i < res.result.length; i++) {
+                            console.log(res.result[i])
+                            m.cell_render_roster(res.result[i]);
+                        }
+                    });
+                });
+            }
+            //--------------------------------------------------------
+            m.cell_render = function (record) {
+                var id = record._id;
+                var date = record.Data.Date;
+                var time = record.Data.Time;
+                var color = record.Data.Colour;
+                var name = record.Data.Patient;
+                var p_uid = record.Data.Patient_uid;
+                var item_number = record.Data.Item_Number_Procedure;
+                var charge = record.Data.Charge;
+                var research_project = record.Data.Research_Project;
+                if (research_project != undefined && research_project != "") research_project = " - " + research_project
+                var referral = "";
+                if (record.Data.Referral == 'on') referral = "<div style='background-color:#68ff68;color:" + $vm.whire_or_black_color('#68ff68') + "'>" + item_number + " - Ref: <i class='fas fa-check-circle'></i></div>";
+                else referral = "<div style='background-color:#ff9d9d;color:" + $vm.whire_or_black_color('#ff9d9d') + "'>" + item_number + " - Ref: <i class='fas fa-times-circle'></i></div>";
+                var $div = m.get_cell_div(date);
+                var item = "<div class='card text-white bg-secondary m-1''>"
+                item += '<div class="card-header p-1">' + item_number + '</div>'
+                item += "<div class='card-body' id=item__ID" + id + " style='color:" + $vm.whire_or_black_color(color) + ";padding:5px;'  ondrop='F__IDdrop(event)' ondragover='F__IDallowDrop(event)'  >";
+                item += "<div style='background-color:" + color + ";' class=item__ID >";
+                item += "</div></div></div>"
+                //--------------------------------------------------------
+                $div.append(item);
+                //--------------------------------------------------------
+                $('#item__ID' + id).on('click', function () {
+                    $vm.load_module(m.booking, '', { record: record });
+                });
+            }
+            //--------------------------------------------------------
+            m.cell_render_roster = function (record) {
+                var id = record._id;
+                var date = record.Data.Date;
+                var color = record.Data.Colour;
+                var name = record.Data.Staff;
+                var p_uid = record.Data.Staff_uid;
+                var $div = m.get_cell_div(date);
+                var item = "<div class='card text-white bg-secondary m-1' id=item_roster__ID" + id + "  draggable='true' ondragstart='F__IDdrag(event)'>"
+                //item+='<div class="card-header p-1">'+name+'</div>'
+                item += "<div class='card-body'  style='color:" + $vm.whire_or_black_color(color) + ";padding:5px;' >";
+                item += "<div style='background-color:" + color + ";' class=item_roster__ID >" + name;
+                item += "</div></div></div>"
+                //--------------------------------------------------------
+                $div.append(item);
+                //--------------------------------------------------------
+                $('#item_roster__ID' + id).on('click', function () {
+                    $vm.load_module(m.booking, '', { record: record });
+                });
+            }
+            //--------------------------------------------------------
+            $('#D__ID').on('load', function () {
+                var a = $(window).height() - $('#body__ID').offset().top;
+                $('#body__ID').css("min-height", a)
+                $('#name__ID').text('Booking');
+                m.request_and_render();
+            });
+            //--------------------------------------------------------
+            $('#D__ID').on('show', function () { if ($vm.refresh == 1) { $vm.refresh = 0; m.request_and_render(); } });
+            //--------------------------------------------------------
+
+        }
+    </script>
+    <style>
+        #D__ID {
+            background-color: #fff;
+            font-size: 13px;
+            font-family: 'Nunito Sans';
+            height: 100%;
+            overflow: auto;
+        }
+
+        .item__ID {
+            padding-left: 3px;
+            border-radius: 3px;
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            height: 60px;
+
+        }
+
+        .item_roster__ID {
+            padding-left: 3px;
+            border-radius: 3px;
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            height: 25px;
+
+        }
+
+        .item__ID:hover {
+            border-style: solid;
+            border-width: 1px;
+        }
+
+        .item_roster__ID:hover {
+            border-style: solid;
+            border-width: 1px;
+        }
+
+        .event_container__ID {
+            padding: 10px;
+        }
+    </style>
+</div>

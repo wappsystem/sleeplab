@@ -1,7 +1,7 @@
 (function () {
     //-------------------------------------------------------------------------------------
     var modules = {
-        "calendar-sleepstudy-week": { url: "$H/m/calendar-sleepstudy-week.html", Table: "demo-wapp-booking", "booking": "booking-form", lookup: "demo-wapp-patient" },
+        "calendar-sleepstudy-week": { url: "$H/m/calendar-sleepstudy-week.html", Table: "demo-wapp-booking", Table2: "demo-wapp-roster", "booking": "booking-form", lookup: "demo-wapp-patient" },
         "calendar-sleepstudy-scoring-week": { url: "$H/m/calendar-sleepstudy-scoring-week.html", Table: "demo-wapp-booking", Table2: "demo-wapp-scoring", lookup: "demo-wapp-patient" },
         "calendar-sleepstudy-report-week": { url: "$H/m/calendar-sleepstudy-report-week.html", Table: "demo-wapp-booking", Table2: "demo-wapp-report", lookup: "demo-wapp-patient" },
         "calendar-sleepstudy-waiting-list": { url: "$H/m/calendar-sleepstudy-waiting-list.html", Table: "demo-wapp-booking",  "booking": "booking-form", lookup: "demo-wapp-patient" },
@@ -9,6 +9,7 @@
         "calendar-sleepstudy-scoring-month": { url: "$H/m/calendar-sleepstudy-scoring-month.html", Table: "demo-wapp-booking", Table2: "demo-wapp-scoring" },
         "calendar-sleepstudy-report-month": { url: "$H/m/calendar-sleepstudy-report-month.html", Table: "demo-wapp-booking", Table2: "demo-wapp-report" },
         "calendar-sleepstudy-day": { url: "$H/m/calendar-sleepstudy-day.html", Table: "demo-wapp-booking", Table2: "demo-wapp-assign", Table3: "demo-wapp-setup", Table4: "demo-wapp-scoring", Table5: "demo-wapp-report", "booking": "booking-form", "assign": "assign-form", "setup": "setup-form", "scoring": "scoring-form", "report": "report-form" },
+        "calendar-sleepstudy-assign-day": { url: "$H/m/calendar-sleepstudy-assign-day.html", Table: "demo-wapp-booking", Table2: "demo-wapp-assign", Table3: "demo-wapp-roster", Table4: "demo-wapp-room", "booking": "booking-form", "assign": "assign-form", "setup": "setup-form", "scoring": "scoring-form", "report": "report-form" },
         "booking-form": { url: "$H/m/booking-form.html", Table: "demo-wapp-booking", lookup: "demo-wapp-patient", lookup2: "demo-wapp-diagnostic-procedure", lookup3: "demo-wapp-research-project", lookup4: "demo-wapp-physician" },
         "booking-data": { url: "$H/m/booking-data.html", Table: "demo-wapp-booking", form_module: "booking-form" },
         "setup-form": { url: "$H/m/setup-form.html", Table: "demo-wapp-setup", Table2: "demo-wapp-booking", Table3: "demo-wapp-patient" },

@@ -1,0 +1,283 @@
+<div id=D__ID>
+    <div>
+        VmInclude:__CURRENT_PATH__/day.01.html
+    </div>
+    <script>
+        //--------------------------------------------------------
+        function F__IDallowDrop(ev) {
+            ev.preventDefault();
+            //console.log(ev)
+        }
+        //--------------------------------------------------------
+        function F__IDdrag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            ev.dataTransfer.dropEffect = "copy";
+            console.log("Drag: "+ ev.dataTransfer.dropEffect)
+        }
+        //--------------------------------------------------------
+        function F__IDdrop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+            console.log("Drop: "+data)
+            console.log(document.getElementById(data))
+        }
+        //--------------------------------------------------------
+
+    function F__ID(){
+        //--------------------------------------------------------
+        VmInclude:__CURRENT_PATH__/day.01.js
+        //--------------------------------------------------------
+        m.start_point=0*60;
+        m.total_width=(36*60-m.start_point);
+    	//--------------------------------------------------------
+        var request_count=0;
+        var booking_rec=[];
+        var assign_rec=[];
+        var roster_rec=[];
+        var room_rec=[];
+    	//--------------------------------------------------------
+        m.request_and_render=function(){
+            request_count=0;
+            var dt1=$('#date__ID').val();
+            var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_today(),m.ref+1));
+            $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                booking_rec=res;
+            });
+            $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                assign_rec=res
+            });
+            $vm.request({cmd:"find",table:m.Table3,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                request_count++;
+                roster_rec=res.result;
+            });
+            $vm.request({cmd:"find",table:m.Table4,query:{},sort:{},options:{}},function(res){
+                request_count++;
+                room_rec=res.result;
+            });
+            check();
+        }
+        //-----------------------
+        function check(){
+            if (request_count<4){
+                setTimeout(function(){
+                    //console.log(req_count)
+                    check();
+                },500);
+            }
+            else{
+                render_page()
+            }
+        }
+        //-----------------------
+        var render_page=function(){
+            if(booking_rec.permission==false){
+                alert("No permission to get booking information.");
+                return;
+            }
+            //-----------------------
+            var assign_day=[];
+            //--------------------------------------------------------
+            var header=function(header_text){
+                var item="<div class='header__ID bg-secondary'>";
+                item+="<div class='card text-white bg-secondary m-1'>";
+                item+="<div class='card-header p-1'>"+header_text+"</div>";
+                item+="</div></div>"
+                return item;
+            }
+            //--------------------------------------------------------
+            $('#booking__ID').append(header('Booking'));
+            $('#assign__ID').append(header('Assign'));
+            $('#setup__ID').append(header('Staff'));
+            $('#scoring__ID').append(header('Room'));
+            //--------------------------------------------------------
+            for(var i=0;i<booking_rec.result.length;i++){
+                if(assign_rec.result.length>0){
+                    for(var j=0;j<assign_rec.result.length;j++){
+                        if(booking_rec.result[i].UID==assign_rec.result[j].Data.booking_uid){
+                            assign_day=assign_rec.result[j];
+                            break;
+                        }
+                        else if (j==assign_rec.result.length-1){
+                            assign_day=[];
+                        }
+                    }
+                }
+                else {
+                    assign_day=[];
+                }
+                m.cell_render(booking_rec.result[i]);
+                m.cell_render_assign(assign_day,booking_rec.result[i]);
+            }
+            m.cell_render_staff(roster_rec)
+            m.cell_render_room(room_rec)
+        }
+        //--------------------------------------------------------
+        m.cell_render=function(record){
+            var id=record._id;
+            var date=record.Data.Date;
+            var time=record.Data.Time;
+            var color=record.Data.Colour;
+            var name=record.Data.Patient;
+            var p_uid=record.Data.Patient_uid;
+            var item_number=record.Data.Item_Number;
+            var charge=record.Data.Charge;
+            var research_project=record.Data.Research_Project;
+            if(research_project!=undefined && research_project!="") research_project=" - "+research_project
+            var referral="";
+            if(record.Data.Referral=='on') referral="<div style='background-color:#68ff68;color:"+$vm.whire_or_black_color('#68ff68')+"'>"+item_number+" - Ref: <i class='fas fa-check-circle'></i></div>";
+            else referral="<div style='background-color:#ff9d9d;color:"+$vm.whire_or_black_color('#ff9d9d')+"'>"+item_number+" - Ref: <i class='fas fa-times-circle'></i></div>";
+            var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+            item+='<div class="card-header p-1">'+name+'</div>'
+            item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
+            item+="<div style='padding-left:3px; background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
+            item+="<div  >"+referral+time+"<br>"+charge+research_project+"</div>";
+            item+="</div></div></div>"
+            //--------------------------------------------------------
+            $('#booking__ID').append(item);
+            //--------------------------------------------------------
+            $('#item__ID'+id).on('click',function(){
+                $vm.load_module(m.booking,'',{record:record});
+            });
+        }
+        //--------------------------------------------------------
+        m.cell_render_assign=function(record,booking){
+            var name=booking.Data.Patient;
+            if(record.length==0){
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=addassign__ID"+booking.UID+" style='color:#000000;padding:5px;' ondrop='F__IDdrop(event)' ondragover='F__IDallowDrop(event)' >";
+                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
+                item+="</div></div></div>"
+                $('#assign__ID').append(item);
+                //--------------------------------------------------------
+                $('#addassign__ID'+booking.UID).on('click',function(){
+                    //console.log(JSON.stringify(m))
+                    $vm.load_module(m.assign,'',{booking:booking,goback:1});
+                });
+                //--------------------------------------------------------
+            }
+            else{
+                var id=record._id;
+                //console.log(JSON.stringify(record))
+                var room=record.Data.Room;
+                var sleeptech=record.Data.Sleeptech;
+                var colour=record.Data.Colour;
+                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;' ondrop='F__IDdrop(event)' ondragover='F__IDallowDrop(event)' >";
+                item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;padding:3px;' class=item__ID >";
+                item+="<div  >"+room+"<br>"+sleeptech+"</div>";
+                item+="</div></div></div>"
+                //console.log(item)
+                //--------------------------------------------------------
+                $('#assign__ID').append(item);
+                //--------------------------------------------------------
+                $('#item__ID'+id).on('click',function(){
+                    $vm.load_module(m.assign,'',{record:record,booking:booking,goback:1});
+                });
+            }
+        }
+        //--------------------------------------------------------
+        m.cell_render_staff=function(record){
+            for (var i=0;i<record.length;i++){
+                var id = record[i]._id+i;
+                var date = record[i].Data.Date;
+                var color = record[i].Data.Colour;
+                var name = record[i].Data.Staffx;
+                var p_uid = record[i].Data.Staff_uid;
+                var time=record[i].Data.Time;
+                var aa=time.split(':');
+                var duration=record[i].Data.Duration;
+                var bb=duration.split(':');
+                var endhours=parseInt(aa[0])+parseInt(bb[0]);
+                var endminutes=parseInt(aa[1])+parseInt(bb[1]);
+                if(endminutes>=60) {endhours++;endminutes=endminutes-60}
+                if(endhours>=24) endhours=endhours-24;
+                var leadingzeroh='';
+                var leadingzerom='';
+                if(endhours<10) leadingzeroh='0'
+                if(endminutes<10) leadingzerom='0'
+                var endtime=leadingzeroh+endhours.toString()+":"+leadingzerom+endminutes.toString();
+                var item = "<div class='card text-white bg-secondary m-1' id=item_roster__ID" + id + "  draggable='true' ondragstart='F__IDdrag(event)'>"
+                //item+='<div class="card-header p-1">'+name+'</div>'
+                item += "<div class='card-body'  style='color:" + $vm.whire_or_black_color(color) + ";padding:5px;' >";
+                item += "<div style='background-color:" + color + ";' class=item_roster__ID >"  +" "+time+"-"+endtime+" "+ name;
+                item += "</div></div></div>"
+                //--------------------------------------------------------
+                $('#setup__ID').append(item);
+                //--------------------------------------------------------
+                $('#item_roster__ID' + id).on('click', function () {
+                    $vm.load_module(m.booking, '', { record: record });
+                });
+            }
+        }
+        //--------------------------------------------------------
+        m.cell_render_room=function(record){
+            for (var i=0;i<record.length;i++){
+                var id = record[i]._id+i;
+                var room = record[i].Data.Room;
+                var item = "<div class='card text-white bg-secondary m-1' id=item_room__ID" + id + "  draggable='true' ondragstart='F__IDdrag(event)'>"
+                //item+='<div class="card-header p-1">'+name+'</div>'
+                item += "<div class='card-body'  style='color:" + $vm.whire_or_black_color('#68ff68') + ";padding:5px;' >";
+                item += "<div style='background-color:#68ff68;' class=item_roster__ID >" + room;
+                item += "</div></div></div>"
+                //--------------------------------------------------------
+                $('#scoring__ID').append(item);
+                //--------------------------------------------------------
+                $('#item_roster__ID' + id).on('click', function () {
+                    $vm.load_module(m.booking, '', { record: record });
+                });
+            }
+        }
+        //--------------------------------------------------------
+        var clear_page=function(){
+            $('#booking__ID').html('');
+            $('#assign__ID').html('');
+            $('#setup__ID').html('');
+            $('#scoring__ID').html('');
+        }
+        //--------------------------------------------------------
+        $('#D__ID').on('load',function(){
+            if(m.input.fromweek==undefined) m.input.fromweek=$vm.date_to_string_yyyymmdd(new Date())
+            $('#date__ID').val(m.input.fromweek);
+            var sel_date=$vm.date_yyyymmdd_parse(m.input.fromweek)
+            var now=d=new Date();
+            m.ref=parseInt((sel_date.getTime()-now.getTime())/86400000);
+            if(sel_date.getTime()>now.getTime()) m.ref++;
+            //console.log(sel_date+" "+now+" "+m.input.fromweek)
+            clear_page();
+            m.request_and_render();
+        });
+        //--------------------------------------------------------
+        $('#D__ID').on('show',function(){ if($vm.refresh==1){clear_page(); $vm.refresh=0; m.request_and_render();} });
+        //--------------------------------------------------------
+    }
+    </script>
+    <style>
+        #D__ID{
+            background-color:#fff;
+            font-size:13px;
+            font-family: Helvetica, Arial, sans-serif;
+            height:100%;
+            overflow: auto;
+        }
+        .item__ID{           
+            cursor:pointer;
+            white-space:nowrap;
+            position:relative;
+            height:80px;
+            
+        }
+        .item__ID:hover{
+            opacity: 0.7;
+        }
+        .event_container__ID{
+            padding-top:8px;
+        }
+
+
+    </style>
+</div>

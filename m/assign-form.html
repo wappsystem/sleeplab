@@ -93,13 +93,12 @@
 			var dt1, dt2;
 			var autocomplete_req2;
 			old_load = m.load;
+			//-------------------------
 			m.load = function () {
 				old_load();
 				console.log(JSON.stringify(m.input.booking));
 				if(m.input.booking!=undefined){
-					console.log("BBBBBBBBBBBBBBBBBBBBBBBB")
 					if(m.input.booking.Data!=undefined){
-						console.log("AAAAAAAAAAAAAAAAAAAAAA")
 						if(m.input.booking.Data.Date!=undefined) $('#Date__ID').html(m.input.booking.Data.Date)
 						if(m.input.booking.Data.Patient!=undefined) $('#Patient__ID').text("[ "+m.input.booking.Data.Patient + " ] ")
 						if(m.input.booking.Data.Item_Number_Procedure!=undefined) $('#Item_Number_Procedure__ID').text("[ "+m.input.booking.Data.Item_Number_Procedure + " ] ")
@@ -109,6 +108,9 @@
 								$('#Research_Project__ID').text("[ "+ m.input.booking.Data.Research_Project + " ] ")
 							}
 						}
+						dt1=m.input.booking.Data.Date;
+						dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
+						autocomplete_req2={cmd:"find",field:'.Data.Staffx',table:m.lookup2,query:{I1:{"$gte":dt1,"$lt":dt2}},options:{},skip:0,limit:10}						
 					}
 				}
 				$('input[name=Sleeptech').css('background-color','white');
@@ -148,7 +150,8 @@
 				I++; if (I > 50) { clearInterval(loop_1); alert("jquery-ui.min.js is not installed."); }
 			}, 100);
 			//-------------------------------------
-			//var autocomplete_req2={cmd:"find",field:'.Data.Staffx',table:m.lookup2,query:{I1:{"$gte":dt1,"$lt":dt2}},options:{},skip:0,limit:10}
+			//var autocomplete_req2;//={cmd:"find",field:'.Data.Staffx',table:m.lookup2,query:{I1:{"$gte":dt1,"$lt":dt2}},options:{},skip:0,limit:10}
+			//autocomplete_req2={cmd:"find",field:'.Data.Staffx',table:m.lookup2,query:{I1:{"$gte":"2020-05-28","$lt":"2020-05-29"}},options:{},skip:0,limit:10}
 			var autocomplete_callback2 = function (item) {
 				$('input[name=Sleeptech').val(item.label);
 				$('input[name=Sleeptech_uid').val(item.UID);
@@ -189,6 +192,7 @@
 				});
 			})
 			//-------------------------------------
+
 		}
 		//-------------------------------
 
