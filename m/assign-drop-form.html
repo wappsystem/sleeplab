@@ -96,7 +96,7 @@
 			//-------------------------
 			m.load = function () {
 				old_load();
-				console.log("ASSIGN: "+JSON.stringify(m.input));
+				//console.log("ASSIGN: "+JSON.stringify(m.input));
 				if(m.input.roster_uid!=undefined){
 					$vm.request({cmd:'find',table:m.Table2,query:{UID:parseInt(m.input.roster_uid)}},function(res){
 						if(res.result.length==1){

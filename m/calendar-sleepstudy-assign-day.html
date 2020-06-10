@@ -11,71 +11,41 @@
         m.start_point=0*60;
         m.total_width=(36*60-m.start_point);
         //--------------------------------------------------------
-        scrolling=function(){
-            var note = document.getElementById('D__ID');
-            var screenPosition = note.getBoundingClientRect();
-            console.log(screenPosition.top)
-        }
-        //--------------------------------------------------------
         roster_allowDrop=function(ev) {
             ev.preventDefault();
-            //console.log(ev)
         }
         //--------------------------------------------------------
         roster_drag=function(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
-            //ev.dataTransfer.dropEffect = "copy";
-            //console.log("Drag: "+ ev.dataTransfer.dropEffect)
-            //console.log("D: "+ ev.target.cloneNode(true))
-            
         }
         //--------------------------------------------------------
         roster_drop=function(ev) {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
-            console.log(data)
-            //ev.target.appendChild(document.getElementById(data));
-            //var data=ev.dataTransfer.getData("text");
-            /* If you use DOM manipulation functions, their default behaviour it not to 
-                copy but to alter and move elements. By appending a ".cloneNode(true)", 
-                you will not move the original element, but create a copy. */
             var record_uid=data.split('_');
             var roster_uid;
             var room_uid;
             if(record_uid[1]=='roster'){
                 roster_uid=record_uid[3];
                 var nodeCopy = document.getElementById(data).cloneNode(true);
-                //nodeCopy.id = "newId"; /* We cannot use the same ID */
                 ev.target.appendChild(nodeCopy)
-                //var form=ev.dataTransfer.getData("data-name");
                 var form=ev.target.parentNode.id //(Booking UID)
                 var form1=form.split('_');
                 if(form1.length<2) form=ev.target.parentNode.parentNode.id
                 form=form.split('_');
                 var booking_uid=form[2];
                 var assign_uid=form[3];
-                console.log("Z "+ev.target.id)
-                console.log("A "+ev.target.parentNode.id)
-                console.log("B "+ev.target.parentNode.parentNode.id)
-                console.log("C "+ev.target.parentNode.parentNode.parentNode.id)
-                console.log("D "+ev.target.parentNode.parentNode.parentNode.parentNode.id)
-                console.log("BID: "+booking_uid)
-                console.log("AID: "+assign_uid)
                 if(booking_uid!=undefined){
                     if(assign_uid!=undefined){
                         $vm.request({cmd:'find',table:m.Table2,query:{UID:parseInt(assign_uid)}},function(res){
                             var records;
                             if(res.result.length>0){
                                 records=res.result[0];
-                                console.log(res.result)
-                                //$vm.request({cmd:'update',table:m.Table2,data:data},function(res){
                                 $vm.load_module(m.assign_drop,'',{record:records,b_date:$('#date__ID').val(),booking_uid:booking_uid,roster_uid:roster_uid,goback:1});
                             }
                         })
                     }
                     else{
-                        console.log(assign_uid)
-                        //console.log(JSON.stringify(records.Data));
                         $vm.load_module(m.assign_drop,'',{record:[],b_date:$('#date__ID').val(),booking_uid:booking_uid,roster_uid:roster_uid,goback:1});
                     }
                 }
@@ -84,14 +54,6 @@
                 }
             }
             else if(record_uid[1]=='room'){
-                //console.log(data)
-                //ev.target.appendChild(document.getElementById(data));
-                //console.log(data)
-                console.log("Z "+ev.target.id)
-                console.log("A "+ev.target.parentNode.id)
-                console.log("B "+ev.target.parentNode.parentNode.id)
-                console.log("C "+ev.target.parentNode.parentNode.parentNode.id)
-                console.log("D "+ev.target.parentNode.parentNode.parentNode.parentNode.id)
                 room_uid=record_uid[3];
                 var form=ev.target.parentNode.id //(Booking UID)
                 var form1=form.split('_');
@@ -99,28 +61,21 @@
                 form=form.split('_');
                 var booking_uid=form[2];
                 var assign_uid=form[3];
-                console.log("BID: "+booking_uid)
-                console.log("AID: "+assign_uid)
                 if(booking_uid!=undefined){
                     if(assign_uid!=undefined){
                         $vm.request({cmd:'find',table:m.Table2,query:{UID:parseInt(assign_uid)}},function(res){
                             var records;
                             if(res.result.length>0){
                                 records=res.result[0];
-                                console.log(res.result)
-                                //$vm.request({cmd:'update',table:m.Table2,data:data},function(res){
                                 $vm.load_module(m.assign_drop,'',{record:records,b_date:$('#date__ID').val(),booking_uid:booking_uid,room_uid:room_uid,goback:1});
                             }
                         })
                     }
                     else{
-                        console.log()
-                        //console.log(JSON.stringify(records.Data));
                         $vm.load_module(m.assign_drop,'',{record:[],b_date:$('#date__ID').val(),booking_uid:booking_uid,room_uid:room_uid,goback:1});
                     }
                 }
                 else{
-                   // $vm.load_module(m.assign_drop,'',{b_date:$('#date__ID').val(),booking_uid:booking_uid,room_uid:room_uid,goback:1});
                 }
             } 
         }
@@ -364,11 +319,6 @@
                 var screenPosition = note.getBoundingClientRect();
                 $("#ass1__ID").css('padding-top',100-screenPosition.top);
                 $("#ass2__ID").css('padding-top',100-screenPosition.top);
-
-                //var y=-$(window).scrollTop()/2;
-                //$('body').css({ 'background-position-y': y+'px'});
-                //var r=-y/100; if(r>0.5) r=0.5;
-                //$("#header").css("background","rgba(0,0,0,"+r+")");
             }
         });
         //--------------------------------------------------------
