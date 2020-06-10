@@ -1,0 +1,133 @@
+<div id=D__ID>
+	<!--third html start -->
+	<div class="container mt-95 mb-3">
+		<div class="row">
+			<!-- form container start -->
+			<div class="col-12 col-lg-12 col-md-12 col-sm-12 mx-auto formbox">
+				<div class="row">
+					<div class="col-12">
+						<!-- form start -->
+						<form id="F__ID">
+							<h3>Assign room and sleeptech - <span id=Date__ID class="">Date</span></h3>
+							<div>
+								<div class="form-group">
+									<div class="questiongroup">
+										<fieldset class="subquestions">
+											<label><span id=Patient__ID class=""></span></label><br>
+											<label><span id=Item_Number_Procedure__ID class=""></span></label><br>
+											<label><span id=Charge__ID class=""></span></label><br>
+											<label><span id=Research_Project__ID class=""></span></label><br>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-4 col-sm-12">
+													<div><label><span class="">Room</span></label></div>
+													<div class="input-group-sm ">
+														<input type="text" class="form-control input-sm" name=Room
+															placeholder="lookup..." />
+													</div>
+												</div>
+												<div class="col-lg-6 col-sm-12">
+													<div><label><span class="">Sleeptech</span></label></div>
+													<div class="input-group-sm">
+														<input type="text" class="form-control input-sm" name=Sleeptech
+															placeholder="lookup..." />
+													</div>
+												</div>
+												<div class="col-lg-2 col-sm-12">
+													<div><label><span class="">ID</span></label></div>
+													<div class="input-group-sm">
+														<input type="text" class="form-control input-sm"
+															name=Sleeptech_uid readonly />
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group" style='display:none!important'>
+									<div class="questiongroup ">
+										<fieldset class="">
+											<div class="row">
+												<div class="col-lg-4 col-sm-12" >
+													<label id=colour__ID><span class="">Colour</span>
+														<input type="text" class="form-control" name=Colour readonly />
+													</label><br>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-12 col-sm-12">
+													<div><label><span class="">Technical Requirements</span></label></div>
+													<div class="input-group-sm ">
+														<textarea style='font-size:small' class="form-control" name=Technical_Requirements ></textarea>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>	
+								<button type="submit" id="submit__ID" class="btn btn-primary btn-lg">Submit</button>
+								<button id=delete__ID type="button" class="btn btn-primary btn-lg">Delete</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function F__ID() {
+			//-------------------------------------
+			VmInclude: __COMPONENT__/f/form.01.js
+			//-------------------------------------
+			var dt1, dt2;
+			var autocomplete_req2;
+			old_load = m.load;
+			//-------------------------
+			m.load = function () {
+				old_load();
+				console.log("ASSIGN: "+JSON.stringify(m.input));
+				if(m.input.roster_uid!=undefined){
+					$vm.request({cmd:'find',table:m.Table2,query:{UID:parseInt(m.input.roster_uid)}},function(res){
+						if(res.result.length==1){
+							$('input[name=Sleeptech').css('background-color',res.result[0].Data.Colour);
+							$('input[name=Sleeptech').css('color',$vm.whire_or_black_color(res.result[0].Data.Colour));
+							$('input[name=Sleeptech').val(res.result[0].Data.Staffx);
+							$('input[name=Sleeptech_uid').val(res.result[0].Data.Staff_uid);
+							$('input[name=Colour').val(res.result[0].Data.Colour);
+							$('#submit__ID').click();
+						}
+					});
+				}
+				if(m.input.room_uid!=undefined){
+					$vm.request({cmd:'find',table:m.Table3,query:{UID:parseInt(m.input.room_uid)}},function(res){
+						if(res.result.length==1){
+							$('input[name=Room').val(res.result[0].Data.Room);
+							$('#submit__ID').click();
+						}
+					});
+				}
+			}
+			//-------------------------------------
+			m.before_submit = function (data, index) {
+				data.booking_uid = m.input.booking_uid;
+				index.I1 = m.input.b_date;
+			}
+		}
+		//-------------------------------
+
+	</script>
+	<style>
+		VmInclude:__CURRENT_PATH__/wappsystem-form.css
+	</style>
+</div>

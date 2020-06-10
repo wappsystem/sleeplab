@@ -1,28 +1,8 @@
-<div id=D__ID>
-    <div>
+<div id=D__ID >
+    <div >
         VmInclude:__CURRENT_PATH__/day.01.html
     </div>
     <script>
-        //--------------------------------------------------------
-        function F__IDallowDrop(ev) {
-            ev.preventDefault();
-            //console.log(ev)
-        }
-        //--------------------------------------------------------
-        function F__IDdrag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-            ev.dataTransfer.dropEffect = "copy";
-            console.log("Drag: "+ ev.dataTransfer.dropEffect)
-        }
-        //--------------------------------------------------------
-        function F__IDdrop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-            console.log("Drop: "+data)
-            console.log(document.getElementById(data))
-        }
-        //--------------------------------------------------------
 
     function F__ID(){
         //--------------------------------------------------------
@@ -30,7 +10,121 @@
         //--------------------------------------------------------
         m.start_point=0*60;
         m.total_width=(36*60-m.start_point);
-    	//--------------------------------------------------------
+        //--------------------------------------------------------
+        scrolling=function(){
+            var note = document.getElementById('D__ID');
+            var screenPosition = note.getBoundingClientRect();
+            console.log(screenPosition.top)
+        }
+        //--------------------------------------------------------
+        roster_allowDrop=function(ev) {
+            ev.preventDefault();
+            //console.log(ev)
+        }
+        //--------------------------------------------------------
+        roster_drag=function(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            //ev.dataTransfer.dropEffect = "copy";
+            //console.log("Drag: "+ ev.dataTransfer.dropEffect)
+            //console.log("D: "+ ev.target.cloneNode(true))
+            
+        }
+        //--------------------------------------------------------
+        roster_drop=function(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            console.log(data)
+            //ev.target.appendChild(document.getElementById(data));
+            //var data=ev.dataTransfer.getData("text");
+            /* If you use DOM manipulation functions, their default behaviour it not to 
+                copy but to alter and move elements. By appending a ".cloneNode(true)", 
+                you will not move the original element, but create a copy. */
+            var record_uid=data.split('_');
+            var roster_uid;
+            var room_uid;
+            if(record_uid[1]=='roster'){
+                roster_uid=record_uid[3];
+                var nodeCopy = document.getElementById(data).cloneNode(true);
+                //nodeCopy.id = "newId"; /* We cannot use the same ID */
+                ev.target.appendChild(nodeCopy)
+                //var form=ev.dataTransfer.getData("data-name");
+                var form=ev.target.parentNode.id //(Booking UID)
+                var form1=form.split('_');
+                if(form1.length<2) form=ev.target.parentNode.parentNode.id
+                form=form.split('_');
+                var booking_uid=form[2];
+                var assign_uid=form[3];
+                console.log("Z "+ev.target.id)
+                console.log("A "+ev.target.parentNode.id)
+                console.log("B "+ev.target.parentNode.parentNode.id)
+                console.log("C "+ev.target.parentNode.parentNode.parentNode.id)
+                console.log("D "+ev.target.parentNode.parentNode.parentNode.parentNode.id)
+                console.log("BID: "+booking_uid)
+                console.log("AID: "+assign_uid)
+                if(booking_uid!=undefined){
+                    if(assign_uid!=undefined){
+                        $vm.request({cmd:'find',table:m.Table2,query:{UID:parseInt(assign_uid)}},function(res){
+                            var records;
+                            if(res.result.length>0){
+                                records=res.result[0];
+                                console.log(res.result)
+                                //$vm.request({cmd:'update',table:m.Table2,data:data},function(res){
+                                $vm.load_module(m.assign_drop,'',{record:records,b_date:$('#date__ID').val(),booking_uid:booking_uid,roster_uid:roster_uid,goback:1});
+                            }
+                        })
+                    }
+                    else{
+                        console.log(assign_uid)
+                        //console.log(JSON.stringify(records.Data));
+                        $vm.load_module(m.assign_drop,'',{record:[],b_date:$('#date__ID').val(),booking_uid:booking_uid,roster_uid:roster_uid,goback:1});
+                    }
+                }
+                else{
+                    ev.target.removeChild(nodeCopy)
+                }
+            }
+            else if(record_uid[1]=='room'){
+                //console.log(data)
+                //ev.target.appendChild(document.getElementById(data));
+                //console.log(data)
+                console.log("Z "+ev.target.id)
+                console.log("A "+ev.target.parentNode.id)
+                console.log("B "+ev.target.parentNode.parentNode.id)
+                console.log("C "+ev.target.parentNode.parentNode.parentNode.id)
+                console.log("D "+ev.target.parentNode.parentNode.parentNode.parentNode.id)
+                room_uid=record_uid[3];
+                var form=ev.target.parentNode.id //(Booking UID)
+                var form1=form.split('_');
+                if(form1.length<2) form=ev.target.parentNode.parentNode.id
+                form=form.split('_');
+                var booking_uid=form[2];
+                var assign_uid=form[3];
+                console.log("BID: "+booking_uid)
+                console.log("AID: "+assign_uid)
+                if(booking_uid!=undefined){
+                    if(assign_uid!=undefined){
+                        $vm.request({cmd:'find',table:m.Table2,query:{UID:parseInt(assign_uid)}},function(res){
+                            var records;
+                            if(res.result.length>0){
+                                records=res.result[0];
+                                console.log(res.result)
+                                //$vm.request({cmd:'update',table:m.Table2,data:data},function(res){
+                                $vm.load_module(m.assign_drop,'',{record:records,b_date:$('#date__ID').val(),booking_uid:booking_uid,room_uid:room_uid,goback:1});
+                            }
+                        })
+                    }
+                    else{
+                        console.log()
+                        //console.log(JSON.stringify(records.Data));
+                        $vm.load_module(m.assign_drop,'',{record:[],b_date:$('#date__ID').val(),booking_uid:booking_uid,room_uid:room_uid,goback:1});
+                    }
+                }
+                else{
+                   // $vm.load_module(m.assign_drop,'',{b_date:$('#date__ID').val(),booking_uid:booking_uid,room_uid:room_uid,goback:1});
+                }
+            } 
+        }
+        //--------------------------------------------------------
         var request_count=0;
         var booking_rec=[];
         var assign_rec=[];
@@ -96,6 +190,7 @@
             for(var i=0;i<booking_rec.result.length;i++){
                 if(assign_rec.result.length>0){
                     for(var j=0;j<assign_rec.result.length;j++){
+                        //console.log(JSON.stringify(booking_rec.result[i].UID+" "+assign_rec.result[j].Data.booking_uid))
                         if(booking_rec.result[i].UID==assign_rec.result[j].Data.booking_uid){
                             assign_day=assign_rec.result[j];
                             break;
@@ -112,7 +207,7 @@
                 m.cell_render_assign(assign_day,booking_rec.result[i]);
             }
             m.cell_render_staff(roster_rec)
-            m.cell_render_room(room_rec)
+            m.cell_render_room(room_rec,assign_rec)
         }
         //--------------------------------------------------------
         m.cell_render=function(record){
@@ -146,10 +241,10 @@
         m.cell_render_assign=function(record,booking){
             var name=booking.Data.Patient;
             if(record.length==0){
-                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1">'+name+'</div>'
-                item+="<div class='card-body' id=addassign__ID"+booking.UID+" style='color:#000000;padding:5px;' ondrop='F__IDdrop(event)' ondragover='F__IDallowDrop(event)' >";
-                item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
+                var item="<div id=A class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div id=b class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=addassign__ID_"+booking.UID+" style='color:#000000;padding:5px;' ondrop='roster_drop(event)' ondragover='roster_allowDrop(event)' >";
+                item+="<div id=C style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
                 item+="</div></div></div>"
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
@@ -161,21 +256,23 @@
             }
             else{
                 var id=record._id;
-                //console.log(JSON.stringify(record))
+                var uid=record.UID;
+                console.log(JSON.stringify(record))
                 var room=record.Data.Room;
                 var sleeptech=record.Data.Sleeptech;
                 var colour=record.Data.Colour;
-                var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1">'+name+'</div>'
-                item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;' ondrop='F__IDdrop(event)' ondragover='F__IDallowDrop(event)' >";
-                item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div  >"+room+"<br>"+sleeptech+"</div>";
+                if(colour=="")colour='#ffffff'
+                var item="<div id=AA class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+                item+='<div id=BB class="card-header p-1">'+name+'</div>'
+                item+="<div class='card-body' id=item__ID_"+booking.UID+"_"+uid+" style='color:"+$vm.whire_or_black_color(colour)+";padding:5px;' ondrop='roster_drop(event)' ondragover='roster_allowDrop(event)' >";
+                item+="<div id=CC style='padding-left:3px;background-color:"+colour+";border-radius:3px;padding:3px;' class=item__ID >";
+                item+="<div id=DD >"+room+"<br>"+sleeptech+"</div>";
                 item+="</div></div></div>"
                 //console.log(item)
                 //--------------------------------------------------------
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
-                $('#item__ID'+id).on('click',function(){
+                $("#item__ID_"+booking.UID+"_"+uid).on('click',function(){
                     $vm.load_module(m.assign,'',{record:record,booking:booking,goback:1});
                 });
             }
@@ -183,7 +280,7 @@
         //--------------------------------------------------------
         m.cell_render_staff=function(record){
             for (var i=0;i<record.length;i++){
-                var id = record[i]._id+i;
+                var id = record[i].UID;
                 var date = record[i].Data.Date;
                 var color = record[i].Data.Colour;
                 var name = record[i].Data.Staffx;
@@ -201,7 +298,7 @@
                 if(endhours<10) leadingzeroh='0'
                 if(endminutes<10) leadingzerom='0'
                 var endtime=leadingzeroh+endhours.toString()+":"+leadingzerom+endminutes.toString();
-                var item = "<div class='card text-white bg-secondary m-1' id=item_roster__ID" + id + "  draggable='true' ondragstart='F__IDdrag(event)'>"
+                var item = "<div class='card text-white bg-secondary m-1' id=item_roster__ID_" + id + "  draggable='true' ondragstart='roster_drag(event)'>"
                 //item+='<div class="card-header p-1">'+name+'</div>'
                 item += "<div class='card-body'  style='color:" + $vm.whire_or_black_color(color) + ";padding:5px;' >";
                 item += "<div style='background-color:" + color + ";' class=item_roster__ID >"  +" "+time+"-"+endtime+" "+ name;
@@ -215,21 +312,28 @@
             }
         }
         //--------------------------------------------------------
-        m.cell_render_room=function(record){
+        m.cell_render_room=function(record,assign){
+            console.log("ROOM: "+JSON.stringify(assign));
             for (var i=0;i<record.length;i++){
-                var id = record[i]._id+i;
+                var uid = record[i].UID;
                 var room = record[i].Data.Room;
-                var item = "<div class='card text-white bg-secondary m-1' id=item_room__ID" + id + "  draggable='true' ondragstart='F__IDdrag(event)'>"
-                //item+='<div class="card-header p-1">'+name+'</div>'
-                item += "<div class='card-body'  style='color:" + $vm.whire_or_black_color('#68ff68') + ";padding:5px;' >";
-                item += "<div style='background-color:#68ff68;' class=item_roster__ID >" + room;
-                item += "</div></div></div>"
-                //--------------------------------------------------------
-                $('#scoring__ID').append(item);
-                //--------------------------------------------------------
-                $('#item_roster__ID' + id).on('click', function () {
-                    $vm.load_module(m.booking, '', { record: record });
-                });
+                var takeaway=false;
+                for(var j=0;j<assign.result.length;j++){
+                    console.log(room+" | "+assign.result[j].Data.Room)
+                    if (room == assign.result[j].Data.Room){
+                        console.log("yes")
+                        takeaway=true
+                    }
+                }
+                if(takeaway==false){
+                    var item = "<div class='card text-white bg-secondary m-1' id=item_room__ID_" + uid + " draggable='true' ondragstart='roster_drag(event)'>"
+                    //item+='<div class="card-header p-1">'+name+'</div>'
+                    item += "<div id=aa class='card-body'  style='color:" + $vm.whire_or_black_color('#68ff68') + ";padding:5px;' >";
+                    item += "<div id=bb style='background-color:#68ff68;' class=item_roster__ID >" + room;
+                    item += "</div></div></div>"
+                    //--------------------------------------------------------
+                    $('#scoring__ID').append(item);
+                }
             }
         }
         //--------------------------------------------------------
@@ -253,6 +357,20 @@
         });
         //--------------------------------------------------------
         $('#D__ID').on('show',function(){ if($vm.refresh==1){clear_page(); $vm.refresh=0; m.request_and_render();} });
+        //--------------------------------------------------------
+        $(window).on('scroll', function() {
+            if($vm.active_name=='calendar-sleepstudy-assign-day'){
+                var note = document.getElementById('D__ID');
+                var screenPosition = note.getBoundingClientRect();
+                $("#ass1__ID").css('padding-top',100-screenPosition.top);
+                $("#ass2__ID").css('padding-top',100-screenPosition.top);
+
+                //var y=-$(window).scrollTop()/2;
+                //$('body').css({ 'background-position-y': y+'px'});
+                //var r=-y/100; if(r>0.5) r=0.5;
+                //$("#header").css("background","rgba(0,0,0,"+r+")");
+            }
+        });
         //--------------------------------------------------------
     }
     </script>
