@@ -224,7 +224,7 @@
 					now_time=now_time.toString().split(" ");
 					now_time=now_time[4];
 					var now_date=$vm.date_to_string_dmy(new Date());
-					$('#F__ID textarea[name=Report_sent]').val(now_time+' '+now_date+" - "+$vm.user_name);
+					$('#F__ID input[name=Report_sent]').val(now_time+' '+now_date+" - "+$vm.user_name);
 					$('#report_sent__ID').html(" Sent "+now_time+' '+now_date+" - "+$vm.user_name+" <i class='fas fa-check-circle'></i>");
 				}
 				else {

@@ -6,7 +6,10 @@
 				<h2>Sleep Lab Application</h2>
 				<p>
 					<br><br>
-					<a id=get_in__ID class='btn btn-success' style='color:#fff' >Weekly Bookings</a>
+					<a id=get1_in__ID class='btn btn-warning' style='color:#000' >Dialy Bookings</a>
+					<a id=get2_in__ID class='btn btn-warning' style='color:#000' >Weekly Bookings</a>
+					<a id=get3_in__ID class='btn btn-warning' style='color:#000' >Monthly Bookings</a>
+					<a id=get4_in__ID class='btn btn-warning' style='color:#000' >Wating List</a>
 				</p>
 				<br>
 			</div>
@@ -27,8 +30,17 @@
 	</div>
 	-->
 	<script>
-		$('#get_in__ID').on('click',function(){
+		$('#get1_in__ID').on('click',function(){
+			$vm.load_module('calendar-sleepstudy-day','',{})
+		})
+		$('#get2_in__ID').on('click',function(){
 			$vm.load_module('calendar-sleepstudy-week','',{})
+		})
+		$('#get3_in__ID').on('click',function(){
+			$vm.load_module('calendar-sleepstudy-month','',{})
+		})
+		$('#get4_in__ID').on('click',function(){
+			$vm.load_module('calendar-sleepstudy-waiting-list','',{})
 		})
 		$('#scroll_down__ID').on('click',function(e){
 			e.preventDefault();
