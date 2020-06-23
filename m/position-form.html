@@ -1,42 +1,58 @@
 <div id=D__ID>
-    <section id=form_container__ID>
-    	<div id=header__ID>
-    		Staff
-    	</div>
-    	<form id=F__ID>
-    		<div class="container">
-    			<div class="row row__ID">
-    				<div class=col>
-    					<span>Position</span>
-    					<input type="text" class="form-control" name=Position />
-    				</div>
-    			</div>
-    			<div class="row row__ID">
-    				<div class=col>
-    					<span>Colour</span>
-    					<input type="color" style='width:50px' name=Colour value='#ffffff' />
-    				</div>
+	<!--third html start -->
+	<div class="container mt-95 mb-3">
+		<div class="row">
+			<!-- form container start -->
+			<div class="col-12 col-lg-12 col-md-12 col-sm-12 mx-auto formbox">
+				<div class="row">
+					<div class="col-12">
+						<!-- form start -->
+						<form id="F__ID">
+							<h3>Position</h3>
+							<div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-8 col-sm-12">
+													<div><label><span class="">Position Name</span></label></div>
+													<div class="input-group-sm ">
+														<input type="text" class="form-control" name=Position />
+													</div>
+												</div>
+												<div class="col-lg-4 col-sm-12">
+													<div><label><span class="">Colour</span></label></div>
+													<div class="input-group-sm ">
+														<input type="color" style='width:50px' name=Colour value='#ffffff' />
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<button type="submit" id="submit__ID" class="btn btn-primary btn-lg">Submit</button>
+									<button id=delete__ID type="button" class="btn btn-primary btn-lg">Delete</button>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
-    			<br>
-    			<div class="row">
-    				<div class=col>
-    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
-    				</div>
-    			</div>
-    		</div>
-    	</form>
-    </section>
-    <script>
-    	function F__ID(){
-    		//-------------------------------------
-            VmInclude:__COMPONENT__/f/form.01.js
-    		//-------------------------------------
-    	}
-    </script>
-    <style>
-        VmInclude:__COMPONENT__/f/form.01.css
-        #form_container__ID{
-            max-width:600px;
-        }
-    </style>
+			</div>
+		</div>
+	</div>
+	<script>
+		function F__ID() {
+			//-------------------------------------
+			VmInclude: __COMPONENT__/f/form.01.js
+			//-------------------------------------
+		}
+	</script>
+	<style>
+		#form_container__ID {
+			max-width: 800px;
+		}
+
+		VmInclude:__CURRENT_PATH__/wappsystem-form.css
+	</style>
 </div>

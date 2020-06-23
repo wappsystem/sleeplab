@@ -1,63 +1,96 @@
 <div id=D__ID>
-    <section id=form_container__ID>
-    	<div id=header__ID>
-    		Patient
-    	</div>
-    	<form id=F__ID>
-    		<div class="container">
-				<div class="row row__ID">
-    				<div class=col>
-    					<span>Title</span>
-						<select class="form-control" name=Title >
-							<option >Dr</option>
-							<option >A/Prof</option>
-							<option >Prof</option>
-						</select>
-    				</div>
-    			</div>
-    			<div class="row row__ID">
-    				<div class=col>
-    					<span>Name</span>
-    					<input type="text" class="form-control" name=Name />
-    				</div>
-    			</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Email</span>
-						<input type="text" class="form-control" name=Email />
+	<!--third html start -->
+	<div class="container mt-95 mb-3">
+		<div class="row">
+			<!-- form container start -->
+			<div class="col-12 col-lg-12 col-md-12 col-sm-12 mx-auto formbox">
+				<div class="row">
+					<div class="col-12">
+						<!-- form start -->
+						<form id="F__ID">
+							<h3>Physician</h3>
+							<div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-6 col-sm-12">
+													<div><label><span class="">Title</span></label></div>
+													<div class="input-group-sm ">
+                                                        <select class="form-control" name=Title >
+                                                            <option >Dr</option>
+                                                            <option >A/Prof</option>
+                                                            <option >Prof</option>
+                                                        </select>
+                                                    </div>
+												</div>
+												<div class="col-lg-6 col-sm-12">
+													<div><label><span class="">Name</span></label></div>
+													<div class="input-group-sm ">
+														<input type="text" class="form-control" name=Name />
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-6 col-sm-12">
+													<div><label><span class="">Email</span></label></div>
+													<div class="input-group-sm ">
+                                                        <input type="text" class="form-control" name=Email />
+                                                    </div>
+												</div>
+												<div class="col-lg-6 col-sm-12">
+													<div><label><span class="">Provider Number</span></label></div>
+													<div class="input-group-sm ">
+														<input type="text" class="form-control" name=Provider_Number />
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<div class="questiongroup ">
+										<fieldset class="subquestions">
+											<div class="row">
+												<div class="col-lg-6 col-sm-12">
+													<div><label><span class="">Location</span></label></div>
+													<div class="input-group-sm ">
+                                                        <input type="text" class="form-control" name=Location />
+                                                    </div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="form-group ">
+									<button type="submit" id="submit__ID" class="btn btn-primary btn-lg">Submit</button>
+									<button id=delete__ID type="button" class="btn btn-primary btn-lg">Delete</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Location</span>
-						<input type="text" class="form-control" name=Location />
-					</div>
-				</div>
-    			<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Provider Number</span>
-						<input type="text" class="form-control" name=Provider_Number />
-					</div>
-				</div>
-    			<div class="row">
-    				<div class=col>
-    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
-    				</div>
-    			</div>
-    		</div>
-    	</form>
-    </section>
-    <script>
-    	function F__ID(){
-    		//-------------------------------------
-            VmInclude:__COMPONENT__/f/form.01.js
+			</div>
+		</div>
+	</div>
+	<script>
+		function F__ID() {
 			//-------------------------------------
-    	}
-    </script>
-    <style>
-        VmInclude:__COMPONENT__/f/form.01.css
-        #form_container__ID{
-            max-width:600px;
-        }
-    </style>
+			VmInclude: __COMPONENT__/f/form.01.js
+			//-------------------------------------
+		}
+	</script>
+	<style>
+		#form_container__ID {
+			max-width: 800px;
+		}
+
+		VmInclude:__CURRENT_PATH__/wappsystem-form.css
+	</style>
 </div>
