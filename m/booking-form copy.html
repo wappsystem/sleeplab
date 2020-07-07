@@ -35,29 +35,15 @@
 									<fieldset class="subquestions">
 										<div class="row">
 											<div class="col-lg-6 col-sm-12">
-												<div><label><span class="">Appointment</span></label></div>
+												<div><label><span class="">Patient</span></label></div>
 												<div class="input-group-sm ">
-													<input type="text" class="form-control" name=Appointment required placeholder="lookup..." />
+													<input type="text" class="form-control" name=Patient required placeholder="lookup..." />
 												</div>
 											</div>
 											<div class="col-lg-6 col-sm-12">
-												<div><label><span class="">Appointment ID</span></label></div>
+												<div><label><span class="">Patient ID</span></label></div>
 												<div class="input-group-sm">
-													<input type="text" class="form-control" name=Appointment_uid required readonly />
-												</div>
-											</div>
-										</div>
-									</fieldset>
-								</div>
-							</div>
-							<div class="form-group ">
-								<div class="questiongroup ">
-									<fieldset class="subquestions">
-										<div class="row">
-											<div class="col-lg-6 col-sm-12">
-												<div><label><span class="">Patient Name</span></label></div>
-												<div class="input-group-sm ">
-													<input type="text" class="form-control" name=Patient_Name  />
+													<input type="text" class="form-control" name=Patient_uid required readonly />
 												</div>
 											</div>
 										</div>
@@ -274,8 +260,6 @@
 			}
 		}
 		//-------------------------------------
-		var query={};
-		//-------------------------------------
 		old_load = m.load;
 		m.load = function () {
 			old_load();
@@ -294,13 +278,7 @@
 			if (m.input.day != undefined) {
 				$('#F__ID input[name=Date]').val(m.input.day);
 			}
-/*			if($('#F__ID input[name=Date]').val()!==''){
-				var dt1=$('#F__ID input[name=Date]').val();
-				var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse($('#F__ID input[name=Date]').val(),1)));
-				query={I1:{"$gte":dt1,"$lt":"2020-06-27"}}
-				console.log("BBBBB: "+JSON.stringify(query))
-			}
-*/
+
 			//-------item a part
 			if (m.input.record != undefined) {
 				if (m.input.record.Data.items == undefined) m.input.record.Data.items = [];
@@ -331,44 +309,29 @@
 			else { $('#research__ID').css('display', 'none'); $('input[name=Research_Project').val(""); }
 		})
 		//-------------------------------------
-		$('#F__ID input[name=Date]').change(function () {
-			var change_date=$('#F__ID input[name=Date]').val()
-			var dt1=change_date;
-			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(change_date),1));
-			query={I1:{"$gte":dt1,"$lt":dt2}}
-			console.log(JSON.stringify(query))
-			autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
-		})
-		//-------------------------------------
 		m.before_submit = function (data, index) {
 			index.I1 = data.Date;
 			index.I2 = data.Time;
 			index.I3 = data.Duration;
 		}
 		//-------------------------------------
-		if(m.input.day!==''){
-			var dt1=m.input.day;
-			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(m.input.day),1));
-			query={I1:{"$gte":dt1,"$lt":dt2}}
-		}		
-		//-------------------------------------
-		var autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
+		var autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup, options: {}, skip: 0, limit: 10 }
 		var autocomplete_callback = function (item) {
-			$('input[name=Appointment').val(item.Appointment);
-			$('input[name=Appointment_uid').val(item.UID);
+			$('input[name=Patient').val(item.Patient);
+			$('input[name=Patient_uid').val(item.UID);
 		}
 		var autocomplete_list = function (records) {
 			var items = [];
 			for (var i = 0; i < records.length; i++) {
 				var obj = {};
-				obj.label = records[i].Data["First_Name"] + " " + records[i].Data["Last_Name"];
+				obj.label = records[i].Data["First_Name"] + " " + records[i].Data["Last_Name"] + " | " + records[i].Data["DOB"];
 				obj.UID = records[i].UID;
 				items.push(obj);
 			}
 			return items;
 		}
 		var wait1 = function () {
-			$vm.autocomplete($('#F__ID input[name=Appointment'), autocomplete_req, autocomplete_list, autocomplete_callback);
+			$vm.autocomplete($('#F__ID input[name=Patient'), autocomplete_req, autocomplete_list, autocomplete_callback);
 		}
 		var I = 0; var loop_1 = setInterval(function () {
 			if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_1); wait1(); }
@@ -439,7 +402,7 @@
 			}
 			$vm.request({ cmd: "find", table: m.lookup, query: { UID: parseInt(uid) } }, function (res) {
 				if (res.result.length == 1) {
-					$vm.load_module('appointment-form', '', { record: res.result[0] });
+					$vm.load_module('patient-form', '', { record: res.result[0] });
 				}
 			});
 		})
