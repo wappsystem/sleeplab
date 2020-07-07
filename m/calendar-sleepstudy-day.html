@@ -154,8 +154,8 @@
             var date=record.Data.Date;
             var time=record.Data.Time;
             var color=record.Data.Colour;
-            var name=record.Data.Patient;
-            var p_uid=record.Data.Patient_uid;
+            var name=record.Data.Appointment;
+            var p_uid=record.Data.Appointment_uid;
             var item_number=record.Data.Item_Number;
             var charge=record.Data.Charge;
             var research_project=record.Data.Research_Project;
@@ -178,7 +178,7 @@
         }
         //--------------------------------------------------------
         m.cell_render_assign=function(record,booking){
-            var name=booking.Data.Patient;
+            var name=booking.Data.Appointment;
             if(record.length==0){
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
                 item+='<div class="card-header p-1">'+name+'</div>'
@@ -217,7 +217,7 @@
         }
         //--------------------------------------------------------
         m.cell_render_setup=function(record,assign,booking){
-            var name=booking.Data.Patient;
+            var name=booking.Data.Appointment;
             if(record.length==0){
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
                 item+='<div class="card-header p-1">'+name+'</div>'
@@ -282,7 +282,7 @@
         }
         //--------------------------------------------------------
         m.cell_render_scoring=function(record,setup,booking){
-                var name=booking.Data.Patient;
+                var name=booking.Data.Appointment;
                 if(record.length==0){
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
                 item+='<div class="card-header p-1">'+name+'</div>'
@@ -348,7 +348,7 @@
         }
         //--------------------------------------------------------
         m.cell_render_report=function(record,setup,scoring,booking){
-            var name=booking.Data.Patient;
+            var name=booking.Data.Appointment;
             if(record.length==0){
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
                 item+='<div class="card-header p-1">'+name+'</div>'

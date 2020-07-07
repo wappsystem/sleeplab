@@ -45,7 +45,7 @@
         m.cell_render=function(record){
             var id=record._id;
             var date=record.Data.Date;
-            var name=record.Data.Patient; if(name===undefined) name="No name";
+            var name=record.Data.Appointment; if(name===undefined) name="No name";
             var color=record.Data.Colour;            
             var $div=m.get_cell_div(date);
             var item="<div style='color:"+$vm.whire_or_black_color(color)+";padding:3px;' class='item__ID' ><div id=item__ID"+id+" style='padding:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' > "+name+"</div></div>"

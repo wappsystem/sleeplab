@@ -35,7 +35,7 @@
 									<fieldset class="subquestions">
 										<div class="row">
 											<div class="col-lg-6 col-sm-12">
-												<div><label><span class="">Appointment</span></label></div>
+												<div><label><span class="">Appointment for</span></label></div>
 												<div class="input-group-sm ">
 													<input type="text" class="form-control" name=Appointment required placeholder="lookup..." />
 												</div>
@@ -44,20 +44,6 @@
 												<div><label><span class="">Appointment ID</span></label></div>
 												<div class="input-group-sm">
 													<input type="text" class="form-control" name=Appointment_uid required readonly />
-												</div>
-											</div>
-										</div>
-									</fieldset>
-								</div>
-							</div>
-							<div class="form-group ">
-								<div class="questiongroup ">
-									<fieldset class="subquestions">
-										<div class="row">
-											<div class="col-lg-6 col-sm-12">
-												<div><label><span class="">Patient Name</span></label></div>
-												<div class="input-group-sm ">
-													<input type="text" class="form-control" name=Patient_Name  />
 												</div>
 											</div>
 										</div>
@@ -338,6 +324,7 @@
 			query={I1:{"$gte":dt1,"$lt":dt2}}
 			console.log(JSON.stringify(query))
 			autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
+			$vm.autocomplete($('#F__ID input[name=Appointment'), autocomplete_req, autocomplete_list, autocomplete_callback);
 		})
 		//-------------------------------------
 		m.before_submit = function (data, index) {

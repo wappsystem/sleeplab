@@ -75,7 +75,7 @@
         m.cell_render=function(booking,scoring){
             var id=booking._id;
             var date=booking.Data.Date;
-            var name=booking.Data.Patient; if(name===undefined) name="No name";
+            var name=booking.Data.Appointment; if(name===undefined) name="No name";
             var $div=m.get_cell_div(date);
             if(scoring.length==0){
                 color='#ffffff';

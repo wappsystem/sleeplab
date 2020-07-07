@@ -100,7 +100,7 @@
 				if(m.input.booking!=undefined){
 					if(m.input.booking.Data!=undefined){
 						if(m.input.booking.Data.Date!=undefined) $('#Date__ID').html(m.input.booking.Data.Date)
-						if(m.input.booking.Data.Patient!=undefined) $('#Patient__ID').text("[ "+m.input.booking.Data.Patient + " ] ")
+						if(m.input.booking.Data.Appointment!=undefined) $('#Patient__ID').text("[ "+m.input.booking.Data.Appointment + " ] ")
 						if(m.input.booking.Data.Item_Number_Procedure!=undefined) $('#Item_Number_Procedure__ID').text("[ "+m.input.booking.Data.Item_Number_Procedure + " ] ")
 						if(m.input.booking.Data.Charge!=undefined) $('#Charge__ID').text("[ "+m.input.booking.Data.Charge + "] ")
 						if(m.input.booking.Data.Research_Project!=undefined) {
@@ -180,14 +180,14 @@
 			}, 100);
 			//-------------------------------------
 			$('#patient_link2__ID').on('click', function () {
-				var uid = $('input[name=Patient_uid').val();
+				var uid = $('input[name=Appointment_uid').val();
 				if (uid == "") {
 					$vm.alert("No patient was selected.");
 					return;
 				}
 				$vm.request({ cmd: "find", table: m.lookup3, query: { UID: parseInt(uid) } }, function (res) {
 					if (res.result.length == 1) {
-						$vm.load_module('patient-form', '', { record: res.result[0] });
+						$vm.load_module('appointment-form', '', { record: res.result[0] });
 					}
 				});
 			})
