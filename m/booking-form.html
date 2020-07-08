@@ -130,6 +130,20 @@
 									</fieldset>
 								</div>
 							</div>
+							<div class="form-group ">
+								<div class="questiongroup ">
+									<fieldset class="subquestions">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<div class="input-group-sm ">
+													<label><span id=medicare_referral__ID style='cursor: pointer;'><u>View Medicare and Referral Form</u>
+													</span></label>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>	
 							<div id=send_report__ID>
 								<div class="form-group ">
 									<div class="questiongroup ">
@@ -216,7 +230,7 @@
 												</label>
 											</div>
 											<div class="col-lg-9 col-sm-12">
-												<div><label><span class="">Cancelled_Reason</span></label></div>
+												<div><label><span class="">Cancelled Reason</span></label></div>
 												<div class="input-group-sm ">
 													<textarea type="text" class="form-control" name=Cancelled_Reason ></textarea>
 												</div>
@@ -261,10 +275,12 @@
 		}
 		//-------------------------------------
 		var query={};
+		var a_rid;
 		//-------------------------------------
 		old_load = m.load;
 		m.load = function () {
 			old_load();
+			console.log("BBBBB: "+JSON.stringify(m.lookup))
 			$('#add__ID').hide();
 			if (m.input != undefined && m.input.record != undefined && m.input.record._id !== undefined) {
 				$('#send_report__ID').show();
@@ -287,6 +303,11 @@
 				console.log("BBBBB: "+JSON.stringify(query))
 			}
 */
+			if(m.input.appointment!=undefined){
+				$('input[name=Appointment').val(m.input.appointment.Data.First_Name+' '+m.input.appointment.Data.Last_Name);
+				$('input[name=Appointment_uid').val(m.input.appointment.UID);
+
+			}
 			//-------item a part
 			if (m.input.record != undefined) {
 				if (m.input.record.Data.items == undefined) m.input.record.Data.items = [];
@@ -295,6 +316,19 @@
 			}
 			//-------
 		}
+		//-------------------------------------
+		$('#medicare_referral__ID').on('click', function () {
+			if(m.input.appointment!=undefined){
+				$vm.request({cmd:"find",table:$vm.module_list['medicare-referrals-form'].Table,query:{I3:(m.input.appointment.UID).toString()},options:{}},function(res){
+					console.log(JSON.stringify(res.result))
+					if(res.result.length==1){
+						var record=res.result[0]
+						$vm.load_module('medicare-referrals-form','',{record:record,readonly:'Yes',goback:1})
+					}
+					else $vm.alert("This form was not filled in");
+				})
+			}
+		});
 		//-------------------------------------
 		$('#add_comment__ID').on('click', function () {
 			var now_time = new Date();
@@ -333,6 +367,39 @@
 			index.I3 = data.Duration;
 		}
 		//-------------------------------------
+		m.after_insert= function(data, index){
+			if(data.Appointment_uid!=""){
+				var data_a={};
+				var index_a={};
+				var a_rid;
+				$vm.request({cmd:'find',query:{UID:parseInt(data.Appointment_uid)},table:m.lookup},function(res){
+					console.log(JSON.stringify(res.result));
+					if(res.result.length==1){
+						data_a=res.result[0].Data;
+						data_a.Date=data.Date;
+						data_a.Time=data.Time;
+						index_a.I1 = data.Date;
+						index_a.I2 = data.Time;
+						a_rid=res.result[0]._id;
+					}
+					//console.log("AAA: "+JSON.stringify(data_a))
+					//console.log("BBB: "+JSON.stringify(index_a))
+					$vm.request({cmd:'update',id:a_rid,table:m.lookup,data:data_a,index:index_a},function(res){
+						if(res.status=="lk"){
+							$vm.alert("This record is locked.");
+							return;
+						}
+						//-----------------------------
+						if(res.status=="np"){
+							$vm.alert("No permission to update this record.");
+							return;
+						}
+					})
+				});
+				window.history.go(-1);
+			}
+		}
+		//-------------------------------------
 		if(m.input.day!==''){
 			var dt1=m.input.day;
 			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(m.input.day),1));
@@ -343,6 +410,7 @@
 		var autocomplete_callback = function (item) {
 			$('input[name=Appointment').val(item.Appointment);
 			$('input[name=Appointment_uid').val(item.UID);
+			a_rid=item.id
 		}
 		var autocomplete_list = function (records) {
 			var items = [];
@@ -350,6 +418,7 @@
 				var obj = {};
 				obj.label = records[i].Data["First_Name"] + " " + records[i].Data["Last_Name"];
 				obj.UID = records[i].UID;
+				obj.id = records[i]._id;
 				items.push(obj);
 			}
 			return items;

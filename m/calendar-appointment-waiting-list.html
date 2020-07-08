@@ -1,28 +1,24 @@
 <div id=D__ID>
     <div>
-        VmInclude:__CURRENT_PATH__/week.01.html
+        VmInclude:__CURRENT_PATH__/waiting-list.html
     </div>
     <script>
     function F__ID(){
         //--------------------------------------------------------
-        VmInclude:__CURRENT_PATH__/week.01.noadd.js
+        VmInclude:__CURRENT_PATH__/waiting-list.js
         //--------------------------------------------------------
         m.start_point=0*60;
         m.total_width=(24*60-m.start_point);
-    	m.on_day_click_fun=function(date){
-			$vm.load_module(m.appointment,'',{day:date,goback:1})
+    	m.on_day_click_fun=function(){
+			$vm.load_module(m.appointment,'',{goback:1})
     	}
-    	//--------------------------------------------------------
         var request_count=0;
         var booking_rec=[];
         var appointment_rec=[];
     	//--------------------------------------------------------
         m.request_and_render=function(){
             request_count=0;
-            var mt1=new Date().getTime();
-            var dt1=$vm.date_to_yyyymmdd(m.first_day);
-            var dt2=$vm.date_to_yyyymmdd($vm.date_add_days(m.last_day,1));
-            $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+            $vm.request({cmd:"find",table:m.Table2,query:{I1:""},sort:{I1:1,I2:1},options:{}},function(res){
                 if(res.permission==false){
                     alert("No permission to get booking information.");
                     return;
@@ -30,7 +26,7 @@
                 request_count++;
                 booking_rec=res;
             });
-            $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2},"Data.Physician":"Sleep Study"},sort:{I1:1,I2:1},options:{}},function(res){
+            $vm.request({cmd:"find",table:m.Table,query:{I1:"","Data.Physician":"Sleep Study"},sort:{I1:1,I2:1},options:{}},function(res){
                 if(res.permission==false){
                     alert("No permission to get appointment information.");
                     return;
@@ -52,7 +48,6 @@
                 render_page()
             }
         }
-        //--------------------------------------------------------
         var render_page=function(){
             m.calendar_render("");
             var book_rec=[];
@@ -72,11 +67,11 @@
                 else {
                     book_rec=[];
                 }
-                m.cell_render(appointment_rec.result[i],book_rec);
+                m.cell_render(appointment_rec.result[i],book_rec,i);
             }
         }
         //--------------------------------------------------------
-        m.cell_render=function(record,book){
+        m.cell_render=function(record,book,i){
             var id=record._id;
             var date=record.Data.Date;
             var time=record.Data.Time;
@@ -85,7 +80,7 @@
             var p_uid=record.UID;
             var color=record.Data.Colour;
             var appointment=record.Data.Appointment_Type;
-            var $div=m.get_cell_div(date);
+            var $div=$('#hold_bookings__ID'+i+'');
             var b_id=book._id;
             var b_color='#ffffff';
             if(book._id!=undefined){
@@ -95,14 +90,14 @@
             item+='<div class="card-header p-1">'+name+'</div>'
             item+="<div class='card-body'  style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
             item+="<div class='row ml-0 mr-0'>"    
-            item+="<div id=item__ID"+id+" style='background-color:"+color+";' class='item__ID col-lg-9'>";
+            item+="<div id=item__ID"+id+" style='padding-left:3px; background-color:"+color+";border-radius:3px;padding:3px;' class='item__ID col-lg-9'>";
             item+="<div  >"+appointment+"</div></div>";
             if(b_id!=undefined){
-                item+="<div id=itemb__ID"+b_id+" style='background-color:"+b_color+";color:"+$vm.whire_or_black_color(b_color)+";margin-left: 2px;' class='item__ID col-lg-2'>"
+                item+="<div id=itemb__ID"+b_id+" style='background-color:"+b_color+";color:"+$vm.whire_or_black_color(b_color)+";margin-left: 2px;border-radius:3px;padding:3px;' class='item__ID col-lg-2'>"
                 item+="<div style='text-align: center;'></div>"
             }
             else{
-                item+="<div id=itemb__ID_new style='background-color:#ffffff;color:#000000;margin-left: 2px;' class='item__ID col-lg-2'>"
+                item+="<div id=itemb__ID_new style='background-color:#ffffff;color:#000000;margin-left: 2px;border-radius:3px;padding:3px;' class='item__ID col-lg-2'>"
                 item+="<div class='text-xs-center'>&nbsp;&nbsp; <i class='fas fa-plus-circle'></i></div>"
             }
             item+="</div></div></div></div>"
@@ -113,7 +108,7 @@
                 $vm.load_module(m.appointment,'',{record:record,goback:1});
             });
             $('#itemb__ID'+b_id).on('click',function(){
-                $vm.load_module(m.booking,'',{record:book,goback:1});
+                $vm.load_module(m.booking,'',{record:book,goback:1,goback:1});
             });
             $('#itemb__ID_new').on('click',function(){
                 $vm.load_module(m.booking,'',{appointment:record,day:date,goback:1})
@@ -123,7 +118,7 @@
         $('#D__ID').on('load',function(){
             var a=$(window).height()-$('#body__ID').offset().top;
             $('#body__ID').css("min-height",a)
-            $('#name__ID').text('- Weekly Appointment');
+            $('#name__ID').text('');
             m.request_and_render();
         });
         //--------------------------------------------------------
@@ -140,9 +135,7 @@
             height:100%;
             overflow: auto;
         }
-        .item__ID{      
-            padding-left:3px;
-            border-radius:3px;   
+        .item__ID{           
             cursor:pointer;
             white-space:nowrap;
             position:relative;

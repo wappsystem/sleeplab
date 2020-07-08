@@ -10,7 +10,10 @@
         "calendar-sleepstudy-report-month": { url: "$H/m/calendar-sleepstudy-report-month.html", Table: "demo-wapp-booking", Table2: "demo-wapp-report" },
         "calendar-sleepstudy-day": { url: "$H/m/calendar-sleepstudy-day.html", Table: "demo-wapp-booking", Table2: "demo-wapp-assign", Table3: "demo-wapp-setup", Table4: "demo-wapp-scoring", Table5: "demo-wapp-report", "booking": "booking-form", "assign": "assign-form", "setup": "setup-form", "scoring": "scoring-form", "report": "report-form" },
         "calendar-sleepstudy-assign-day": { url: "$H/m/calendar-sleepstudy-assign-day.html", Table: "demo-wapp-booking", Table2: "demo-wapp-assign", Table3: "demo-wapp-roster", Table4: "demo-wapp-room", "booking": "booking-form", "assign_drop": "assign-drop-form", "assign": "assign-form", "scoring": "scoring-form", "report": "report-form" },
-        "calendar-appointment-week": { url: "$H/m/calendar-appointment-week.html", Table: "demo-wapp-appointment","appointment":"appointment-form"},
+        "calendar-appointment-week": { url: "$H/m/calendar-appointment-week.html", Table: "demo-wapp-appointment", Table2: "demo-wapp-booking", "appointment":"summary-print", "booking": "booking-form"},
+        "calendar-appointment-month": { url: "$H/m/calendar-appointment-month.html", Table: "demo-wapp-appointment", Table2: "demo-wapp-booking", "appointment":"summary-print", "booking": "booking-form"},
+        "calendar-appointment-waiting-list": { url: "$H/m/calendar-appointment-waiting-list.html", Table: "demo-wapp-appointment", Table2: "demo-wapp-booking", "appointment":"summary-print", "booking": "booking-form"},
+        "summary-print": { url: "$H/m/summary-print.html", Table: "demo-wapp-appointment" },
         "booking-form": { url: "$H/m/booking-form.html", Table: "demo-wapp-booking", lookup: "demo-wapp-appointment", lookup2: "demo-wapp-diagnostic-procedure", lookup3: "demo-wapp-research-project", lookup4: "demo-wapp-physician", lookup5: "demo-wapp-appointment"},
         "booking-data": { url: "$H/m/booking-data.html", Table: "demo-wapp-booking", form_module: "booking-form" },
         "setup-form": { url: "$H/m/setup-form.html", Table: "demo-wapp-setup", Table2: "demo-wapp-booking", Table3: "demo-wapp-appointment" },
@@ -36,6 +39,14 @@
         "assign-data": { url: "$H/m/assign-data.html", Table: "demo-wapp-assign", form_module: "assign-form" },
         "assign-form": { url: "$H/m/assign-form.html", Table: "demo-wapp-assign", lookup: "demo-wapp-room", lookup2: "demo-wapp-roster" , lookup3: "demo-wapp-appointment" },
         "assign-drop-form": { url: "$H/m/assign-drop-form.html", Table: "demo-wapp-assign", lookup: "demo-wapp-room", Table2: "demo-wapp-roster", Table3: "demo-wapp-room" , lookup3: "demo-wapp-appointment" },
+
+        "ess-form": { url: "$H/m/library/ess-form.html", Table: "demo-wapp-ess", task_name:"ESS" },
+        "psqi-form": { url: "$H/m/library/psqi-form.html", Table: "demo-wapp-psqi", task_name:"PSQI" },
+        "dass-form": { url: "$H/m/library/dass-form.html", Table: "demo-wapp-dass", task_name:"DASS" },
+        "hads-form": { url: "$H/m/library/hads-form.html", Table: "demo-wapp-hads", task_name:"HADS" },
+        "contact-details-form": { url: "$H/m/library/contact-details-form.html", Table: "demo-wapp-contact-details", task_name:"Contact Details" },
+        "medicare-referrals-form": { url: "$H/m/medicare-referrals-form.html", Table: "demo-wapp-medicare-referrals", task_name:"Medicare and Referrals" },
+
     }
     for (p in modules) {
         $vm.module_list[p] = modules[p];

@@ -1,22 +1,46 @@
 <div id=D__ID>
     <div>
-        VmInclude:__CURRENT_PATH__/week.01.html
+        VmInclude:__CURRENT_PATH__/month.02.html
     </div>
     <script>
     function F__ID(){
         //--------------------------------------------------------
-        VmInclude:__CURRENT_PATH__/week.01.noadd.js
+        VmInclude:__CURRENT_PATH__/month.02.noadd.js
         //--------------------------------------------------------
         m.start_point=0*60;
         m.total_width=(24*60-m.start_point);
+        //--------------------------------------------------------
     	m.on_day_click_fun=function(date){
+			$vm.load_module('calendar-appointment-day','',{fromweek:date,goback:1})
+    	}
+    	//--------------------------------------------------------
+    	m.on_day_click_fun_appointment=function(date){
 			$vm.load_module(m.appointment,'',{day:date,goback:1})
     	}
     	//--------------------------------------------------------
-        var request_count=0;
-        var booking_rec=[];
-        var appointment_rec=[];
-    	//--------------------------------------------------------
+        m.request_and_render=function(){
+            request_count=0;
+            var mt1=new Date().getTime();
+            var dt1=$vm.date_to_yyyymmdd(m.first_day);
+            var dt2=$vm.date_to_yyyymmdd($vm.date_add_days(m.last_day,1));
+            $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+                if(res.permission==false){
+                    alert("No permission to get booking information.");
+                    return;
+                }
+                request_count++;
+                booking_rec=res;
+            });
+            $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2},"Data.Physician":"Sleep Study"},sort:{I1:1,I2:1},options:{}},function(res){
+                if(res.permission==false){
+                    alert("No permission to get appointment information.");
+                    return;
+                }
+                request_count++;
+                appointment_rec=res
+            });
+            check();
+        }
         m.request_and_render=function(){
             request_count=0;
             var mt1=new Date().getTime();
@@ -91,29 +115,25 @@
             if(book._id!=undefined){
                 b_color=book.Data.Colour;
             }
-            var item="<div class='card text-white bg-secondary m-1''>"
-            item+='<div class="card-header p-1">'+name+'</div>'
-            item+="<div class='card-body'  style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
-            item+="<div class='row ml-0 mr-0'>"    
-            item+="<div id=item__ID"+id+" style='background-color:"+color+";' class='item__ID col-lg-9'>";
-            item+="<div  >"+appointment+"</div></div>";
+            var item="<div class='row ml-0 mr-0'>"    
+            item+="<div style='color:"+$vm.whire_or_black_color(color)+";padding:3px;'  class='item__ID col-lg-9' >"
+            item+="<div id=item__ID"+id+" style='padding:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' >"+name+"</div></div>"
             if(b_id!=undefined){
-                item+="<div id=itemb__ID"+b_id+" style='background-color:"+b_color+";color:"+$vm.whire_or_black_color(b_color)+";margin-left: 2px;' class='item__ID col-lg-2'>"
-                item+="<div style='text-align: center;'></div>"
+                item+="<div style='color:"+$vm.whire_or_black_color(b_color)+";padding:3px;'  class='item__ID col-lg-2' >"
+                item+="<div id=itemb__ID"+b_id+" style='padding:3px; background-color:"+b_color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' >&nbsp</div></div>"
             }
             else{
-                item+="<div id=itemb__ID_new style='background-color:#ffffff;color:#000000;margin-left: 2px;' class='item__ID col-lg-2'>"
-                item+="<div class='text-xs-center'>&nbsp;&nbsp; <i class='fas fa-plus-circle'></i></div>"
+                item+="<div style='color:#0000000;padding:3px;'  class='item__ID col-lg-2' >"
+                item+="<div id=itemb__ID_new style='padding:3px; background-color:#ffffff;border-radius:3px;text-align:center;box-shadow: 3px 3px 2px #888888;' ><i class='fas fa-plus-circle'></div></div>"
             }
-            item+="</div></div></div></div>"
-            //--------------------------------------------------------
+            item+="</div>";
             $div.append(item);
             //--------------------------------------------------------
             $('#item__ID'+id).on('click',function(){
                 $vm.load_module(m.appointment,'',{record:record,goback:1});
             });
             $('#itemb__ID'+b_id).on('click',function(){
-                $vm.load_module(m.booking,'',{record:book,goback:1});
+                $vm.load_module(m.booking,'',{record:book,appointment:record,goback:1});
             });
             $('#itemb__ID_new').on('click',function(){
                 $vm.load_module(m.booking,'',{appointment:record,day:date,goback:1})
@@ -122,14 +142,13 @@
         //--------------------------------------------------------
         $('#D__ID').on('load',function(){
             var a=$(window).height()-$('#body__ID').offset().top;
-            $('#body__ID').css("min-height",a)
-            $('#name__ID').text('- Weekly Appointment');
+            $('#body__ID').css("min-height",a);
+            $('#name__ID').text('- Monthly Appointment');
             m.request_and_render();
         });
         //--------------------------------------------------------
         $('#D__ID').on('show',function(){  if($vm.refresh==1){$vm.refresh=0; m.request_and_render();}    });
         //--------------------------------------------------------
-
     }
     </script>
     <style>
@@ -140,21 +159,20 @@
             height:100%;
             overflow: auto;
         }
-        .item__ID{      
-            padding-left:3px;
-            border-radius:3px;   
+        .item__ID{           
             cursor:pointer;
             white-space:nowrap;
             position:relative;
-            height:20px; 
+            /*height:20px; */
             
         }
         .item__ID:hover{
-            border-style: solid;
-            border-width: 1px;
+            background-color:#999;
         }
         .event_container__ID{
-            padding:10px;
+            padding-top:21px;
         }
+
+
     </style>
 </div>

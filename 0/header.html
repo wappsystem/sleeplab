@@ -9,8 +9,15 @@
         </div>
         <div menu id="vm-menu">
             <a href="?/home"><i class="fa fa-home"></i> Home</a>
-            <a href="?/booking-form">New Booking</a>
-            <a href="?/calendar-appointment-week">Weekly Appointments</a>
+            <div class="vm-dropdown">
+                <span class="vm-dropbtn">New Booking <i class="fa fa-caret-down"></i></span>
+                <div class="vm-dropdown-content">
+                    <a href="?/booking-form">Empty</a>
+                    <a href="?/calendar-appointment-week">From Weekly Appointments</a>
+                    <a href="?/calendar-appointment-month">From Monthly Appointments</a>
+                    <a href="?/calendar-appointment-waiting-list">Waiting List</a>
+                </div>
+            </div>
             <div class="vm-dropdown">
                 <span class="vm-dropbtn">Sleep Study Bookings <i class="fa fa-caret-down"></i></span>
                 <div class="vm-dropdown-content">

@@ -66,10 +66,10 @@ m.calendar_render = function (html) {
                   var N = "<u id=" + idd + " style=cursor:pointer>" + N + "</u>";
                   var weekday = "<span class=weekday>&nbsp;</span>";
                   if (d.getDate() == new Date().getDate() && d.getMonth() == new Date().getMonth()) {
-                        row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + ";background-color:lightcoral'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container><div style='color:black;padding:3px;display:none' class='item__ID' ><div id="+idb+" style='padding:3px; background-color:#fefefe;border-radius:3px;' > <i class='fas fa-plus'></i></div></div></div></div>";            
+                        row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + ";background-color:lightcoral'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container__ID><div style='color:black;padding:3px;display:none' class='item__ID' ><div id="+idb+" style='padding:3px; background-color:#fefefe;border-radius:3px;' > <i class='fas fa-plus'></i></div></div></div></div>";            
                   }
                   else{ 
-                        row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + "'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container><div style='color:black;padding:3px;display:none' class='item__ID' ><div id="+idb+" style='padding:3px; background-color:#fefefe;border-radius:3px;' > <i class='fas fa-plus'></i></div></div></div></div>";
+                        row += "<div class=" + col_class + " ><div class=day__ID style='" + lcolor + "'>" + N + "</div>" + weekday + "&nbsp;<div class=event_container__ID><div style='color:black;padding:3px;display:none' class='item__ID' ><div id="+idb+" style='padding:3px; background-color:#fefefe;border-radius:3px;' > <i class='fas fa-plus'></i></div></div></div></div>";
                   }
             }
             row += "</div>";
