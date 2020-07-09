@@ -280,7 +280,7 @@
 		old_load = m.load;
 		m.load = function () {
 			old_load();
-			console.log("BBBBB: "+JSON.stringify(m.lookup))
+			//console.log("BBBBB: "+JSON.stringify(m.lookup))
 			$('#add__ID').hide();
 			if (m.input != undefined && m.input.record != undefined && m.input.record._id !== undefined) {
 				$('#send_report__ID').show();
@@ -296,13 +296,6 @@
 			if (m.input.day != undefined) {
 				$('#F__ID input[name=Date]').val(m.input.day);
 			}
-/*			if($('#F__ID input[name=Date]').val()!==''){
-				var dt1=$('#F__ID input[name=Date]').val();
-				var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse($('#F__ID input[name=Date]').val(),1)));
-				query={I1:{"$gte":dt1,"$lt":"2020-06-27"}}
-				console.log("BBBBB: "+JSON.stringify(query))
-			}
-*/
 			if(m.input.appointment!=undefined){
 				$('input[name=Appointment').val(m.input.appointment.Data.First_Name+' '+m.input.appointment.Data.Last_Name);
 				$('input[name=Appointment_uid').val(m.input.appointment.UID);
@@ -320,7 +313,7 @@
 		$('#medicare_referral__ID').on('click', function () {
 			if(m.input.appointment!=undefined){
 				$vm.request({cmd:"find",table:$vm.module_list['medicare-referrals-form'].Table,query:{I3:(m.input.appointment.UID).toString()},options:{}},function(res){
-					console.log(JSON.stringify(res.result))
+					//console.log(JSON.stringify(res.result))
 					if(res.result.length==1){
 						var record=res.result[0]
 						$vm.load_module('medicare-referrals-form','',{record:record,readonly:'Yes',goback:1})
@@ -356,7 +349,7 @@
 			var dt1=change_date;
 			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(change_date),1));
 			query={I1:{"$gte":dt1,"$lt":dt2}}
-			console.log(JSON.stringify(query))
+			//console.log(JSON.stringify(query))
 			autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
 			$vm.autocomplete($('#F__ID input[name=Appointment'), autocomplete_req, autocomplete_list, autocomplete_callback);
 		})
@@ -373,7 +366,7 @@
 				var index_a={};
 				var a_rid;
 				$vm.request({cmd:'find',query:{UID:parseInt(data.Appointment_uid)},table:m.lookup},function(res){
-					console.log(JSON.stringify(res.result));
+					//console.log(JSON.stringify(res.result));
 					if(res.result.length==1){
 						data_a=res.result[0].Data;
 						data_a.Date=data.Date;

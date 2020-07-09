@@ -107,7 +107,7 @@
         $('#D__ID').on('load',function(){
             var a=$(window).height()-$('#body__ID').offset().top;
             $('#body__ID').css("min-height",a);
-            $('#name__ID').text('Scoring');
+            $('#name__ID').html(' <b>Scoring</b>');
             m.request_and_render();
         });
         //--------------------------------------------------------
@@ -134,6 +134,7 @@
             background-color:#999;
         }
         .event_container__ID{
+            padding-top: 21px
         }
 
 

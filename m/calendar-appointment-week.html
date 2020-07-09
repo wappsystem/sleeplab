@@ -123,7 +123,7 @@
         $('#D__ID').on('load',function(){
             var a=$(window).height()-$('#body__ID').offset().top;
             $('#body__ID').css("min-height",a)
-            $('#name__ID').text('- Weekly Appointment');
+            $('#name__ID').html(' <b>Weekly Appointment</b>');
             m.request_and_render();
         });
         //--------------------------------------------------------

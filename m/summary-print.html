@@ -64,7 +64,7 @@
                 max_count=list.length
                 if(list.length>0) {
                     for(var i=0;i<list.length;i++){
-                        console.log(m.input.record.Data.List)
+                        //console.log(m.input.record.Data.List)
                         $vm.request({cmd:"find",table:$vm.module_list[list[i]].Table,query:{I3:(m.input.record.UID).toString()}},function(res){
                             request_count++;
                             total_res.push(res);

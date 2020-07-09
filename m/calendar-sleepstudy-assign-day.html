@@ -212,7 +212,7 @@
             else{
                 var id=record._id;
                 var uid=record.UID;
-                console.log(JSON.stringify(record))
+                //console.log(JSON.stringify(record))
                 var room=record.Data.Room;
                 var sleeptech=record.Data.Sleeptech;
                 var colour=record.Data.Colour;
@@ -268,15 +268,14 @@
         }
         //--------------------------------------------------------
         m.cell_render_room=function(record,assign){
-            console.log("ROOM: "+JSON.stringify(assign));
+            //console.log("ROOM: "+JSON.stringify(assign));
             for (var i=0;i<record.length;i++){
                 var uid = record[i].UID;
                 var room = record[i].Data.Room;
                 var takeaway=false;
                 for(var j=0;j<assign.result.length;j++){
-                    console.log(room+" | "+assign.result[j].Data.Room)
+                    //console.log(room+" | "+assign.result[j].Data.Room)
                     if (room == assign.result[j].Data.Room){
-                        console.log("yes")
                         takeaway=true
                     }
                 }

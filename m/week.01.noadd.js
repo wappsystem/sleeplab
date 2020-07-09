@@ -21,7 +21,7 @@ m.set_ref = function () {
       var d = $vm.first_day_of_current_week();
       m.first_day = $vm.date_add_days(d, 7 * m.ref);
       m.last_day = $vm.date_add_days(d, 7 * m.ref + 6);
-      var s = "From " + $vm.yyyymmdd_to_ddmmyyyy($vm.date_to_yyyymmdd(m.first_day)) + " to " + $vm.yyyymmdd_to_ddmmyyyy($vm.date_to_yyyymmdd(m.last_day));
+      var s = $vm.yyyymmdd_to_ddmmyyyy($vm.date_to_yyyymmdd(m.first_day)) + " - " + $vm.yyyymmdd_to_ddmmyyyy($vm.date_to_yyyymmdd(m.last_day));
       $('#period__ID').text(s);
       var header=""
       var colour='';

@@ -9,6 +9,7 @@
         //--------------------------------------------------------
         m.start_point=0*60;
         m.total_width=(36*60-m.start_point);
+        $('#title__ID').html(' <b>Daily Sleep Studies</b>');
     	//--------------------------------------------------------
         var request_count=0;
         var booking_rec=[];
@@ -228,7 +229,7 @@
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
                 $('#addsetup__ID'+booking.UID).on('click',function(){
-                    console.log("New Record")
+                    //console.log("New Record")
                     $vm.load_module(m.setup,'',{assign:assign,booking:booking,goback:1});
                 });
                 //--------------------------------------------------------

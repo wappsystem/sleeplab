@@ -32,7 +32,7 @@
     	        m.calendar_render("");
                 m.records=res.result;
     			for(var i=0;i<res.result.length;i++){
-                    console.log(res.result[i])
+                    //console.log(res.result[i])
     	            m.cell_render(res.result[i]);
     			}
             });
@@ -70,7 +70,7 @@
         $('#D__ID').on('load',function(){
             var a=$(window).height()-$('#body__ID').offset().top;
             $('#body__ID').css("min-height",a)
-            $('#name__ID').text('Booking');
+            $('#name__ID').html(' <b>Sleep Studies</b>');
             m.request_and_render();
         });
         //--------------------------------------------------------

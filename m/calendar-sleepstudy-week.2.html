@@ -12,15 +12,15 @@
         function F__IDdrag(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
             ev.dataTransfer.dropEffect = "copy";
-            console.log("Drag: "+ ev.dataTransfer.dropEffect)
+            //console.log("Drag: "+ ev.dataTransfer.dropEffect)
         }
         //--------------------------------------------------------
         function F__IDdrop(ev) {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
             ev.target.appendChild(document.getElementById(data));
-            console.log("Drop: "+data)
-            console.log(document.getElementById(data))
+            //console.log("Drop: "+data)
+            //console.log(document.getElementById(data))
         }
         //--------------------------------------------------------
         function F__ID() {
@@ -52,7 +52,7 @@
                     m.calendar_render("");
                     m.records = res.result;
                     for (var i = 0; i < res.result.length; i++) {
-                        console.log(res.result[i])
+                        //console.log(res.result[i])
                         m.cell_render(res.result[i]);
                     }
                     $vm.request({ cmd: "find", table: m.Table2, query: { I1: { "$gte": dt1, "$lt": dt2 } }, sort: { I1: 1, I2: 1 }, options: {} }, function (res) {
@@ -62,7 +62,7 @@
                         }
                         m.records = res.result;
                         for (var i = 0; i < res.result.length; i++) {
-                            console.log(res.result[i])
+                            //console.log(res.result[i])
                             m.cell_render_roster(res.result[i]);
                         }
                     });

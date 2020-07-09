@@ -142,7 +142,7 @@
 	</div>
     <script>
 		function textAreaAdjust__ID(o) {
-			console.log(o)
+			//console.log(o)
 			o.style.height = "1px";
 			o.style.height = (25+o.scrollHeight)+"px";
 		}
@@ -169,7 +169,7 @@
 				}
 				if(m.input.setup!=undefined){
 					if(m.input.setup.Data!=undefined){
-						console.log(JSON.stringify(m.input.setup.Data))
+						//console.log(JSON.stringify(m.input.setup.Data))
 						if(m.input.setup.Data.Notes!=undefined) {
 							var notes=m.input.setup.Data.Notes
 							notes=notes.replace(/\n/g,'<br>').replace(/\r/g,'')
@@ -180,7 +180,7 @@
 				}
 				if(m.input.scoring!=undefined){
 					if(m.input.scoring.Data!=undefined){
-						console.log(JSON.stringify(m.input.scoring.Data.Notes))
+						//console.log(JSON.stringify(m.input.scoring.Data.Notes))
 						if(m.input.scoring.Data.Notes!=undefined) {
 							var notes=m.input.scoring.Data.Notes
 							notes=notes.replace(/\n/g,'<br>').replace(/\r/g,'')

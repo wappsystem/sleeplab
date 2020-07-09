@@ -8,8 +8,8 @@ $('#refresh__ID').on('click', function () { m.request_and_render(); })
 $('#xnew__ID').on('click', function(){m.on_day_click_fun();})
 //---------------------------------------------
 m.set_ref = function () {
-     var s = "Waiting list";
-      $('#period__ID').text(s);
+     var s = " <b>Waiting list</b>";
+      $('#period__ID').html(s);
       var header=""
       $('#day_header__ID').html(header);
 }
