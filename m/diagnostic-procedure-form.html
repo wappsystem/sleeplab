@@ -1,59 +1,261 @@
 <div id=D__ID>
-    <section id=form_container__ID>
-    	<div id=header__ID>
-    		Diagnostic Procedure
-    	</div>
-    	<form id=F__ID>
-    		<div class="container">
-    			<div class="row row__ID">
-    				<div class=col>
-    					<span>Item Number</span>
-    					<input type="text" class="form-control" name=Item_Number />
-    				</div>
-    			</div>
-    			<div class="row row__ID">
-    				<div class=col>
-    					<span>Short Name</span>
-    					<input type="text" class="form-control" name=Short_Name />
-    				</div>
-    			</div>
-    			<div class="row row__ID">
-    				<div class=col>
-    					<span>Diagnostic Procedure</span>
-    					<textarea class="form-control" name=Diagnostic_Procedure ></textarea>
-    				</div>
-    			</div>
-				<div class="row row__ID">
-    				<div class="col-sm col-lg-9">
-						<span>Colour</span>
-						<input type="color" class="form-control" name=Colour  />
-    				</div>
+	<!--third html start -->
+	<div class="container mt-95 mb-3">
+		<div class="row">
+			<!-- form container start -->
+			<div class="col-12 col-lg-12 col-md-12 col-sm-12 mx-auto formbox">
+				<div class="row">
+					<div class="col-12">
+						<!-- form start -->
+						<form id="F__ID">
+							<h3>Sleep Study Type</h3>
+							<div class="form-group ">
+								<div class="questiongroup ">
+									<fieldset class="subquestions">
+										<div class="row">
+											<div class="col-lg-3 col-sm-12">
+												<div><label><span class="">Item Number</span></label></div>
+												<div class="input-group-sm ">
+													<input type="text" class="form-control input-sm" name=Item_Number />
+												</div>
+											</div>
+											<div class="col-lg-7 col-sm-12">
+												<div><label><span class="">Short Name</span></label></div>
+												<div class="input-group-sm ">
+													<input type="text" class="form-control input-sm" name=Short_Name />
+												</div>
+											</div>
+											<div class="col-lg-2 col-sm-12">
+												<div><label><span class="">Colour</span></label></div>
+												<div class="input-group-sm ">
+													<input type="color" class="form-control input-sm" name=Colour />
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group ">
+								<div class="questiongroup ">
+									<fieldset class="subquestions">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<div><label><span class="">Diagnostic Procedure</span></label></div>
+												<div class="input-group-sm ">
+													<textarea type="text" class="form-control input-sm"
+														name=Diagnostic_Procedure></textarea>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group ">
+								<div class="questiongroup ">
+									<fieldset class="subquestions">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<div><label><span class="">Evening Questionnaire</span></label></div>
+												<div class="input-group-sm ">
+													<input type="text" class="form-control"
+														id=evening_questionnaires__ID placeholder="lookup..." />
+													<label><span><u
+																style='cursor:pointer;margin-bottom:3px;display:inline-block'
+																id=item_a_add__ID><i class="fa fa-plus"></i> Add to
+																list</u></span></label>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group ">
+								<div class="questiongroup ">
+									<fieldset class="subquestions">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<div class="input-group-sm "><label><span>
+															<table id=grid_item_a__ID></table>
+														</span></label></div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group ">
+								<div class="questiongroup ">
+									<fieldset class="subquestions">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<div><label><span class="">Morning Questionnaire</span></label></div>
+												<div class="input-group-sm ">
+													<input type="text" class="form-control"
+														id=morning_questionnaires__ID placeholder="lookup..." />
+													<label><span><u
+																style='cursor:pointer;margin-bottom:3px;display:inline-block'
+																id=item_b_add__ID><i class="fa fa-plus"></i> Add to
+																list</u></span></label>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group ">
+								<div class="questiongroup ">
+									<fieldset class="subquestions">
+										<div class="row">
+											<div class="col-lg-12 col-sm-12">
+												<div class="input-group-sm "><label><span>
+															<table id=grid_item_b__ID></table>
+														</span></label></div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group ">
+								<button type="submit" id="submit__ID" class="btn btn-primary btn-lg">Submit</button>
+								<button id=delete__ID type="button" class="btn btn-primary btn-lg">Delete</button>
+							</div>
+						</form>
+					</div>
 				</div>
-    			<br>
-    			<div class="row">
-    				<div class=col>
-    					<button id=submit__ID type="submit" class="btn btn-secondary">Submit</button>
-    				</div>
-    			</div>
-    		</div>
-    	</form>
-    </section>
-    <script>
-    	function F__ID(){
-    		//-------------------------------------
-            VmInclude:__COMPONENT__/f/form.01.js
+			</div>
+		</div>
+	</div>
+	<script>
+		function F__ID() {
 			//-------------------------------------
-            old_load=m.load;
-			m.load=function(){
+			VmInclude: __COMPONENT__/f/form.01.js
+			VmInclude: __COMPONENT__/f/form-item-a.01.js
+			VmInclude: __COMPONENT__/f/form-item-b.01.js
+			//-------------------------------------
+			old_load = m.load;
+			m.load = function () {
 				old_load();
+				//console.log(JSON.stringify(m.input.record))
+				if (m.input.record != undefined) {
+					//-------item a part
+					if (m.input.record.Data.evening == undefined) m.input.record.Data.evening = [];
+					m.item_a_records = m.input.record.Data.evening;
+					m.item_a_render();
+					//-------item b part
+					if (m.input.record.Data.morning == undefined) m.input.record.Data.morning = [];
+					m.item_b_records = m.input.record.Data.morning;
+					m.item_b_render();
+				}
 			}
+			//-------------------------------------
+			m.before_submit = function (data, index) {
+				data.evening=m.item_a_get_data();
+                data.morning=m.item_b_get_data();
+			}
+			//-------------------------------------		
+			//item a part
+			m.item_a_fields = "Questionnaire,Module_link,_Remove";
+			m.item_a_records=[]; if(m.input.record.Data.evening!=undefined) m.item_a_records=m.input.record.Data.evening;
+			console.log(JSON.stringify(m.item_a_records));
+			m.item_a_render();
+			//----------------------------------
+			$('#item_a_add__ID').on('click', function () { m.item_a_render(); $('#evening_questionnaires__ID').val(""); })
+			//----------------------------------
+			m.item_a_cell_render = function (records, I, field, td, set_value, source) {
+				switch (field) {
+				}
+			}
+			//----------------------------------
+			m.item_a_after_change = function (records, I, field, td, set_value, source) {
+				switch (field) {
+				}
+			}
+			//----------------------------------
+			m.item_a_after_remove = function () {
+			}
+			//-------------------------------------
+			var autocomplete_req = { cmd: "find", field: '.Data.Questionnaire', table: m.lookup, options: {}, skip: 0, limit: 10 }
+			var autocomplete_callback = function (item) {
+				$('#evening_questionnaires__ID').val(item.label);
+				console.log(JSON.stringify(item))
+				var ttt = {}
+				ttt.Questionnaire = item.label;
+				ttt.Module_link = item.Module_link;
+				console.log(ttt)
+				m.item_a_records.push(ttt)
+			}
+			var autocomplete_list = function (records) {
+				var items = [];
+				for (var i = 0; i < records.length; i++) {
+					var obj = {};
+					obj.label = records[i].Data["Questionnaire"];
+					obj.Module_link = records[i].Data["Module_link"];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait4 = function () {
+				$vm.autocomplete($('#evening_questionnaires__ID'), autocomplete_req, autocomplete_list, autocomplete_callback);
+			}
+			var I4 = 0; var loop_4 = setInterval(function () {
+				if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_4); wait4(); }
+				I4++; if (I4 > 50) { clearInterval(loop_4); alert("jquery-ui.min.js is not installed."); }
+			}, 100);
+
 			//-------------------------------------			
-    	}
-    </script>
-    <style>
-        VmInclude:__COMPONENT__/f/form.01.css
-        #form_container__ID{
-            max-width:600px;
-        }
-    </style>
+			//item b part
+			m.item_b_fields = "Questionnaire,Module_link,_Remove";
+			m.item_b_records=[]; if(m.input.record.Data.morning!=undefined) m.item_b_records=m.input.record.Data.morning;
+			console.log(JSON.stringify(m.item_b_records));
+			m.item_b_render();
+			//----------------------------------
+			$('#item_b_add__ID').on('click', function () { m.item_b_render(); $('#morning_questionnaires__ID').val(""); })
+			//----------------------------------
+			m.item_b_cell_render = function (records, I, field, td, set_value, source) {
+				switch (field) {
+				}
+			}
+			//----------------------------------
+			m.item_b_after_change = function (records, I, field, td, set_value, source) {
+				switch (field) {
+				}
+			}
+			//----------------------------------
+			m.item_b_after_remove = function () {
+			}
+			//-------------------------------------
+			var autocomplete_req2 = { cmd: "find", field: '.Data.Questionnaire', table: m.lookup, options: {}, skip: 0, limit: 10 }
+			var autocomplete_callback2 = function (item) {
+				$('#morning_questionnaires__ID').val(item.label);
+				console.log(JSON.stringify(item))
+				var ttt = {}
+				ttt.Questionnaire = item.label;
+				ttt.Module_link = item.Module_link;
+				console.log(ttt)
+				m.item_b_records.push(ttt)
+			}
+			var autocomplete_list2 = function (records) {
+				var items = [];
+				for (var i = 0; i < records.length; i++) {
+					var obj = {};
+					obj.label = records[i].Data["Questionnaire"];
+					obj.Module_link = records[i].Data["Module_link"];
+					items.push(obj);
+				}
+				return items;
+			}
+			var wait6 = function () {
+				$vm.autocomplete($('#morning_questionnaires__ID'), autocomplete_req2, autocomplete_list2, autocomplete_callback2);
+			}
+			var I6 = 0; var loop_6 = setInterval(function () {
+				if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_6); wait6(); }
+				I6++; if (I6 > 50) { clearInterval(loop_6); alert("jquery-ui.min.js is not installed."); }
+			}, 100);
+			//-------------------------------------
+		}
+	</script>
+	<style>
+		VmInclude:__CURRENT_PATH__/wappsystem-form.css 
+		VmInclude:__COMPONENT__/f/form-item-a.01.css 
+		VmInclude:__COMPONENT__/f/form-item-b.01.css
+	</style>
 </div>

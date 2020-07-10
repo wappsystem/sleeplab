@@ -27,7 +27,7 @@
         "position-data": { url: "$H/m/position-data.html", Table: "demo-wapp-position", form_module: "position-form" },
         "position-form": { url: "$H/m/position-form.html", Table: "demo-wapp-position" },
         "diagnostic-procedure-data": { url: "$H/m/diagnostic-procedure-data.html", Table: "demo-wapp-diagnostic-procedure", form_module: "diagnostic-procedure-form" },
-        "diagnostic-procedure-form": { url: "$H/m/diagnostic-procedure-form.html", Table: "demo-wapp-diagnostic-procedure" },
+        "diagnostic-procedure-form": { url: "$H/m/diagnostic-procedure-form.html", Table: "demo-wapp-diagnostic-procedure", lookup:"demo-wapp-questionnaire" },
         "research-project-data": { url: "$H/m/research-project-data.html", Table: "demo-wapp-research-project", form_module: "research-project-form" },
         "research-project-form": { url: "$H/m/research-project-form.html", Table: "demo-wapp-research-project" },
         "appointment-data": { url: "$H/m/appointment-data.html", Table: "demo-wapp-appointment", form_module: "appointment-form" },

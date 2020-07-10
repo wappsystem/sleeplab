@@ -6,7 +6,7 @@
         //-------------------------------------
         VmInclude:__COMPONENT__/g/grid.01.js
         //-------------------------------------
-        var fields="Item_Number,Short_Name,Diagnostic_Procedure,Colour";
+        var fields="Item_Number,Short_Name,Diagnostic_Procedure,Colour,Evening Quest|evening,Morning Quest|morning";
         m.fields="_Form,"+fields+",Submit_date,Submitted_by,_Delete";
         //-------------------------------------
         m.cell_render=function(records,I,field,td){
@@ -14,6 +14,36 @@
                 case 'Colour':
                     td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-circle'></i></span>");
                     td.css('text-align','center');
+                    break;
+                case 'evening':
+                    console.log(JSON.stringify(records[I].Data[field]))
+                    if(records[I].Data[field]==undefined){
+                        td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-times'></i></span>");
+                        td.css('text-align','center');
+                    }
+                    else if (records[I].Data[field]=="") {
+                        td.css('text-align','center');
+                        td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-times'></i></span>");
+                    }
+                    else{
+                        td.css('text-align','center');
+                        td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-check'></i></span>");
+                    }
+                    break;
+                case 'morning':
+                    console.log(JSON.stringify(records[I].Data[field]))
+                    if(records[I].Data[field]==undefined){
+                        td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-times'></i></span>");
+                        td.css('text-align','center');
+                    }
+                    else if (records[I].Data[field]=="") {
+                        td.css('text-align','center');
+                        td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-times'></i></span>");
+                    }
+                    else{
+                        td.css('text-align','center');
+                        td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-check'></i></span>");
+                    }
                     break;
             }
         };
