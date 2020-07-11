@@ -138,8 +138,8 @@
             }
             //--------------------------------------------------------
             $('#booking__ID').append(header('Booking'));
-            $('#assign__ID').append(header('Assign'));
-            $('#setup__ID').append(header('Staff'));
+            $('#assign__ID').append(header('Sleep Tech/Room'));
+            $('#setup__ID').append(header('Sleep Tech'));
             $('#scoring__ID').append(header('Room'));
             //--------------------------------------------------------
             for(var i=0;i<booking_rec.result.length;i++){
@@ -282,8 +282,8 @@
                 if(takeaway==false){
                     var item = "<div class='card text-white bg-secondary m-1' id=item_room__ID_" + uid + " draggable='true' ondragstart='roster_drag(event)'>"
                     //item+='<div class="card-header p-1">'+name+'</div>'
-                    item += "<div id=aa class='card-body'  style='color:" + $vm.whire_or_black_color('#68ff68') + ";padding:5px;' >";
-                    item += "<div id=bb style='background-color:#68ff68;' class=item_roster__ID >" + room;
+                    item += "<div id=aa class='card-body'  style='color:" + $vm.whire_or_black_color('#fefefe') + ";padding:5px;' >";
+                    item += "<div id=bb style='background-color:#fefefefe;' class=item_roster__ID >" + room;
                     item += "</div></div></div>"
                     //--------------------------------------------------------
                     $('#scoring__ID').append(item);

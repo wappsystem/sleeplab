@@ -77,7 +77,7 @@
             }
             //--------------------------------------------------------
             $('#booking__ID').append(header('Booking'));
-            $('#assign__ID').append(header('Assign'));
+            $('#assign__ID').append(header('Sleep Tech/Room'));
             $('#setup__ID').append(header('Setup/Study'));
             $('#scoring__ID').append(header('Scoring'));
             $('#report__ID').append(header('Reporting'));
@@ -185,7 +185,7 @@
                 item+='<div class="card-header p-1">'+name+'</div>'
                 item+="<div class='card-body' id=addassign__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add assignment</div>";
+                item+="<div>Click here for allocation</div>";
                 item+="</div></div></div>"
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
@@ -224,7 +224,7 @@
                 item+='<div class="card-header p-1">'+name+'</div>'
                 item+="<div class='card-body' id=addsetup__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add setup</div>";
+                item+="<div>Click here for setup</div>";
                 item+="</div></div></div>"
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
@@ -289,7 +289,7 @@
                 item+='<div class="card-header p-1">'+name+'</div>'
                 item+="<div class='card-body' id=addscoring__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add scoring</div>";
+                item+="<div>Click here for scoring</div>";
                 item+="</div></div></div>"
                 $('#scoring__ID').append(item);
                 //--------------------------------------------------------
@@ -355,11 +355,11 @@
                 item+='<div class="card-header p-1">'+name+'</div>'
                 item+="<div class='card-body' id=addreport__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div>Click here to add report</div>";
+                item+="<div>Click here for report</div>";
                 item+="</div></div></div>"
                 $('#report__ID').append(item);
                 //--------------------------------------------------------
-                $('#addreport__ID'+booking_rec.UID).on('click',function(){
+                $('#addreport__ID'+booking.UID).on('click',function(){
                     $vm.load_module(m.report,'',{setup:setup,scoring:scoring,booking:booking,goback:1});
                 });
                 //--------------------------------------------------------

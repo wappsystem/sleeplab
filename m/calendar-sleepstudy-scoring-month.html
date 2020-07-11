@@ -77,8 +77,10 @@
             var date=booking.Data.Date;
             var name=booking.Data.Appointment; if(name===undefined) name="No name";
             var $div=m.get_cell_div(date);
+            var es="";
             if(scoring.length==0){
                 color='#ffffff';
+                es='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="far fa-times-circle"></i><span style="font-size:smaller"> No Scoing Record</span>';;
             }
             else{
                 var scoring_status=scoring.Data.Scoring_Status;
@@ -96,7 +98,7 @@
                 }
                 if(scoring.Data.Scoring_No=='on')  {color='#68ff68';}
             }
-            var item="<div style='color:"+$vm.whire_or_black_color(color)+";padding:3px;' class='item__ID' ><div id=item__ID"+id+" style='padding:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' > "+name+"</div></div>"
+            var item="<div style='color:"+$vm.whire_or_black_color(color)+";padding:3px;' class='item__ID' ><div id=item__ID"+id+" style='padding:3px; background-color:"+color+";border-radius:3px;box-shadow: 3px 3px 2px #888888;' > "+name+" "+es+"</div></div>"
             $div.append(item);
             $('#item__ID'+id).on('click',function(){
                 m.on_day_click_fun(date)
