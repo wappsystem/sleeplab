@@ -300,6 +300,7 @@
         //--------------------------------------------------------
         $('#D__ID').on('load',function(){
             if(m.input.fromweek==undefined) m.input.fromweek=$vm.date_to_string_yyyymmdd(new Date())
+            $('#title__ID').html('<b>Drag and drop Room and Sleep Tech</b>')
             $('#date__ID').val(m.input.fromweek);
             var sel_date=$vm.date_yyyymmdd_parse(m.input.fromweek)
             var now=d=new Date();
