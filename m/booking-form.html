@@ -40,10 +40,22 @@
 													<input type="text" class="form-control" name=Appointment required placeholder="lookup..." />
 												</div>
 											</div>
-											<div class="col-lg-6 col-sm-12">
+											<div class="col-lg-2 col-sm-12">
 												<div><label><span class="">Appointment ID</span></label></div>
 												<div class="input-group-sm">
 													<input type="text" class="form-control" name=Appointment_uid required readonly />
+												</div>
+											</div>
+											<div class="col-lg-2 col-sm-12">
+												<div><label><span class="">Login ID</span></label></div>
+												<div class="input-group-sm">
+													<input type="text" class="form-control" id=login_id__ID readonly />
+												</div>
+											</div>
+											<div class="col-lg-2 col-sm-12">
+												<div><label><span class="">Password</span></label></div>
+												<div class="input-group-sm">
+													<input type="text" class="form-control" name=_Password readonly />
 												</div>
 											</div>
 										</div>
@@ -72,6 +84,24 @@
 											<div class="col-lg-4 col-sm-12">
 												<label ><span class="">Colour</span>
 													<input type="text" class="form-control" name=Colour readonly />
+												</label><br>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="form-group" style='display:xnone!important'>
+								<div class="questiongroup ">
+									<fieldset class="">
+										<div class="row">
+											<div class="col-lg-6 col-sm-12">
+												<label style='width:100%'><span class="">Questionnaire Evening List</span>
+													<input type="text" class="form-control" name=Evening_list readonly />
+												</label><br>
+											</div>
+											<div class="col-lg-6 col-sm-12">
+												<label ><span class="">Questionnaire Morning List</span>
+													<input type="text" class="form-control" name=Morning_list readonly />
 												</label><br>
 											</div>
 										</div>
@@ -284,31 +314,64 @@
 			$('#add__ID').hide();
 			if (m.input != undefined && m.input.record != undefined && m.input.record._id !== undefined) {
 				$('#send_report__ID').show();
-				$('input[name=Item_Number_Procedure').css('background-color', m.input.record.Data.Colour);
-				$('input[name=Item_Number_Procedure').css('color', $vm.whire_or_black_color(m.input.record.Data.Colour));
+				$('input[name=Item_Number_Procedure]').css('background-color', m.input.record.Data.Colour);
+				$('input[name=Item_Number_Procedure]').css('color', $vm.whire_or_black_color(m.input.record.Data.Colour));
 				if ($('#Charge__ID').val() == "Research") {$('#research__ID').css('display', 'block');}
-				else { $('#research__ID').css('display', 'none'); $('input[name=Research_Project').val(""); }
+				else { $('#research__ID').css('display', 'none'); $('input[name=Research_Project]').val(""); }
 			}
 			else {
 				$('#send_report__ID').hide();
-				$('input[name=Colour').val('#fefefe')
+				$('input[name=Colour]').val('#fefefe')
 			}
 			if (m.input.day != undefined) {
 				$('#F__ID input[name=Date]').val(m.input.day);
 			}
 			if(m.input.appointment!=undefined){
-				$('input[name=Appointment').val(m.input.appointment.Data.First_Name+' '+m.input.appointment.Data.Last_Name);
-				$('input[name=Appointment_uid').val(m.input.appointment.UID);
-
+				$('input[name=Appointment]').val(m.input.appointment.Data.First_Name+' '+m.input.appointment.Data.Last_Name);
+				$('input[name=Appointment_uid]').val(m.input.appointment.UID);
+				$('input[name=pw]').val(m.input.appointment.Data._Password)
 			}
 			//-------item a part
 			if (m.input.record != undefined) {
+				$('#login_id__ID').val(m.input.record.UID)
+				if(m.input.record.Data._Password==undefined) $('#F__ID input[name=_Password').val($vm.vm_password(8, false));
 				if (m.input.record.Data.items == undefined) m.input.record.Data.items = [];
 				m.item_a_records = m.input.record.Data.items;
 				m.item_a_render();
 			}
+			else{
+				$('#F__ID input[name=_Password').val($vm.vm_password(8, false));
+			}
 			//-------
 		}
+		//-------------------------------------
+		var make_questionnaire_list=function(uid){
+			var req={ cmd: "find", query:{"UID":uid}, table: m.lookup2, options: {}, skip: 0, limit: 10 }
+			$vm.request(req,function(res){
+				if (res.result.length==1){
+					var list=""
+					for(var i=0;i<res.result[0].Data.evening.length;i++){
+						if(i>0){
+							list+=","+res.result[0].Data.evening[i].Module_link;
+						}
+						else{
+							list=res.result[0].Data.evening[i].Module_link;
+						}
+					}
+					$('#F__ID input[name=Evening_list]').val(list);
+					var list=""
+					for(var i=0;i<res.result[0].Data.morning.length;i++){
+						if(i>0){
+							list+=","+res.result[0].Data.morning[i].Module_link;
+						}
+						else{
+							list=res.result[0].Data.morning[i].Module_link;
+						}
+					}
+					$('#F__ID input[name=Morning_list]').val(list);
+				}
+			});
+		};
 		//-------------------------------------
 		$('#medicare_referral__ID').on('click', function () {
 			if(m.input.appointment!=undefined){
@@ -393,16 +456,22 @@
 			}
 		}
 		//-------------------------------------
-		if(m.input.day!==''){
+		if(m.input.record!=undefined){
+			if(m.input.day==undefined){
+				m.input.day=m.input.record.I1
+			}
+			console.log(JSON.stringify(m.input))
 			var dt1=m.input.day;
-			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(m.input.day),1));
-			query={I1:{"$gte":dt1,"$lt":dt2}}
-		}		
+			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
+			query={I1:{"$gte":dt1,"$lt":dt2}};
+		}
+		else query={I1:""};
 		//-------------------------------------
 		var autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
 		var autocomplete_callback = function (item) {
-			$('input[name=Appointment').val(item.Appointment);
-			$('input[name=Appointment_uid').val(item.UID);
+			$('input[name=Appointment]').val(item.Appointment);
+			$('input[name=Appointment_uid]').val(item.UID);
+			$('input[name=pw]').val(item.pw);
 			a_rid=item.id
 		}
 		var autocomplete_list = function (records) {
@@ -411,13 +480,14 @@
 				var obj = {};
 				obj.label = records[i].Data["First_Name"] + " " + records[i].Data["Last_Name"];
 				obj.UID = records[i].UID;
+				obj.pw = records[i].Data["_Password"];
 				obj.id = records[i]._id;
 				items.push(obj);
 			}
 			return items;
 		}
 		var wait1 = function () {
-			$vm.autocomplete($('#F__ID input[name=Appointment'), autocomplete_req, autocomplete_list, autocomplete_callback);
+			$vm.autocomplete($('#F__ID input[name=Appointment]'), autocomplete_req, autocomplete_list, autocomplete_callback);
 		}
 		var I = 0; var loop_1 = setInterval(function () {
 			if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_1); wait1(); }
@@ -426,13 +496,12 @@
 		//-------------------------------------
 		var autocomplete_req2 = { cmd: "find", field: '.Data.Item_Number', table: m.lookup2, options: {}, skip: 0, limit: 10 }
 		var autocomplete_callback2 = function (item) {
-			$('input[name=Item_Number_Procedure').val(item.label);
-			$('input[name=Item_Number').val(item.Item_Number);
-			$('input[name=Colour').val(item.Colour);
-			$('input[name=Item_Number_Procedure').css('background-color', $('#F__ID input[name=Colour]').val());
-			$('input[name=Item_Number_Procedure').css('color', $vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
-			var item2=item.label.split(' | ');
-			$('input[name=Item_Number').val(item2[0])
+			$('input[name=Item_Number_Procedure]').val(item.label);
+			$('input[name=Item_Number]').val(item.Item_Number);
+			$('input[name=Colour]').val(item.Colour);
+			$('input[name=Item_Number_Procedure]').css('background-color', $('#F__ID input[name=Colour]').val());
+			$('input[name=Item_Number_Procedure]').css('color', $vm.whire_or_black_color($('#F__ID input[name=Colour]').val()));
+			make_questionnaire_list(item.UID);
 		}
 		var autocomplete_list2 = function (records) {
 			var items = [];
@@ -443,12 +512,13 @@
 				obj.UID = records[i].UID;
 				obj.Colour = records[i].Data['Colour'];
 				obj.Colour_Text = records[i].Data['Colour_Text'];
+				obj.short_name = records[i].Data['Short_Name'];
 				items.push(obj);
 			}
 			return items;
 		}
 		var wait2 = function () {
-			$vm.autocomplete($('#F__ID input[name=Item_Number_Procedure'), autocomplete_req2, autocomplete_list2, autocomplete_callback2);
+			$vm.autocomplete($('#F__ID input[name=Item_Number_Procedure]'), autocomplete_req2, autocomplete_list2, autocomplete_callback2);
 		}
 		var I2 = 0; var loop_2 = setInterval(function () {
 			if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_2); wait2(); }
@@ -457,7 +527,7 @@
 		//-------------------------------------
 		var autocomplete_req3 = { cmd: "find", field: '.Data.Research_Project', table: m.lookup3, options: {}, skip: 0, limit: 10 }
 		var autocomplete_callback3 = function (item) {
-			$('input[name=Research_Project').val(item.label);
+			$('input[name=Research_Project]').val(item.label);
 		}
 		var autocomplete_list3 = function (records) {
 			var items = [];
@@ -469,7 +539,7 @@
 			return items;
 		}
 		var wait3 = function () {
-			$vm.autocomplete($('#F__ID input[name=Research_Project'), autocomplete_req3, autocomplete_list3, autocomplete_callback3);
+			$vm.autocomplete($('#F__ID input[name=Research_Project]'), autocomplete_req3, autocomplete_list3, autocomplete_callback3);
 		}
 		var I3 = 0; var loop_3 = setInterval(function () {
 			if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_3); wait3(); }
@@ -481,7 +551,7 @@
 		})
 		//-------------------------------------
 		$('#patient_link2__ID').on('click', function () {
-			var uid = $('input[name=Patient_uid').val();
+			var uid = $('input[name=Patient_uid]').val();
 			if (uid == "") {
 				$vm.alert("No patient was selected.");
 				return;
@@ -496,7 +566,7 @@
 		//item a part
 		m.item_a_fields = "Title,Name,Location,Provider_Number,Email,_Remove";
 		//----------------------------------
-		$('#item_a_add__ID').on('click', function () { m.item_a_render(); $('input[name=Report_send_to').val(""); })
+		$('#item_a_add__ID').on('click', function () { m.item_a_render(); $('input[name=Report_send_to]').val(""); })
 		//----------------------------------
 		m.item_a_cell_render = function (records, I, field, td, set_value, source) {
 			switch (field) {
@@ -513,8 +583,8 @@
 		//-------------------------------------
 		var autocomplete_req4 = { cmd: "find", field: '.Data.Name', table: m.lookup4, options: {}, skip: 0, limit: 10 }
 		var autocomplete_callback4 = function (item) {
-			$('input[name=Referrer').val(item.label);
-			$('input[name=Referrer_Provider_Number').val(item.Referrer_Provider_Number);
+			$('input[name=Referrer]').val(item.label);
+			$('input[name=Referrer_Provider_Number]').val(item.Referrer_Provider_Number);
 		}
 		var autocomplete_list4 = function (records) {
 			var items = [];
@@ -536,8 +606,8 @@
 
 		//-------------------------------------
 		var autocomplete_callback5 = function (item) {
-			$('input[name=Report_send_to').val(item.label);
-			console.log(item.Title)
+			$('input[name=Report_send_to]').val(item.label);
+			//console.log(item.Title)
 			var ttt = {}
 			ttt.Title = item.Title;
 			ttt.Name = item.Name;
@@ -561,7 +631,7 @@
 			return items;
 		}
 		var wait5 = function () {
-			$vm.autocomplete($('#F__ID input[name=Report_send_to'), autocomplete_req4, autocomplete_list5, autocomplete_callback5);
+			$vm.autocomplete($('#F__ID input[name=Report_send_to]'), autocomplete_req4, autocomplete_list5, autocomplete_callback5);
 		}
 		var I5 = 0; var loop_5 = setInterval(function () {
 			if ($vm['jquery-ui-min-js'] != undefined) { clearInterval(loop_5); wait5(); }

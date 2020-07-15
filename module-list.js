@@ -39,6 +39,7 @@
         "assign-data": { url: "$H/m/assign-data.html", Table: "demo-wapp-assign", form_module: "assign-form" },
         "assign-form": { url: "$H/m/assign-form.html", Table: "demo-wapp-assign", lookup: "demo-wapp-room", lookup2: "demo-wapp-roster" , lookup3: "demo-wapp-appointment" },
         "assign-drop-form": { url: "$H/m/assign-drop-form.html", Table: "demo-wapp-assign", lookup: "demo-wapp-room", Table2: "demo-wapp-roster", Table3: "demo-wapp-room" , lookup3: "demo-wapp-appointment" },
+        "online-questionnaire": {url:"$H/online-questionnaire/index.html"},
 
         "ess-form": { url: "$H/m/library/ess-form.html", Table: "demo-wapp-ess", task_name:"ESS" },
         "psqi-form": { url: "$H/m/library/psqi-form.html", Table: "demo-wapp-psqi", task_name:"PSQI" },
@@ -50,6 +51,7 @@
     }
     for (p in modules) {
         $vm.module_list[p] = modules[p];
+        $vm.hosting_path=$vm.hosting_path.replace('online-questionnaire','')
         $vm.module_list[p].url = $vm.module_list[p].url.replace('$H', $vm.hosting_path);
     }
     //-------------------------------------------------------------------------------------

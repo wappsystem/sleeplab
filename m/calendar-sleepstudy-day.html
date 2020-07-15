@@ -220,8 +220,10 @@
         m.cell_render_setup=function(record,assign,booking){
             var name=booking.Data.Appointment;
             if(record.length==0){
+                var p_uid=booking.UID;
+                var pw=booking.Data._Password;
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1">'+name+'</div>'
+                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div style="cursor:pointer;" id=item__ID_'+p_uid+'_'+pw+'><span class=pl-1>Questionnaire</span></div></div>'
                 item+="<div class='card-body' id=addsetup__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div>Click here for setup</div>";
@@ -231,6 +233,15 @@
                 $('#addsetup__ID'+booking.UID).on('click',function(){
                     //console.log("New Record")
                     $vm.load_module(m.setup,'',{assign:assign,booking:booking,goback:1});
+                });
+                //--------------------------------------------------------
+                $('#item__ID_'+p_uid+'_'+pw).on('click',function(){
+                    var db=""; if(window.location.toString().indexOf('db=dev')!=-1) db="&db=dev";
+                    var d="";  if(window.location.toString().indexOf('_d=1')!=-1) d="&_d=1";
+                    var p="";  if(window.location.toString().indexOf('_p=1')!=-1) p="&_p=1";
+                    var u="?username="+p_uid+"&password="+pw+"&evening=1";
+                    var q_url=$vm.module_list["online-questionnaire"].url+u+db+d+p;
+                    window.open(q_url);
                 });
                 //--------------------------------------------------------
             }
@@ -266,7 +277,7 @@
                 }
 
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1">'+name+'</div>'
+                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div style="cursor:pointer;" id=item__ID_'+p_uid+'_'+pw+'><span class=pl-1>Questionnaire</span></div></div>'
                 item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
                 item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div  style=background-color:"+mq_color+">"+mq+" Morning Questionnaire</div>";
@@ -279,7 +290,17 @@
                     console.log("changing exisiting")
                     $vm.load_module(m.setup,'',{record:record,assign:assign,booking:booking,goback:1});
                 });
-            }
+                //--------------------------------------------------------
+                $('#item__ID_'+p_uid+'_'+pw).on('click',function(){
+                    var db=""; if(window.location.toString().indexOf('db=dev')!=-1) db="&db=dev";
+                    var d="";  if(window.location.toString().indexOf('_d=1')!=-1) d="&_d=1";
+                    var p="";  if(window.location.toString().indexOf('_p=1')!=-1) p="&_p=1";
+                    var u="?username="+p_uid+"&password="+pw+"&evening=1";
+                    var q_url=$vm.module_list["online-questionnaire"].url+u+db+d+p;
+                    window.open(q_url);
+                });
+                //--------------------------------------------------------
+           }
         }
         //--------------------------------------------------------
         m.cell_render_scoring=function(record,setup,booking){
