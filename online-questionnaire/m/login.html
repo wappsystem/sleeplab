@@ -66,7 +66,14 @@
                     $('#vm_username').text('Signed in as '+res.sys.username);
                     var x = document.getElementById("vm_signout");
                     x.className="";
-                    $vm.load_module(m.questionnaire_panel,'',{record:res.result});
+                    var quest="";
+                    if(search.indexOf('evening=')!=-1){
+                        quest='evening'
+                    }
+                    else if(search.indexOf('morning=')!=-1){
+                        quest='morning'
+                    }
+                    $vm.load_module(m.questionnaire_panel,'',{record:res.result,quest:quest});
                 }
                 else{
                     $('#ErrMsg__ID').text("Invalid participant login ID or password.")

@@ -3,7 +3,7 @@
 		<div class="text-center panel__ID form-group">
 			<h2><br>Questionnaire Portal</h2>
     	  	<hr style='border-top:1px solid #000;'></hr>
-    		<h4 class= "text-left">Please complete each of the following questionnaires.<br><br></h4>
+    		<h4 class= "text-left">Please complete each of the following <span id=quest__ID style='font-weight:bold'></span> questionnaires.<br><br></h4>
             <div id=items__ID  class= "text-left"></div>
             <h4 class= "">
                 Once they are completed please click on ‘sign-out’ below, to exit the system. <br>Thank you!<br><br>
@@ -29,7 +29,15 @@
 		$('#D__ID').on('show',function(){
 			console.log(JSON.stringify($vm.vm['__ID']))
             var record=$vm.vm['__ID'].input.record;
-			id_list=record.Data.Morning_list;
+			var questionnaire=$vm.vm['__ID'].input.quest;
+			if(questionnaire=='evening'){
+				id_list=record.Data.Evening_list;
+				$('#quest__ID').text('evening')
+			}
+			else if(questionnaire=='morning'){
+				id_list=record.Data.Morning_list;
+				$('#quest__ID').text('morning')
+			}
             if(id_list==undefined){
                 alert("No questionnaire was found");
                 return;
