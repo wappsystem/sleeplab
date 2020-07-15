@@ -15,7 +15,7 @@
         "calendar-appointment-waiting-list": { url: "$H/m/calendar-appointment-waiting-list.html", Table: "demo-wapp-appointment", Table2: "demo-wapp-booking", "appointment":"summary-print", "booking": "booking-form"},
         "summary-print": { url: "$H/m/summary-print.html", Table: "demo-wapp-appointment" },
         "booking-form": { url: "$H/m/booking-form.html", Table: "demo-wapp-booking", lookup: "demo-wapp-appointment", lookup2: "demo-wapp-diagnostic-procedure", lookup3: "demo-wapp-research-project", lookup4: "demo-wapp-physician", lookup5: "demo-wapp-appointment"},
-        "booking-data": { url: "$H/m/booking-data.html", Table: "demo-wapp-booking", form_module: "booking-form" },
+        "booking-data": { url: "$H/m/booking-data.html", Table: "demo-wapp-booking", form_module: "booking-form" , participant_id:{field1:"Date",field2:"Email"}},
         "setup-form": { url: "$H/m/setup-form.html", Table: "demo-wapp-setup", Table2: "demo-wapp-booking", Table3: "demo-wapp-appointment" },
         "setup-data": { url: "$H/m/setup-data.html", Table: "demo-wapp-setup", form_module: "setup-form" },
         "scoring-form": { url: "$H/m/scoring-form.html", Table: "demo-wapp-scoring", Table2: "demo-wapp-booking", Table3: "demo-wapp-appointment",lookup:"demo-wapp-staff" },

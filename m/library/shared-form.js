@@ -2,9 +2,9 @@
 var participant_name=function(record){ if(record.Data.Email!=undefined) return record.Data.Email; else return record.UID;}
 //-------------------------------------
 //auto select particpant
-var part_id1=$vm.module_list['appointment-data'].participant_id.field1;
-var part_id2=$vm.module_list['appointment-data'].participant_id.field2;
-var part_id3=$vm.module_list['appointment-data'].participant_id.field3;
+var part_id1=$vm.module_list['booking-data'].participant_id.field1;
+var part_id2=$vm.module_list['booking-data'].participant_id.field2;
+var part_id3=$vm.module_list['booking-data'].participant_id.field3;
 var autocomplete_req_p={cmd:"find",table:$vm.module_list['appointment-data'].Table,options:{},skip:0,limit:10}
 var autocomplete_callback_p=function(items){ $("#F__ID input[name=Participant_uid]").val(items["UID"]);}
 var autocomplete_list_p=function(records){
