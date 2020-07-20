@@ -350,22 +350,26 @@
 			$vm.request(req,function(res){
 				if (res.result.length==1){
 					var list=""
-					for(var i=0;i<res.result[0].Data.evening.length;i++){
-						if(i>0){
-							list+=","+res.result[0].Data.evening[i].Module_link;
-						}
-						else{
-							list=res.result[0].Data.evening[i].Module_link;
+					if(res.result[0].Data.evening!=undefined){
+						for(var i=0;i<res.result[0].Data.evening.length;i++){
+							if(i>0){
+								list+=","+res.result[0].Data.evening[i].Module_link;
+							}
+							else{
+								list=res.result[0].Data.evening[i].Module_link;
+							}
 						}
 					}
 					$('#F__ID input[name=Evening_list]').val(list);
 					var list=""
-					for(var i=0;i<res.result[0].Data.morning.length;i++){
-						if(i>0){
-							list+=","+res.result[0].Data.morning[i].Module_link;
-						}
-						else{
-							list=res.result[0].Data.morning[i].Module_link;
+					if(res.result[0].Data.morning!=undefined){
+						for(var i=0;i<res.result[0].Data.morning.length;i++){
+							if(i>0){
+								list+=","+res.result[0].Data.morning[i].Module_link;
+							}
+							else{
+								list=res.result[0].Data.morning[i].Module_link;
+							}
 						}
 					}
 					$('#F__ID input[name=Morning_list]').val(list);
@@ -460,7 +464,7 @@
 			if(m.input.day==undefined){
 				m.input.day=m.input.record.I1
 			}
-			console.log(JSON.stringify(m.input))
+			//console.log(JSON.stringify(m.input))
 			var dt1=m.input.day;
 			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
 			query={I1:{"$gte":dt1,"$lt":dt2}};

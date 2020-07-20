@@ -81,8 +81,8 @@
                 var research_project = record.Data.Research_Project;
                 if (research_project != undefined && research_project != "") research_project = " - " + research_project
                 var referral = "";
-                if (record.Data.Referral == 'on') referral = "<div style='background-color:#68ff68;color:" + $vm.whire_or_black_color('#68ff68') + "'>" + item_number + " - Ref: <i class='fas fa-check-circle'></i></div>";
-                else referral = "<div style='background-color:#ff9d9d;color:" + $vm.whire_or_black_color('#ff9d9d') + "'>" + item_number + " - Ref: <i class='fas fa-times-circle'></i></div>";
+                if (record.Data.Referral == 'on') referral = "<div style='background-color:#68ff68;color:" + $vm.whire_or_black_color('#68ff68') + "'>" + item_number + " - Ref: <i class='far fa-check-circle'></i></div>";
+                else referral = "<div style='background-color:#ff9d9d;color:" + $vm.whire_or_black_color('#ff9d9d') + "'>" + item_number + " - Ref: <i class='far fa-times-circle'></i></div>";
                 var $div = m.get_cell_div(date);
                 var item = "<div class='card text-white bg-secondary m-1''>"
                 item += '<div class="card-header p-1">' + item_number + '</div>'

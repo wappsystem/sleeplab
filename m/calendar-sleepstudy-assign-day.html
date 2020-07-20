@@ -32,11 +32,13 @@
                 var form=ev.target.parentNode.id //(Booking UID)
                 var form1=form.split('_');
                 if(form1.length<2) form=ev.target.parentNode.parentNode.id
+                //console.log(form)
                 form=form.split('_');
                 var booking_uid=form[2];
                 var assign_uid=form[3];
                 if(booking_uid!=undefined){
                     if(assign_uid!=undefined){
+                        jQuery.ajaxSetup({async:false});
                         $vm.request({cmd:'find',table:m.Table2,query:{UID:parseInt(assign_uid)}},function(res){
                             var records;
                             if(res.result.length>0){
@@ -44,6 +46,7 @@
                                 $vm.load_module(m.assign_drop,'',{record:records,b_date:$('#date__ID').val(),booking_uid:booking_uid,roster_uid:roster_uid,goback:1});
                             }
                         })
+                        jQuery.ajaxSetup({async:true});
                     }
                     else{
                         $vm.load_module(m.assign_drop,'',{record:[],b_date:$('#date__ID').val(),booking_uid:booking_uid,roster_uid:roster_uid,goback:1});
@@ -177,8 +180,8 @@
             var research_project=record.Data.Research_Project;
             if(research_project!=undefined && research_project!="") research_project=" - "+research_project
             var referral="";
-            if(record.Data.Referral=='on') referral="<div style='background-color:#68ff68;color:"+$vm.whire_or_black_color('#68ff68')+"'>"+item_number+" - Ref: <i class='fas fa-check-circle'></i></div>";
-            else referral="<div style='background-color:#ff9d9d;color:"+$vm.whire_or_black_color('#ff9d9d')+"'>"+item_number+" - Ref: <i class='fas fa-times-circle'></i></div>";
+            if(record.Data.Referral=='on') referral="<div style='background-color:#68ff68;color:"+$vm.whire_or_black_color('#68ff68')+"'>"+item_number+" - Ref: <i class='far fa-check-circle'></i></div>";
+            else referral="<div style='background-color:#ff9d9d;color:"+$vm.whire_or_black_color('#ff9d9d')+"'>"+item_number+" - Ref: <i class='far fa-times-circle'></i></div>";
             var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
             item+='<div class="card-header p-1">'+name+'</div>'
             item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";

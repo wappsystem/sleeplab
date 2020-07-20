@@ -126,7 +126,7 @@
 											<div>
 												<input type=text name="Report_sent" style='display:none' >
 												<button type="button" id="send_email__ID" class="btn btn-primary mb-1 mt-0 mx-0 p-1">Email Report</button>
-												<label><span id=report_sent__ID class=""> Not sent yet <i class='fas fa-times-circle'></i></span></label>
+												<label><span id=report_sent__ID class=""> Not sent yet <i class='far fa-times-circle'></i></span></label>
 											</div>
 										</fieldset>
 									</div>
@@ -225,10 +225,10 @@
 					now_time=now_time[4];
 					var now_date=$vm.date_to_string_dmy(new Date());
 					$('#F__ID input[name=Report_sent]').val(now_time+' '+now_date+" - "+$vm.user_name);
-					$('#report_sent__ID').html(" Sent "+now_time+' '+now_date+" - "+$vm.user_name+" <i class='fas fa-check-circle'></i>");
+					$('#report_sent__ID').html(" Sent "+now_time+' '+now_date+" - "+$vm.user_name+" <i class='far fa-check-circle'></i>");
 				}
 				else {
-					$('#report_sent__ID').html(" Sent "+$('#F__IF input[name=Report_sent]').val()+"<i class='fas fa-check-circle'></i>");
+					$('#report_sent__ID').html(" Sent "+$('#F__IF input[name=Report_sent]').val()+"<i class='far fa-check-circle'></i>");
 				}
 			});
             //-------------------------------------

@@ -50,18 +50,10 @@
 													</div>
 												</div>
 												<div class="col-lg-3 col-sm-12">
-													<div><label><span class="">Evening Questionnaire</span></label></div>
-													<label class="checkboxes">
-														<input type="checkbox" name="Evening_Questionnaire">
-														<span class="check_checkmark"></span> Done
-													</label>
+													<div><label><span id=evening_q__ID style="cursor:pointer"><u>Evening Questionnaire</u></span></label></div>
 												</div>
 												<div class="col-lg-3 col-sm-12">
-													<div><label><span class="">Morning Questionnaire</span></label></div>
-													<label class="checkboxes">
-														<input type="checkbox" name="Morning_Questionnaire">
-														<span class="check_checkmark"></span> Done
-													</label>
+													<div><label><span id=morning_q__ID style="cursor:pointer"><u>Morning Questionnaire</u></span></label></div>
 												</div>
 											</div>
 										</fieldset>
@@ -168,12 +160,16 @@
             VmInclude:__COMPONENT__/f/form.01.js
 			//-------------------------------------
             old_load=m.load;
+			var p_uid="";
+			var pw="";
 			m.load=function(){
 				old_load();
 				//console.log(JSON.stringify(m.input.booking.Data))
 				//console.log(JSON.stringify(m.input.assign.Data))
 				if(m.input.booking!=undefined){
 					if(m.input.booking.Data!=undefined){
+						p_uid=m.input.booking.UID;
+						pw=m.input.booking.Data._Password;
 						if(m.input.booking.Data.Date!=undefined) $('#Date__ID').html(m.input.booking.Data.Date)
 						if(m.input.booking.Data.Appointment!=undefined) $('#Patient__ID').text("[ "+m.input.booking.Data.Appointment + " ] ")
 						if(m.input.booking.Data.Item_Number_Procedure!=undefined) $('#Item_Number_Procedure__ID').text("[ "+m.input.booking.Data.Item_Number_Procedure + " ] ")
@@ -183,7 +179,7 @@
 								$('#Research_Project__ID').text("[ "+ m.input.booking.Data.Research_Project + " ] ")
 							}
 						}
-					}
+					}				
 				}
 				if(m.input.assign!=undefined){
 					if(m.input.assign.Data!=undefined){
@@ -200,6 +196,24 @@
 					}
 				}
 			}
+            //-------------------------------------
+			$('#evening_q__ID').on('click',function(){
+				var db=""; if(window.location.toString().indexOf('db=dev')!=-1) db="&db=dev";
+                    var d="";  if(window.location.toString().indexOf('_d=1')!=-1) d="&_d=1";
+                    var p="";  if(window.location.toString().indexOf('_p=1')!=-1) p="&_p=1";
+                    var u="?username="+p_uid+"&password="+pw+"&evening=1";
+                    var q_url=$vm.module_list["online-questionnaire"].url+u+db+d+p;
+                    window.open(q_url);
+			});
+            //-------------------------------------
+			$('#morning_q__ID').on('click',function(){
+				var db=""; if(window.location.toString().indexOf('db=dev')!=-1) db="&db=dev";
+                    var d="";  if(window.location.toString().indexOf('_d=1')!=-1) d="&_d=1";
+                    var p="";  if(window.location.toString().indexOf('_p=1')!=-1) p="&_p=1";
+                    var u="?username="+p_uid+"&password="+pw+"&morning=1";
+                    var q_url=$vm.module_list["online-questionnaire"].url+u+db+d+p;
+                    window.open(q_url);
+			});
             //-------------------------------------
 			$('#visit__ID').on('click',function(){
 				var d = new Date();

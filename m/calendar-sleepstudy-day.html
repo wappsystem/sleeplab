@@ -162,8 +162,8 @@
             var research_project=record.Data.Research_Project;
             if(research_project!=undefined && research_project!="") research_project=" - "+research_project
             var referral="";
-            if(record.Data.Referral=='on') referral="<div style='background-color:#68ff68;color:"+$vm.whire_or_black_color('#68ff68')+"'>"+item_number+" - Ref: <i class='fas fa-check-circle'></i></div>";
-            else referral="<div style='background-color:#ff9d9d;color:"+$vm.whire_or_black_color('#ff9d9d')+"'>"+item_number+" - Ref: <i class='fas fa-times-circle'></i></div>";
+            if(record.Data.Referral=='on') referral="<div style='background-color:#68ff68;color:"+$vm.whire_or_black_color('#68ff68')+"'>"+item_number+" - Ref: <i class='far fa-check-circle'></i></div>";
+            else referral="<div style='background-color:#ff9d9d;color:"+$vm.whire_or_black_color('#ff9d9d')+"'>"+item_number+" - Ref: <i class='far fa-times-circle'></i></div>";
             var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
             item+='<div class="card-header p-1">'+name+'</div>'
             item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
@@ -190,7 +190,6 @@
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
                 $('#addassign__ID'+booking.UID).on('click',function(){
-                    //console.log(JSON.stringify(m))
                     $vm.load_module(m.assign,'',{booking:booking,goback:1});
                 });
                 //--------------------------------------------------------
@@ -207,7 +206,6 @@
                 item+="<div style='padding-left:3px;background-color:"+colour+";border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div  >"+room+"<br>"+sleeptech+"</div>";
                 item+="</div></div></div>"
-                //console.log(item)
                 //--------------------------------------------------------
                 $('#assign__ID').append(item);
                 //--------------------------------------------------------
@@ -231,7 +229,6 @@
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
                 $('#addsetup__ID'+booking.UID).on('click',function(){
-                    //console.log("New Record")
                     $vm.load_module(m.setup,'',{assign:assign,booking:booking,goback:1});
                 });
                 //--------------------------------------------------------
@@ -256,11 +253,9 @@
             }
             else{
                 var id=record._id;
-                //console.log(JSON.stringify(record))
                 var comments=record.Data.Notes;
                 var visit=record.Data.Visit;
                 var color='#ffffff'
-                //console.log("V :"+visit)
                 if(visit=='DNA') {color='#ff9d9d';visit='Did Not Arrive';}
                 if(visit=='Arrived') color='#68ff68';
                 comments=comments.replace(/\n/g,'<br>');
@@ -268,25 +263,48 @@
                 var mq=""
                 var mq_color='#ff9d9d'
                 var eq_color='#ff9d9d'
-                if(record.Data.Evening_Questionnaire=='on') {
-                    eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                if(booking.Data.Evening_list!='' && booking.Data.Evening_list!=undefined) {
+                    var q_list=(booking.Data.Evening_list).split(',');
+                    var table1=($vm.module_list[q_list[q_list.length-1]]).Table;
+                    jQuery.ajaxSetup({async:false});
+                    $vm.request({cmd:"count",table:table1,query:{I4:(booking.UID).toString()}},function(res){
+                        if(res.result==0){
+                            eq_color='#ff9d9d'
+                            eq="<i style='color:"+$vm.whire_or_black_color(eq_color)+";' class='far fa-times-circle'></i> ";
+                        }
+                        else{
+                            eq_color='#68ff68'
+                            eq="<i style='color:"+$vm.whire_or_black_color(eq_color)+";' class='far fa-check-circle'></i> ";
+                        }
+                    });           
+                    jQuery.ajaxSetup({async:true});
+                }
+                else {
                     eq_color='#68ff68'
-                }
-                else {
-                    eq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
-                    eq_color='#ff9d9d'
+                    eq="<i style='color:"+$vm.whire_or_black_color(eq_color)+";' class='far fa-circle'></i> ";;
                 } 
-                if(record.Data.Morning_Questionnaire=='on') {
-                    mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
-                    mq_color='#68ff68'
+                if(booking.Data.Morning_list!='' && booking.Data.Morning_list!=undefined) {
+                    var q_list=(booking.Data.Morning_list).split(',');
+                    var table1=($vm.module_list[q_list[q_list.length-1]]).Table;
+                    jQuery.ajaxSetup({async:false});
+                    $vm.request({cmd:"count",table:table1,query:{I4:(booking.UID).toString()}},function(res){
+                        if(res.result==0){
+                            mq_color='#ff9d9d'
+                            mq="<i style='color:"+$vm.whire_or_black_color(mq_color)+";' class='far fa-times-circle'></i> ";
+                        }
+                        else{
+                            mq_color='#68ff68'
+                            mq="<i style='color:"+$vm.whire_or_black_color(mq_color)+";' class='far fa-check-circle'></i> ";
+                        }
+                    });           
+                    jQuery.ajaxSetup({async:true});
                 }
                 else {
-                    mq='<i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>'
-                    mq_color='#ff9d9d'
-                }
-
+                    mq_color='#68ff68'
+                    mq="<i style='color:"+$vm.whire_or_black_color(mq_color)+";' class='far fa-circle'></i> ";;
+                } 
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div style="cursor:pointer;" id=item__ID_'+p_uid+'_'+pw+'><span class=pl-1>Evening quest.</span></div></div>'
+                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div style="cursor:pointer;" id=item__IDe_'+p_uid+'_'+pw+'><span class=pl-1>Evening quest.</span></div><div style="cursor:pointer;" id=item__IDm_'+p_uid+'_'+pw+'><span class=pl-1>Morning quest.</span></div></div>'
                 item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
                 item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div  style=background-color:"+mq_color+">"+mq+" Morning Questionnaire</div>";
@@ -296,15 +314,23 @@
                 $('#setup__ID').append(item);
                 //--------------------------------------------------------
                 $('#item__ID'+id).on('click',function(){
-                    console.log("changing exisiting")
                     $vm.load_module(m.setup,'',{record:record,assign:assign,booking:booking,goback:1});
                 });
                 //--------------------------------------------------------
-                $('#item__ID_'+p_uid+'_'+pw).on('click',function(){
+                $('#item__IDe_'+p_uid+'_'+pw).on('click',function(){
                     var db=""; if(window.location.toString().indexOf('db=dev')!=-1) db="&db=dev";
                     var d="";  if(window.location.toString().indexOf('_d=1')!=-1) d="&_d=1";
                     var p="";  if(window.location.toString().indexOf('_p=1')!=-1) p="&_p=1";
                     var u="?username="+p_uid+"&password="+pw+"&evening=1";
+                    var q_url=$vm.module_list["online-questionnaire"].url+u+db+d+p;
+                    window.open(q_url);
+                });
+                //--------------------------------------------------------
+                $('#item__IDm_'+p_uid+'_'+pw).on('click',function(){
+                    var db=""; if(window.location.toString().indexOf('db=dev')!=-1) db="&db=dev";
+                    var d="";  if(window.location.toString().indexOf('_d=1')!=-1) d="&_d=1";
+                    var p="";  if(window.location.toString().indexOf('_p=1')!=-1) p="&_p=1";
+                    var u="?username="+p_uid+"&password="+pw+"&morning=1";
                     var q_url=$vm.module_list["online-questionnaire"].url+u+db+d+p;
                     window.open(q_url);
                 });
@@ -401,16 +427,16 @@
                 var reporting="";
                 var reported=""
                 var color='#ffffff'
-                if(record.Data.Reported=='on'){color='#68ff68';reported='Report ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';}
-                else if(reporter!=''){color='#ff9d9d';reported='Report NOT ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>';}
+                if(record.Data.Reported=='on'){color='#68ff68';reported='Report ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="far fa-check-circle"></i>';}
+                else if(reporter!=''){color='#ff9d9d';reported='Report NOT ready <i style="color:'+$vm.whire_or_black_color(color)+'"; class="far fa-times-circle"></i>';}
                 else { color='#ff9d9d';}
                 if(record.Data.Report_No=='on')  {color='#cbffcb';reporting="No reporting needed"}
                 if(emailed!=""){
-                    es='Email sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-check-circle"></i>';
+                    es='Email sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="far fa-check-circle"></i>';
                     es_color='#68ff68'
                 }
                 else{ 
-                    es='Email NOT sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="fas fa-times-circle"></i>';
+                    es='Email NOT sent <i style="color:'+$vm.whire_or_black_color(color)+'"; class="far fa-times-circle"></i>';
                     es_color='#ff9d9d'
                 }
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
