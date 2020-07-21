@@ -2,25 +2,29 @@
     <div id=container__ID style='margin-top:auto;margin-left:auto;margin-right:auto;padding-top:100px;width:21cm;'>
         <div style="display:flex;">
             <div style='float:left;width:60%'>
-                <br><span style='font-size: 160%'><b>Patient Summary Page</b></span>
-                <br>Name: <span style='font-weight: bold' id=Patient_name__ID></span>
-                <br>Sex: <span style='font-weight: bold' id=Sex__ID></span>
-                <br>DOB: <span style='font-weight: bold' id=DOB__ID></span>
-                <br>Age: <span style='font-weight: bold' id=Age__ID></span>
-                <br>Suburb: <span style='font-weight: bold' id=Suburb__ID></span>
-                <br>
+                <br><span style='font-size: 160%'><b>Sleep Study Summary Page</b></span>
+                <br>Patient: <span style='font-weight: bold' id=Patient_name__ID></span>
                 <br>Charge: <span style='font-weight: bold' id=Charge__ID></span>
-                <br>Reason: <span style='font-weight: bold' id=Reason__ID></span>
+                <br>Research Project: <span style='font-weight: bold' id=Research__ID></span>
+                <br>
+                <br>Referrer: <span style='font-weight: bold' id=Referring_dr__ID></span>
+                <br>Reporter: <span style='font-weight: bold' id=Reporter__ID></span>
             </div>
             <div style='float:right;width:40%;'>
                 <br><span style='font-size: 160%'><b></b></span>
-                <br>Visit Date: <span style='font-weight: bold' id=Visit_Date__ID></span>
-                <br>Physician: <span style='font-weight: bold' id=Physician__ID></span>
-                <br>Appointment Type: <span style='font-weight: bold' id=Appointment__ID></span>
-                <br>Referrer: <span style='font-weight: bold' id=Referring_dr__ID></span>
+                <br>Study Date: <span style='font-weight: bold' id=Study_Date__ID></span>
+                <br>Study: <span style='font-weight: bold' id=Study_Type__ID></span>
+                <br>Room: <span style='font-weight: bold' id=Room__ID></span>
+                <br>Sleep Tech: <span style='font-weight: bold' id=Tech__ID></span>
+                <br>Scorer: <span style='font-weight: bold' id=Scorer__ID></span>
+                <br>QAed by: <span style='font-weight: bold' id=QA__ID></span>
             </div>
         </div>
-        <div style='width:100%;float:left;clear:left'><br><br><b>Results:</b></div>
+        <div style='width:100%;float:left;clear:left;line-height: 1.0!important;'><br><br><b>Booking Comments:</b><br><span style='font-size: smaller;' id=Comments__ID></span></div>
+        <div style='width:100%;float:left;clear:left;line-height: 1.0!important;'><br><br><b>Setup Notes:</b><br><span style='font-size: smaller;' id=Setup_Notes__ID></span></div>
+        <div style='width:100%;float:left;clear:left;line-height: 1.0!important;'><br><br><b>Scoring Staus Log:</b><br><span style='font-size: smaller;' id=Status_log__ID></span></div>
+        <div style='width:100%;float:left;clear:left;line-height: 1.0!important;'><br><br><b>Scoring Notes:</b><br><span style='font-size: smaller;' id=Notes__ID></span></div>
+        <div style='width:100%;float:left;clear:left;line-height: 1.0!important;'><br><br><b>Reporting Notes:</b><br><span style='font-size: smaller;' id=Reporting_Notes__ID></span></div>
         <hr style='width:100%;float:left;clear:left;margin-top:6px;'>
         <form id=F__ID></form>
     </div>
@@ -31,43 +35,102 @@
             //---------------------------------------------
             var request_count=0;
             var max_count;
-            var total_res=[]
+            var evening_res=[];
+            var morning_res=[];
             var order=[];
             //---------------------------------------------
             $('#D__ID').on('load',function(){
                 if(m.input.record!=undefined){
-                    $('#Visit_Date__ID').text($vm.yyyymmdd_to_ddmmyyyy(m.input.record.Data.Date));
-                    $('#Physician__ID').text(m.input.record.Data.Physician);
-                    $('#Appointment__ID').text(m.input.record.Data.Appointment_Type);
-                    $('#Patient_name__ID').text(m.input.record.Data.First_Name+' '+m.input.record.Data.Last_Name);
-                    $('#Sex__ID').text("");
-                    $('#DOB__ID').text("");
-                    $('#Age__ID').text("");
-                    $('#Suburb__ID').text("");
-                    $('#Postcode__ID').text("");
-                    $('#Charge__ID').text("");
-                    $('#Reason__ID').text("");
-                    $('#Referring_dr__ID').text("");
+                    //console.log(JSON.stringify(m.input.report.Data))
+                    $('#F__ID').html("");$('#Study_Date__ID').text("");$('#Study_Type__ID').text("");$('#Charge__ID').text("");$('#Patient_name__ID').text("");
+                    $('#Comments__ID').html("");$('#Research__ID').text("");$('#Referring_dr__ID').text(""); $('#Room__ID').text("");$('#Tech__ID').text("");
+                    $('#Scorer__ID').text("");$('#QA__ID').text(""); $('#Setup_Notes__ID').html("");$('#Status_log__ID').html(""); $('#Notes__ID').html("");
+                    $('#Reporting_Notes__ID').html("");$('#Reporter__ID').text("");
+                    $('#Study_Date__ID').text($vm.yyyymmdd_to_ddmmyyyy(m.input.record.Data.Date));
+                    $('#Study_Type__ID').text(m.input.record.Data.Item_Number_Procedure);
+                    $('#Charge__ID').text(m.input.record.Data.Charge);
+                    $('#Patient_name__ID').text(m.input.record.Data.Appointment);
+                    var comments=m.input.record.Data.Comments;
+                    comments=comments.replace(/\r/g,'').replace(/\n/g,'<br>')
+                    $('#Comments__ID').html(comments);
+                    console.log(m.input.record.Data.Comments)
+                    $('#Research__ID').text(m.input.record.Data.Research_Project);
+                    var temp=m.input.record.Data.Referrer;
+                    if(temp!='' && temp!=undefined){
+                        temp=temp.split('|');
+                        if(temp.length>0) temp=temp[0]
+                        $('#Referring_dr__ID').text(temp + ", "+m.input.record.Data.Referrer_Provider_Number);
+                    }
+                    else $('#Referring_dr__ID').text("")
+                    if(m.input.assign.Data!=undefined) {
+                        $('#Room__ID').text(m.input.assign.Data.Room);
+                        temp=m.input.assign.Data.Sleeptech;
+                        if(temp!='' && temp!=undefined){
+                            temp=temp.split('|');
+                            if(temp.length>0) temp=temp[0]
+                            $('#Tech__ID').text(temp);
+                        }
+                        else $('#Tech__ID').text("")
+                    }
+                    if(m.input.setup.Data!=undefined) {
+                        comments=m.input.setup.Data.Notes;
+                        comments=comments.replace(/\r/g,'').replace(/\n/g,'<br>')
+                        $('#Setup_Notes__ID').html(comments);
+                    }
+                    if(m.input.scoring.Data!=undefined) {
+                        $('#Scorer__ID').text(m.input.scoring.Data.Scorer);
+                        $('#QA__ID').text(m.input.scoring.Data.QAd);
+                        comments=m.input.scoring.Data.Scoring_status_log;
+                        comments=comments.replace(/\r/g,'').replace(/\n/g,'<br>')
+                        $('#Status_log__ID').html(comments);
+                        comments=m.input.scoring.Data.Notes;
+                        comments=comments.replace(/\r/g,'').replace(/\n/g,'<br>')
+                        $('#Notes__ID').html(comments);
+                    }
+                    if(m.input.report.Data!=undefined) {
+                        comments=m.input.report.Data.Notes;
+                        comments=comments.replace(/\r/g,'').replace(/\n/g,'<br>')
+                        $('#Reporting_Notes__ID').html(comments);
+                        temp=m.input.report.Data.Reporter;
+                        if(temp!='' && temp!=undefined){
+                            temp=temp.split(' - ');
+                            if(temp.length>0) temp=temp[0]
+                            $('#Reporter__ID').text(temp);
+                        }
+                        else $('#Reporter__ID').text("")
+                    }
 
                 }
                 request_count=0;
                 max_count;
-                total_res=[]
+                evening_res=[]
                 order=[];
             //--------------------------------------------------------
                 get_quest_data();
             })
             //--------------------------------------------------------
             var get_quest_data=function(){
-                var list=m.input.record.Data.List
+                var list=m.input.record.Data.Evening_list
                 list=list.split(',');
                 max_count=list.length
                 if(list.length>0) {
                     for(var i=0;i<list.length;i++){
-                        //console.log(m.input.record.Data.List)
-                        $vm.request({cmd:"find",table:$vm.module_list[list[i]].Table,query:{I3:(m.input.record.UID).toString()}},function(res){
+                        //console.log($vm.module_list[list[i]].Table)
+                        $vm.request({cmd:"find",table:$vm.module_list[list[i]].Table,query:{I4:(m.input.record.UID).toString()}},function(res){
                             request_count++;
-                            total_res.push(res);
+                            evening_res.push(res);
+                        });
+                    }
+                }
+                var list_m=m.input.record.Data.Morning_list
+                list_m=list_m.split(',');
+                max_count+=list_m.length
+                if(list_m.length>0) {
+                    for(var i=0;i<list_m.length;i++){
+                        //console.log($vm.module_list[list[i]].Table)
+                        $vm.request({cmd:"find",table:$vm.module_list[list_m[i]].Table,query:{I4:(m.input.record.UID).toString()}},function(res){
+                            request_count++;
+                            morning_res.push(res);
                         });
                     }
                 }
@@ -82,81 +145,111 @@
                     },300);
                 }
                 else{
-                    render_page()
+                    var txt=render_page_evening();
+                    var txt1=render_page_morning();
+                    $('#F__ID').html(txt+txt1)
+
                 }
             }
             //-----------------------
-            var render_page=function(){
-                //console.log(JSON.stringify(total_res[0].result[0].Table))
-                var txt="";
+            var render_page_evening=function(){
+                console.log(JSON.stringify(evening_res[0].result[0].Table))
+                var txt="<div style='width:100%;float:left;clear:left;'><br><br><b>Evening Questionnaire:</b><br></div>";
                 txt+="<table style='width:100%; border-size:1px'>";
-                var list=m.input.record.Data.List
+                var list=m.input.record.Data.Evening_list
                 list=list.split(',');
                 for(var i=0;i<list.length;i++){
-                    if(total_res[i].result[0]!=undefined){
-                        if((total_res[i].result[0].Table).includes("-contact")){
-                            $('#Patient_name__ID').text(total_res[i].result[0].Data.first_name+' '+total_res[i].result[0].Data.last_name);
-                            $('#Sex__ID').text(total_res[i].result[0].Data.sex);
-                            $('#DOB__ID').text($vm.yyyymmdd_to_ddmmyyyy(total_res[i].result[0].Data.dob));
-                            var dob=total_res[i].result[0].Data.dob;
-                            var today=new Date(m.input.record.Data.Date);
-                            $('#Age__ID').text(getAge(dob,today));
-                            $('#Suburb__ID').text(total_res[i].result[0].Data.suburb);
-                            $('#Postcode__ID').text(total_res[i].result[0].Data.postcode);
-                        }
-                        else if((total_res[i].result[0].Table).includes("-medicare")){
-                            $('#Referring_dr__ID').text(total_res[i].result[0].Data.Referring_doctor);
-                            $('#Reason__ID').text(total_res[i].result[0].Data.Reason);
-                            if(total_res[i].result[0].Data.benefits=='Medicare'){
-                                $('#Charge__ID').text(total_res[i].result[0].Data.benefits+' '+total_res[i].result[0].Data.Medicare_number+'-'+total_res[i].result[0].Data.Medicare_reference_number+' '+total_res[i].result[0].Data.Medicare_expiry_mm+'/'+total_res[i].result[0].Data.Medicare_expiry_yy);
-                            }
-                            else if(total_res[i].result[0].Data.benefits=='Department of Veterans Affairs'){
-                                $('#Charge__ID').text(total_res[i].result[0].Data.benefits+' '+total_res[i].result[0].Data.DVA);
-                            }
-                            else if(total_res[i].result[0].Data.benefits=='Self Funded'){
-                                $('#Charge__ID').text(total_res[i].result[0].Data.benefits);
-                            }
-                        }
-                        else if((total_res[i].result[0].Table).includes("-ess")){
+                    if(evening_res[i].result[0]!=undefined){
+                        if((evening_res[i].result[0].Table).includes("-ess")){
                             txt+="<tr><td >ESS</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.ESS+"/24</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.ESS+"/24</td></tr>";
                         }
-                        else if((total_res[i].result[0].Table).includes("-psqi")){
+                        else if((evening_res[i].result[0].Table).includes("-psqi")){
                             txt+="<tr><td >PSQI Sleep Quality</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQISLPQUAL+"/3</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQISLPQUAL+"/3</td></tr>";
                             txt+="<tr><td >PSQI Sleep Latency</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQILATEN+"/3</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQILATEN+"/3</td></tr>";
                             txt+="<tr><td >PSQI Sleep Duration</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQIDURAT+"/3</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQIDURAT+"/3</td></tr>";
                             txt+="<tr><td >PSQI Habitual sleep efficiency</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQIHSE+"/3</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQIHSE+"/3</td></tr>";
                             txt+="<tr><td >PSQI Sleep Disturbance</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQIDISTB+"/3</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQIDISTB+"/3</td></tr>";
                             txt+="<tr><td >PSQI Use of sleep medicine</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQIMEDS+"/3</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQIMEDS+"/3</td></tr>";
                             txt+="<tr><td >PSQI Daytime dysfunction</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQIDAYDYS+"/3</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQIDAYDYS+"/3</td></tr>";
                             txt+="<tr><td >PSQI Global Score</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.PSQI+"/21</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.PSQI+"/21</td></tr>";
                         }
-                        else if((total_res[i].result[0].Table).includes("-hads")){
+                        else if((evening_res[i].result[0].Table).includes("-hads")){
                             txt+="<tr><td >HADS DEPRESSION</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.HADS_D+"/21</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.HADS_D+"/21</td></tr>";
                             txt+="<tr><td >HADS ANXIETY</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.HADS_A+"/21</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.HADS_A+"/21</td></tr>";
                         }
-                        else if((total_res[i].result[0].Table).includes("-dass")){
+                        else if((evening_res[i].result[0].Table).includes("-dass")){
                             txt+="<tr><td >DASS DEPRESSION</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.DASS_D+"/42</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.DASS_D+"/42</td></tr>";
                             txt+="<tr><td >DASS ANXIETY</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.DASS_A+"/42</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.DASS_A+"/42</td></tr>";
                             txt+="<tr><td >DASS STRESS</td>";
-                            txt+="<td colspan=3'>"+total_res[i].result[0].Data.DASS_S+"/42</td></tr>";
+                            txt+="<td colspan=3'>"+evening_res[i].result[0].Data.DASS_S+"/42</td></tr>";
                         }
                     }
                 }
                 txt+="</table>";
-                $('#F__ID').html(txt)
+                return txt;
+            }
+            //-----------------------
+            var render_page_morning=function(){
+                //console.log(JSON.stringify(morning_res[0].result[0].Table))
+                var txt="<div style='width:100%;float:left;clear:left;'><br><br><b>Morning Questionnaire:</b><br></div>";
+                txt+="<table style='width:100%; border-size:1px'>";
+                var list=m.input.record.Data.Morning_list
+                list=list.split(',');
+                for(var i=0;i<list.length;i++){
+                    if(morning_res[i].result[0]!=undefined){
+                        if((morning_res[i].result[0].Table).includes("-ess")){
+                            txt+="<tr><td >ESS</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.ESS+"/24</td></tr>";
+                        }
+                        else if((morning_res[i].result[0].Table).includes("-psqi")){
+                            txt+="<tr><td >PSQI Sleep Quality</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQISLPQUAL+"/3</td></tr>";
+                            txt+="<tr><td >PSQI Sleep Latency</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQILATEN+"/3</td></tr>";
+                            txt+="<tr><td >PSQI Sleep Duration</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQIDURAT+"/3</td></tr>";
+                            txt+="<tr><td >PSQI Habitual sleep efficiency</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQIHSE+"/3</td></tr>";
+                            txt+="<tr><td >PSQI Sleep Disturbance</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQIDISTB+"/3</td></tr>";
+                            txt+="<tr><td >PSQI Use of sleep medicine</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQIMEDS+"/3</td></tr>";
+                            txt+="<tr><td >PSQI Daytime dysfunction</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQIDAYDYS+"/3</td></tr>";
+                            txt+="<tr><td >PSQI Global Score</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.PSQI+"/21</td></tr>";
+                        }
+                        else if((morning_res[i].result[0].Table).includes("-hads")){
+                            txt+="<tr><td >HADS DEPRESSION</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.HADS_D+"/21</td></tr>";
+                            txt+="<tr><td >HADS ANXIETY</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.HADS_A+"/21</td></tr>";
+                        }
+                        else if((morning_res[i].result[0].Table).includes("-dass")){
+                            txt+="<tr><td >DASS DEPRESSION</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.DASS_D+"/42</td></tr>";
+                            txt+="<tr><td >DASS ANXIETY</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.DASS_A+"/42</td></tr>";
+                            txt+="<tr><td >DASS STRESS</td>";
+                            txt+="<td colspan=3'>"+morning_res[i].result[0].Data.DASS_S+"/42</td></tr>";
+                        }
+                    }
+                }
+                txt+="</table>";
+                return txt;
             }
             //-----------------------
             function getAge(dateString,todayString) {

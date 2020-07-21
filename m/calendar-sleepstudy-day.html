@@ -81,6 +81,7 @@
             $('#setup__ID').append(header('Setup/Study'));
             $('#scoring__ID').append(header('Scoring'));
             $('#report__ID').append(header('Reporting'));
+            $('#summary__ID').append(header('Summary'));
             //--------------------------------------------------------
             for(var i=0;i<booking_rec.result.length;i++){
                 if(assign_rec.result.length>0){
@@ -147,6 +148,7 @@
                 m.cell_render_setup(setup_day,assign_day,booking_rec.result[i])
                 m.cell_render_scoring(scoring_day,setup_day,booking_rec.result[i])
                 m.cell_render_report(report_day,setup_day,scoring_day,booking_rec.result[i]);
+                m.cell_render_summary(booking_rec.result[i],assign_day,setup_day,scoring_day,report_day);
             }
         }
         //--------------------------------------------------------
@@ -252,6 +254,8 @@
                 //--------------------------------------------------------
             }
             else{
+                var p_uid=booking.UID;
+                var pw=booking.Data._Password;
                 var id=record._id;
                 var comments=record.Data.Notes;
                 var visit=record.Data.Visit;
@@ -266,8 +270,9 @@
                 if(booking.Data.Evening_list!='' && booking.Data.Evening_list!=undefined) {
                     var q_list=(booking.Data.Evening_list).split(',');
                     var table1=($vm.module_list[q_list[q_list.length-1]]).Table;
+                    //console.log("evening: "+table1)
                     jQuery.ajaxSetup({async:false});
-                    $vm.request({cmd:"count",table:table1,query:{I4:(booking.UID).toString()}},function(res){
+                    $vm.request({cmd:"count",table:table1,query:{I3:(booking.UID).toString()}},function(res){
                         if(res.result==0){
                             eq_color='#ff9d9d'
                             eq="<i style='color:"+$vm.whire_or_black_color(eq_color)+";' class='far fa-times-circle'></i> ";
@@ -286,8 +291,9 @@
                 if(booking.Data.Morning_list!='' && booking.Data.Morning_list!=undefined) {
                     var q_list=(booking.Data.Morning_list).split(',');
                     var table1=($vm.module_list[q_list[q_list.length-1]]).Table;
+                    //console.log("morning: "+table1)
                     jQuery.ajaxSetup({async:false});
-                    $vm.request({cmd:"count",table:table1,query:{I4:(booking.UID).toString()}},function(res){
+                    $vm.request({cmd:"count",table:table1,query:{I3:(booking.UID).toString()}},function(res){
                         if(res.result==0){
                             mq_color='#ff9d9d'
                             mq="<i style='color:"+$vm.whire_or_black_color(mq_color)+";' class='far fa-times-circle'></i> ";
@@ -307,8 +313,8 @@
                 item+='<div class="card-header p-1" style="display:flex;">'+name+' <div style="cursor:pointer;" id=item__IDe_'+p_uid+'_'+pw+'><span class=pl-1>Evening quest.</span></div><div style="cursor:pointer;" id=item__IDm_'+p_uid+'_'+pw+'><span class=pl-1>Morning quest.</span></div></div>'
                 item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
                 item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
-                item+="<div  style=background-color:"+mq_color+">"+mq+" Morning Questionnaire</div>";
                 item+="<div  style=background-color:"+eq_color+">"+eq+" Evening Questionnaire</div>";
+                item+="<div  style=background-color:"+mq_color+">"+mq+" Morning Questionnaire</div>";
                 item+="</div></div></div>"
                 //--------------------------------------------------------
                 $('#setup__ID').append(item);
@@ -458,12 +464,33 @@
             }
         }
         //--------------------------------------------------------
+        m.cell_render_summary=function(booking,assign,setup,scoring,report){
+            var id=booking._id;
+            var date=booking.Data.Date;
+            var time=booking.Data.Time;
+            var name=booking.Data.Appointment;
+            var p_uid=booking.UID;
+            var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
+            item+='<div class="card-header p-1">'+name+'</div>'
+            item+="<div class='card-body' id=items__ID"+id+" style='color:#000000;padding:5px;'  >";
+            item+="<div style='padding-left:3px; background-color:#ffffff;border-radius:3px;padding:3px;' class=item__ID >";
+            item+="<div  >Printable summary page</div>";
+            item+="</div></div></div>"
+            //--------------------------------------------------------
+            $('#summary__ID').append(item);
+            //--------------------------------------------------------
+            $('#items__ID'+id).on('click',function(){
+                $vm.load_module_v2('summary-print','',{record:booking,scoring:scoring,setup:setup,report:report,assign:assign,goback:1});
+            });
+        }
+        //--------------------------------------------------------
         var clear_page=function(){
             $('#booking__ID').html('');
             $('#assign__ID').html('');
             $('#setup__ID').html('');
             $('#scoring__ID').html('');
             $('#report__ID').html('');
+            $('#summary__ID').html('');
         }
         //--------------------------------------------------------
         $('#D__ID').on('load',function(){

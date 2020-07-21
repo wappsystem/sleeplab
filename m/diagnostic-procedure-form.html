@@ -223,7 +223,7 @@
 			m.item_b_after_remove = function () {
 			}
 			//-------------------------------------
-			var autocomplete_req2 = { cmd: "find", field: '.Data.Questionnaire', table: m.lookup, options: {}, skip: 0, limit: 10 }
+			var autocomplete_req2 = { cmd: "find", field: '.Data.Questionnaire', table: m.lookup2, options: {}, skip: 0, limit: 10 }
 			var autocomplete_callback2 = function (item) {
 				$('#morning_questionnaires__ID').val(item.label);
 				console.log(JSON.stringify(item))

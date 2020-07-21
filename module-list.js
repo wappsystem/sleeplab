@@ -27,7 +27,7 @@
         "position-data": { url: "$H/m/position-data.html", Table: "demo-wapp-position", form_module: "position-form" },
         "position-form": { url: "$H/m/position-form.html", Table: "demo-wapp-position" },
         "diagnostic-procedure-data": { url: "$H/m/diagnostic-procedure-data.html", Table: "demo-wapp-diagnostic-procedure", form_module: "diagnostic-procedure-form" },
-        "diagnostic-procedure-form": { url: "$H/m/diagnostic-procedure-form.html", Table: "demo-wapp-diagnostic-procedure", lookup:"demo-wapp-questionnaire" },
+        "diagnostic-procedure-form": { url: "$H/m/diagnostic-procedure-form.html", Table: "demo-wapp-diagnostic-procedure", lookup:"demo-wapp-evening-questionnaire" ,lookup2:"demo-wapp-morning-questionnaire"},
         "research-project-data": { url: "$H/m/research-project-data.html", Table: "demo-wapp-research-project", form_module: "research-project-form" },
         "research-project-form": { url: "$H/m/research-project-form.html", Table: "demo-wapp-research-project" },
         "appointment-data": { url: "$H/m/appointment-data.html", Table: "demo-wapp-appointment", form_module: "appointment-form" },
@@ -41,12 +41,20 @@
         "assign-drop-form": { url: "$H/m/assign-drop-form.html", Table: "demo-wapp-assign", lookup: "demo-wapp-room", Table2: "demo-wapp-roster", Table3: "demo-wapp-room" , lookup3: "demo-wapp-appointment" },
         "online-questionnaire": {url:"$H/online-questionnaire/index.html"},
 
-        "ess-form": { url: "$H/m/library/ess-form.html", Table: "demo-wapp-ess", task_name:"ESS" },
-        "psqi-form": { url: "$H/m/library/psqi-form.html", Table: "demo-wapp-psqi", task_name:"PSQI" },
-        "dass-form": { url: "$H/m/library/dass-form.html", Table: "demo-wapp-dass", task_name:"DASS" },
-        "hads-form": { url: "$H/m/library/hads-form.html", Table: "demo-wapp-hads", task_name:"HADS" },
-        "contact-details-form": { url: "$H/m/library/contact-details-form.html", Table: "demo-wapp-contact-details", task_name:"Contact Details" },
-        "medicare-referrals-form": { url: "$H/m/medicare-referrals-form.html", Table: "demo-wapp-medicare-referrals", task_name:"Medicare and Referrals" },
+        "evening-questionnaire-data": { url: "$H/m/questionnaire-data.html", Table: "demo-wapp-evening-questionnaire", form_module: "evening-questionnaire-form" },
+        "evening-questionnaire-form": { url: "$H/m/questionnaire-form.html", Table: "demo-wapp-evening-questionnaire", task_name:"Evening Questionnaire setup"},
+        "morning-questionnaire-data": { url: "$H/m/questionnaire-data.html", Table: "demo-wapp-morning-questionnaire", form_module: "morning-questionnaire-form" },
+        "morning-questionnaire-form": { url: "$H/m/questionnaire-form.html", Table: "demo-wapp-morning-questionnaire", task_name:"Morning Questionnaire setup" },
+
+        "e-ess-form": { url: "$H/m/library/ess-form.html", Table: "demo-wapp-e-ess", task_name:"ESS" },
+        "e-psqi-form": { url: "$H/m/library/psqi-form.html", Table: "demo-wapp-e-psqi", task_name:"PSQI" },
+        "e-dass-form": { url: "$H/m/library/dass-form.html", Table: "demo-wapp-e-dass", task_name:"DASS" },
+        "e-hads-form": { url: "$H/m/library/hads-form.html", Table: "demo-wapp-e-hads", task_name:"HADS" },
+        "m-ess-form": { url: "$H/m/library/ess-form.html", Table: "demo-wapp-m-ess", task_name:"ESS" },
+        "m-psqi-form": { url: "$H/m/library/psqi-form.html", Table: "demo-wapp-m-psqi", task_name:"PSQI" },
+        "m-dass-form": { url: "$H/m/library/dass-form.html", Table: "demo-wapp-m-dass", task_name:"DASS" },
+        "m-hads-form": { url: "$H/m/library/hads-form.html", Table: "demo-wapp-m-hads", task_name:"HADS" },
+        "summary-print": { url: "$H/m/summary-print.html", Table: "demo-wapp-booking" },
 
     }
     for (p in modules) {
