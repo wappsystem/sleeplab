@@ -326,6 +326,11 @@
 			if (m.input.day != undefined) {
 				$('#F__ID input[name=Date]').val(m.input.day);
 			}
+			else{
+				query={I1:""}
+				autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
+				$vm.autocomplete($('#F__ID input[name=Appointment'), autocomplete_req, autocomplete_list, autocomplete_callback);
+			}
 			if(m.input.appointment!=undefined){
 				$('input[name=Appointment]').val(m.input.appointment.Data.First_Name+' '+m.input.appointment.Data.Last_Name);
 				$('input[name=Appointment_uid]').val(m.input.appointment.UID);
@@ -413,10 +418,12 @@
 		//-------------------------------------
 		$('#F__ID input[name=Date]').change(function () {
 			var change_date=$('#F__ID input[name=Date]').val()
-			var dt1=change_date;
-			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(change_date),1));
-			query={I1:{"$gte":dt1,"$lt":dt2}}
-			//console.log(JSON.stringify(query))
+			if(change_date!=""){
+				var dt1=change_date;
+				var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(change_date),1));
+				query={I1:{"$gte":dt1,"$lt":dt2}}
+			}
+			else query={I1:""};
 			autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
 			$vm.autocomplete($('#F__ID input[name=Appointment'), autocomplete_req, autocomplete_list, autocomplete_callback);
 		})
@@ -460,21 +467,22 @@
 			}
 		}
 		//-------------------------------------
-		if(m.input.dayrecord!=undefined){
-			if(m.input.day==undefined){
+		if(m.input.day==undefined){
+			if(m.input.dayrecord!=undefined){
 				m.input.day=m.input.record.I1
+				var dt1=m.input.day;
+				var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
+				query={I1:{"$gte":dt1,"$lt":dt2}};
 			}
-			//console.log(JSON.stringify(m.input))
-			var dt1=m.input.day;
-			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
-			query={I1:{"$gte":dt1,"$lt":dt2}};
+			else {
+				query={I1:""};		
+			}
 		}
-		else if(m.input.day!=undefined){
+		else {
 			var dt1=m.input.day;
 			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
 			query={I1:{"$gte":dt1,"$lt":dt2}};			
 		}
-		else query={I1:""};
 		//-------------------------------------
 		var autocomplete_req = { cmd: "find", field: '.Data.Last_Name', table: m.lookup5,query:query, options: {}, skip: 0, limit: 10 }
 		var autocomplete_callback = function (item) {

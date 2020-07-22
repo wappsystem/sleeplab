@@ -97,7 +97,7 @@
                 item+="<div style='text-align: center;'></div>"
             }
             else{
-                item+="<div id=itemb__ID_new style='background-color:#ffffff;color:#000000;margin-left: 2px;border-radius:3px;padding:3px;' class='item__ID col-lg-2'>"
+                item+="<div id=itemb__ID_new"+id+" style='background-color:#ffffff;color:#000000;margin-left: 2px;border-radius:3px;padding:3px;' class='item__ID col-lg-2'>"
                 item+="<div class='text-xs-center'>&nbsp;&nbsp; <i class='fas fa-plus-circle'></i></div>"
             }
             item+="</div></div></div></div>"
@@ -110,7 +110,7 @@
             $('#itemb__ID'+b_id).on('click',function(){
                 $vm.load_module(m.booking,'',{record:book,goback:1,goback:1});
             });
-            $('#itemb__ID_new').on('click',function(){
+            $('#itemb__ID_new'+id).on('click',function(){
                 $vm.load_module(m.booking,'',{appointment:record,day:date,goback:1})
             });
         }
