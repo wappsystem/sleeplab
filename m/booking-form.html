@@ -460,7 +460,7 @@
 			}
 		}
 		//-------------------------------------
-		if(m.input.record!=undefined){
+		if(m.input.dayrecord!=undefined){
 			if(m.input.day==undefined){
 				m.input.day=m.input.record.I1
 			}
@@ -468,6 +468,11 @@
 			var dt1=m.input.day;
 			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
 			query={I1:{"$gte":dt1,"$lt":dt2}};
+		}
+		else if(m.input.day!=undefined){
+			var dt1=m.input.day;
+			var dt2=$vm.date_to_yyyymmdd($vm.date_add_days($vm.date_yyyymmdd_parse(dt1),1));
+			query={I1:{"$gte":dt1,"$lt":dt2}};			
 		}
 		else query={I1:""};
 		//-------------------------------------
