@@ -69,7 +69,7 @@
 											<div class="col-lg-12 col-sm-12">
 												<div><label><span class="">Item Number - Procedure</span></label></div>
 												<div class="input-group-sm ">
-													<input type="text" class="form-control" name=Item_Number_Procedure  placeholder="lookup..." />
+													<input type="text" class="form-control" name=Item_Number_Procedure id=item_number_proccedure__ID placeholder="lookup..." />
 													<input type="text" class="form-control" name=Item_Number style='display:none' />
 												</div>
 											</div>
@@ -310,7 +310,7 @@
 		old_load = m.load;
 		m.load = function () {
 			old_load();
-			//console.log("BBBBB: "+JSON.stringify(m.lookup))
+			//console.log("BBBBB: "+JSON.stringify(m.input.record))
 			$('#add__ID').hide();
 			if (m.input != undefined && m.input.record != undefined && m.input.record._id !== undefined) {
 				$('#send_report__ID').show();
@@ -321,7 +321,11 @@
 			}
 			else {
 				$('#send_report__ID').hide();
-				$('input[name=Colour]').val('#fefefe')
+				$('#F__ID input[name=Item_Number_Procedure]').css('background-color','#fefefe');
+				$('#F__ID input[name=Item_Number_Procedure]').css('color', $vm.whire_or_black_color('#fefefe'));
+				$('#F__ID input[name=Colour]').val('#fefefe');
+				$('#F__ID input[name=Item_Number]').val('');
+
 			}
 			if (m.input.day != undefined) {
 				$('#F__ID input[name=Date]').val(m.input.day);
@@ -332,9 +336,9 @@
 				$vm.autocomplete($('#F__ID input[name=Appointment'), autocomplete_req, autocomplete_list, autocomplete_callback);
 			}
 			if(m.input.appointment!=undefined){
-				$('input[name=Appointment]').val(m.input.appointment.Data.First_Name+' '+m.input.appointment.Data.Last_Name);
-				$('input[name=Appointment_uid]').val(m.input.appointment.UID);
-				$('input[name=pw]').val(m.input.appointment.Data._Password)
+				$('#F__ID input[name=Appointment]').val(m.input.appointment.Data.First_Name+' '+m.input.appointment.Data.Last_Name);
+				$('#F__ID input[name=Appointment_uid]').val(m.input.appointment.UID);
+				$('#F__ID input[name=pw]').val(m.input.appointment.Data._Password)
 			}
 			//-------item a part
 			if (m.input.record != undefined) {
@@ -416,6 +420,15 @@
 			//else { $('#research__ID').css('display', 'none'); $('input[name=Research_Project').val(""); }
 		})
 		//-------------------------------------
+		$('#item_number_proccedure__ID').change(function () {
+			if($('#F__ID input[name=Item_Number_Procedure]').val()==''){
+				$('input[name=Item_Number_Procedure]').css('background-color','#fefefe');
+				$('input[name=Item_Number_Procedure]').css('color', $vm.whire_or_black_color('#fefefe'));
+				$('#F__ID input[name=Colour]').val('#fefefe');
+				$('#F__ID input[name=Item_Number]').val('');
+			}
+		})
+		//-------------------------------------
 		$('#F__ID input[name=Date]').change(function () {
 			var change_date=$('#F__ID input[name=Date]').val()
 			if(change_date!=""){
@@ -464,6 +477,7 @@
 					})
 				});
 				window.history.go(-1);
+				$vm.refresh=1;
 			}
 		}
 		//-------------------------------------
