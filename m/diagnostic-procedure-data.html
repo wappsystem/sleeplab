@@ -11,6 +11,14 @@
         //-------------------------------------
         m.cell_render=function(records,I,field,td){
             switch(field){
+                case 'Item_Number':
+                    td.css('background-color',records[I].Data.Colour);
+                    td.css('color',$vm.whire_or_black_color(records[I].Data.Colour));
+                    break;
+                case 'Short_Name':
+                    td.css('background-color',records[I].Data.Colour);
+                    td.css('color',$vm.whire_or_black_color(records[I].Data.Colour));
+                    break;
                 case 'Colour':
                     td.html("<span style='color:"+records[I].Data[field]+"'><i class='fas fa-circle'></i></span>");
                     td.css('text-align','center');

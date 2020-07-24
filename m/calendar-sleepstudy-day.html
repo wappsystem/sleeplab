@@ -223,7 +223,7 @@
                 var p_uid=booking.UID;
                 var pw=booking.Data._Password;
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div style="cursor:pointer;" id=item__IDe_'+p_uid+'_'+pw+'><span class=pl-1>Evening quest.</span></div><div style="cursor:pointer;" id=item__IDm_'+p_uid+'_'+pw+'><span class=pl-1>Morning quest.</span></div></div>'
+                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div class="tooltip pl-1" style="cursor:pointer;" id=item__IDe_'+p_uid+'_'+pw+'><i class="far fa-moon"></i><span class="tooltiptext">Link to Evening Questionnaire</span></div><div class="tooltip pl-1" style="cursor:pointer;" id=item__IDm_'+p_uid+'_'+pw+'><i class="far fa-sun"></i><span class="tooltiptext">Link to Morning Questionnaire</span></div></div>'
                 item+="<div class='card-body' id=addsetup__ID"+booking.UID+" style='color:#000000;padding:5px;'  >";
                 item+="<div style='padding-left:3px; background-color:white;border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div>Click here for setup</div>";
@@ -310,7 +310,7 @@
                     mq="<i style='color:"+$vm.whire_or_black_color(mq_color)+";' class='far fa-circle'></i> ";;
                 } 
                 var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
-                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div style="cursor:pointer;" id=item__IDe_'+p_uid+'_'+pw+'><span class=pl-1>Evening quest.</span></div><div style="cursor:pointer;" id=item__IDm_'+p_uid+'_'+pw+'><span class=pl-1>Morning quest.</span></div></div>'
+                item+='<div class="card-header p-1" style="display:flex;">'+name+' <div class="tooltip pl-1" style="cursor:pointer;" id=item__IDe_'+p_uid+'_'+pw+'><i class="far fa-moon"></i><span class="tooltiptext">Link to Evening Questionnaire</span></div><div class="tooltip pl-1" style="cursor:pointer;" id=item__IDm_'+p_uid+'_'+pw+'><i class="far fa-sun"></i><span class="tooltiptext">Link to Morning Questionnaire</span></div></div>'
                 item+="<div class='card-body' id=item__ID"+id+" style='color:"+$vm.whire_or_black_color(color)+";padding:5px;'  >";
                 item+="<div style='padding-left:3px;background-color:"+color+";border-radius:3px;padding:3px;' class=item__ID >";
                 item+="<div  style=background-color:"+eq_color+">"+eq+" Evening Questionnaire</div>";
@@ -473,7 +473,7 @@
             var item="<div class='card text-white bg-secondary m-1' /*style='max-width: 18rem;*/'>"
             item+='<div class="card-header p-1">'+name+'</div>'
             item+="<div class='card-body' id=items__ID"+id+" style='color:#000000;padding:5px;'  >";
-            item+="<div style='padding-left:3px; background-color:#ffffff;border-radius:3px;padding:3px;' class=item__ID >";
+            item+="<div style='background-color:#ffffff;border-radius:3px;padding:23px 0 0 5px;' class=item__ID >";
             item+="<div  >Printable summary page</div>";
             item+="</div></div></div>"
             //--------------------------------------------------------
@@ -529,6 +529,45 @@
         }
         .event_container__ID{
             padding-top:8px;
+        }
+        #D__ID .tooltip {
+            position: relative;
+            display: inline-block;
+            opacity: 1;
+            line-height: 1.0;
+        }
+
+        #D__ID .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #D__ID .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        #D__ID .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
 
 
