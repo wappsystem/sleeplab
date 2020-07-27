@@ -1,17 +1,17 @@
 <div id=toolbar__ID class="navbar navbar-default" style='margin-bottom:0px;padding-left:6px;'>
     <div class="navbar-form navbar-left">
-        <span class=tool__ID>                
-            <span id=open_nav__ID style="font-size:1.3rem;cursor:pointer" onclick="openNav()">&nbsp;<i style='vertical-align:middle' class="fas fa-info">&nbsp;</i></span>                
-            <button type=button class='btn btn-secondary' id=previous__ID><i class="fa fa-arrow-left"></i></button>
-            <button type=button class='btn btn-secondary' id=this__ID>This Week</button>
-            <button type=button class='btn btn-secondary' id=next__ID><i class="fa fa-arrow-right"></i></button>
-        </span>
-        <button type=button class='btn btn-secondary' id=refresh__ID>Refresh</button>
-        <span style='margin-left:20px' id=period__ID></span>
-        <span id=name__ID></span>
+            <span class=tool__ID>
+                
+                <button type=button class='btn btn-secondary' id=previous__ID><i class="fa fa-arrow-left"></i></button>
+                <button type=button class='btn btn-secondary' id=this__ID>This Week</button>
+                <button type=button class='btn btn-secondary' id=next__ID><i class="fa fa-arrow-right"></i></button>
+            </span>
+            <button type=button class='btn btn-secondary' id=refresh__ID>Refresh</button>
+            <span style='margin-left:20px' id=period__ID></span>
+            <span id=name__ID></span>
+        </div>
+        <span id=elapsed__ID style='float:right'></span>
     </div>
-    <span id=elapsed__ID style='float:right'></span>
-</div>
 <div id=calendar__ID>
     <div class='header__ID' id=day_header__ID>
     </div>
@@ -135,42 +135,5 @@
 	    }
 	    .event_container{
 	    }
-        #open_nav__ID {display:none;}
-    }
-    .sidenav__ID {
-        width: 0;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        background-color: #868e96;
-        overflow-x: hidden;
-        margin-top: 100px;
-    }
-    .sidenav__ID a {
-        padding: 8px 8px 9px 8px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-        transition: 0.3s;
-    }
-
-    .sidenav__ID a:hover {
-        color: #f1f1f1;
-    }
-
-    .sidenav__ID .closebtn {
-        background-color: #ccc;
-        position: absolute;
-        top: 0;
-        text-align:left;
-        cursor: pointer;
-        width:200px;
-    }
-    @media(max-width: 1200px){
-        .sidenav__ID {
-            margin-top: 50px;
-        }
     }
 </style>

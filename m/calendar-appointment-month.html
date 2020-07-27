@@ -1,11 +1,31 @@
 <div id=D__ID>
-    <div>
+    <div id=cal__ID>
+        <div id="mySidenav__ID" class="sidenav__ID">
+            <a class="closebtn" onclick="closeNav()"><i class="fas fa-times"></i></a>
+            <div class="header__ID" style="margin-top: 53px;">
+                <div class="col_header__ID text-left pl-2" >Colour legend</div>
+            </div>            
+            <div id=procedure__ID>
+            </div>
+        </div>
         VmInclude:__CURRENT_PATH__/month.02.html
     </div>
     <script>
     function F__ID(){
         //--------------------------------------------------------
         VmInclude:__CURRENT_PATH__/month.02.noadd.js
+    	//--------------------------------------------------------
+        openNav=function() {
+            document.getElementById("mySidenav__ID").style.width = "200px";
+            document.getElementById("cal__ID").style.marginLeft = "200px";
+            $('#open_nav__ID').hide()
+        }
+    	//--------------------------------------------------------
+        closeNav=function() {
+            document.getElementById("mySidenav__ID").style.width = "0";
+            document.getElementById("cal__ID").style.marginLeft = "0";
+            $('#open_nav__ID').show()
+        }
         //--------------------------------------------------------
         m.start_point=0*60;
         m.total_width=(24*60-m.start_point);
@@ -17,6 +37,11 @@
     	m.on_day_click_fun_appointment=function(date){
 			$vm.load_module(m.appointment,'',{day:date,goback:1})
     	}
+        //--------------------------------------------------------
+        var request_count=0;
+        var booking_rec=[];
+        var appointment_rec=[];
+        var procedure_rec=[];
     	//--------------------------------------------------------
         m.request_and_render=function(){
             request_count=0;
@@ -39,34 +64,19 @@
                 request_count++;
                 appointment_rec=res
             });
-            check();
-        }
-        m.request_and_render=function(){
-            request_count=0;
-            var mt1=new Date().getTime();
-            var dt1=$vm.date_to_yyyymmdd(m.first_day);
-            var dt2=$vm.date_to_yyyymmdd($vm.date_add_days(m.last_day,1));
-            $vm.request({cmd:"find",table:m.Table2,query:{I1:{"$gte":dt1,"$lt":dt2}},sort:{I1:1,I2:1},options:{}},function(res){
+            $vm.request({cmd:"find",table:m.Table3},function(res){
                 if(res.permission==false){
-                    alert("No permission to get booking information.");
+                    alert("No permission to get sleep study types information.");
                     return;
                 }
                 request_count++;
-                booking_rec=res;
-            });
-            $vm.request({cmd:"find",table:m.Table,query:{I1:{"$gte":dt1,"$lt":dt2},"Data.Physician":"Sleep Study"},sort:{I1:1,I2:1},options:{}},function(res){
-                if(res.permission==false){
-                    alert("No permission to get appointment information.");
-                    return;
-                }
-                request_count++;
-                appointment_rec=res
+                procedure_rec=res
             });
             check();
         }
         //-----------------------
         function check(){
-            if (request_count<2){
+            if (request_count<3){
                 setTimeout(function(){
                     //console.log(req_count)
                     check();
@@ -74,7 +84,23 @@
             }
             else{
                 render_page()
+                ss_colour();
             }
+        }
+        //--------------------------------------------------------
+        var ss_colour=function(){
+            $('#procedure__ID').html("");
+            var txt='';
+            for (var i=0;i<procedure_rec.result.length;i++){
+                //console.log(procedure_rec.result[i].Data.Colour)
+                txt+="<div class='row ml-0 mr-0'>"    
+                txt+="<div style='color:"+$vm.whire_or_black_color(procedure_rec.result[i].Data.Colour)+";padding:3px 3px 3px 5px;'  class='item__ID col-lg-9' >"
+                txt+="<div style='padding:3px; background-color:"+procedure_rec.result[i].Data.Colour+";border-radius:3px;box-shadow: 3px 3px 2px #484747;' >"+procedure_rec.result[i].Data.Item_Number+" - "+procedure_rec.result[i].Data.Short_Name+"</div></div>"
+                txt+="</div>";
+//                txt+='<div class=row style="background-color:'+procedure_rec.result[i].Data.Colour+';color:'+$vm.whire_or_black_color(procedure_rec.result[i].Data.Colour)+'";><div class="col-lg-4 col-sm-12"><span >'+procedure_rec.result[i].Data.Item_Number+'</span></div>'
+//                txt+='<div class="col-lg-8 col-sm-12"><span >'+procedure_rec.result[i].Data.Short_Name+'</span></div></div>'
+            }
+            $('#procedure__ID').html(txt);
         }
         //--------------------------------------------------------
         var render_page=function(){
