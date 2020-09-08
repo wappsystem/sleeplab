@@ -43,6 +43,7 @@
         var procedure_rec=[];
     	//--------------------------------------------------------
         m.request_and_render=function(){
+            request_count=0;
             var mt1=new Date().getTime();
             var dt1=$vm.date_to_yyyymmdd(m.first_day);
             var dt2=$vm.date_to_yyyymmdd($vm.date_add_days(m.last_day,1));
